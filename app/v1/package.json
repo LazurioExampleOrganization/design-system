@@ -1,16 +1,29 @@
 {
-  "name": "design-system-viewer",
+  "name": "design-system-app-v1",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
+  "packageManager": "bun@1.4.2",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "prepare:app": "astro sync",
+    "check:prepared": "bun run src/prepared.ts",
+    "typecheck": "astro check",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "check": "astro check && biome check .",
     "test": "bun test"
   },
   "dependencies": {
-    "astro": "^5.14.0"
+    "@lazurio/module-kit": "github:Lazurio/module-kit#v0.2.0",
+    "astro": "5.18.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "@biomejs/biome": "2.4.15",
+    "@types/bun": "1.4.2",
+    "typescript": "5.9.3"
   },
   "lazurio": {
     "runtime": {
@@ -22,7 +35,6 @@
       "surface": "internal",
       "dev_script": "dev",
       "build_script": "build",
-      "preview_script": "preview",
       "tags": [
         "design-system",
         "brand"
@@ -39,6 +51,12 @@
           }
         }
       ]
+    },
+    "preparation": {
+      "schema_version": "lazurio.preparation.v1",
+      "owner_package": "app/v1/package.json",
+      "prepare_script": "prepare:app",
+      "check_script": "check:prepared"
     }
   }
 }

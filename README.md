@@ -1,52 +1,53 @@
-# Design System
+# Design system
 
-`design-system/` je kanonická design-system vrstva GEN2 workspace. Je to
-top-level in-tree slozka super-repa, ne submodul.
+The design system of **Lazurio Example Organization**, Lazurio's public
+reference Organization. All content is fictional.
 
-Jeji role je jednoducha: agent ani kolega nema vymyslet barvy, fonty,
-layouty a vizualni pravidla od nuly. Nejdrive se najde firemni
-source-of-truth, potom se sem zapise kuratorovana baseline, ktera se da
-opakovat ve webu, prezentacich, dokumentech, tabulkach, nabidkach a internich
-toolich.
+Its job is simple: neither an agent nor a colleague should invent colours,
+fonts, layouts or visual rules from scratch. First the Organization's
+production source of truth is found; then a curated baseline is written here
+that can be repeated across the website, presentations, documents, tables,
+offers and internal tools.
 
-## Struktura
+The repository is a module that follows the
+[Lazurio Module Standard](https://github.com/HumanAndMachines/Lazurio/blob/main/manual/module-standard.md).
+It was split from the Organization root's in-tree `design-system/` directory
+with its history (`git subtree split`). It has no template upstream.
 
-```text
-design-system/
-├── README.md
-├── AGENTS.md
-├── ARCHITECTURE.md
-├── INITIALIZATION.md
-├── BASELINE.md
-├── content/
-│   ├── brand/          # logo, barvy, typografie, brand notes
-│   ├── examples/       # reviewovatelne reference napric formaty
-│   └── templates/      # startery pro dokumenty, slides, tabulky
-└── app/                # read-only Astro viewer
+## Layout
+
+| Path | Holds |
+|---|---|
+| `BASELINE.md` | The human baseline for visual and formatted work |
+| `INITIALIZATION.md` | The checklist for setting up or refreshing the design system |
+| `content/brand/` | Colour tokens, palette, typography and brand notes |
+| `content/examples/` | Reviewable references across formats |
+| `content/templates/` | Starters for documents, slides and tables |
+| `app/v1/` | The read-only viewer App (Astro, TypeScript) |
+| `lazurio.module.json` | Module id, port lease and Apps |
+
+## Run the viewer
+
+Start it through Lazurio (`lazurio module start
+LazurioExampleOrganization/design-system`) or from the Launchpad. The App reads
+its host and port only from the listener that Lazurio assigns and refuses to
+start without it. It only renders `content/`; authoring happens by editing
+files in Git.
+
+## Develop
+
+```sh
+cd app/v1
+bun install --frozen-lockfile
+bun run prepare:app   # astro sync
+bun run check         # astro check and biome
+bun test              # tokens contract and start contract
+bun run build         # static build
 ```
 
-## Spusteni vieweru
+## Authority
 
-```bash
-cd design-system/app
-npm install
-npm run build
-```
-
-Viewer spusť přes centrální Launchpad jako modul `design-system`, nebo přímo
-pomocí `npm run dev`. V obou případech načte přesný listener z vedlejšího
-`lazurio.module.json`. Appka je jen prohlížeč, authoring se dělá editací
-souborů v `design-system/content/`.
-
-## Kriticke pravidlo inicializace
-
-Design system se neinicializuje z dojmu. Pred prvnim zapisem projdi
-`INITIALIZATION.md` a najdi realny source-of-truth firmy:
-
-- `modules/website/`, pokud firma ma verejny web
-- `modules/knowledgebase/`, pokud drzi brand brief nebo strategii
-- `company/agents/voice/`, pokud se resi ton komunikace
-- produkcni aplikace v `modules/<app>/`, pokud uz existuje UI
-
-Pri konfliktu vitezi aktualni produkcni source-of-truth. `design-system/`
-je kuratorovane zrcadlo a sjednocovaci vrstva, ne paralelni brand silo.
+When the design system disagrees with a production source (the website, a
+production UI, the brand brief in the knowledgebase or the voice guide in the
+Organization root), production wins and the design system is updated. The
+design system is a curated mirror, never a parallel brand silo.

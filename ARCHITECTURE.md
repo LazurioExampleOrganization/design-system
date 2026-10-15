@@ -1,75 +1,70 @@
-# Design System Architecture
+# Design system architecture
 
-`design-system/` je in-tree vrstva super-repa. Neni submodul a neobsahuje
-privatni runtime stav.
+## Role
 
-## 1. Role vrstvy
+The design system:
 
-Design system:
+- extracts reusable truths from the Organization's production sources;
+- holds the canonical tokens and brand rules;
+- gives agents a repeatable workflow;
+- makes visual outputs reviewable in Git;
+- offers a read-only viewer for a quick preview.
 
-- vytahuje reusable pravdy z produkcnich zdroju firmy
-- drzi kanonicke tokens a brand pravidla
-- poskytuje opakovatelny workflow pro agenty
-- dela vizualni vystupy reviewovatelne v Gitu
-- poskytuje read-only viewer pro rychle preview
+## Authority model
 
-## 2. Authority model
+Default precedence:
 
-Vychozi precedence:
+1. the website or another production presentation layer;
+2. the knowledgebase or another brand or strategy source of truth;
+3. the Organization voice guide for tone;
+4. this design system as the curated baseline.
 
-1. `modules/website/` nebo jina produkcni prezentacni vrstva
-2. `modules/knowledgebase/` nebo jiny brand/strategy source-of-truth
-3. `company/agents/voice/` pro ton komunikace
-4. `design-system/` jako kuratorovana baseline
+The design system never overrides production reality because a newer idea
+looks better.
 
-Design-system nikdy nema prepsat realitu produkce jen proto, ze se nam libi
-nejaky novejsi napad.
-
-## 3. Vrstvy
+## Layers
 
 ### Brand baseline
 
-`content/brand/` drzi:
-
-- `colors/tokens.json`
-- `colors/palette.md`
-- `typography/typography.md`
-- logo a assety, pokud existuji a smi byt v Gitu
-- odkazy na kanonicke brand dokumenty
+`content/brand/` holds `colors/tokens.json` (the source of truth for colour
+tokens), `colors/palette.md`, `typography/typography.md`, logos and assets
+when they exist and may live in Git, and links to the canonical brand
+documents.
 
 ### Examples
 
-`content/examples/` drzi reference napric kategoriemi. Kazdy vaznejsi asset
-ma mit sourozenecky `.md` soubor s metadaty: `title`, `source`, `date`,
-`category`, `notes`.
+`content/examples/` holds references across categories. Every serious asset
+has a sibling Markdown file with the metadata `title`, `source`, `date`,
+`category` and `notes`.
 
 ### Templates
 
-`content/templates/` drzi startery pro opakovane formaty. Pokud je template
-generovany z jineho modulu, zapis tam primarni source.
+`content/templates/` holds starters for repeated formats. A template generated
+from another module names its primary source.
 
-### Viewer app
+### Viewer App
 
-`app/` je Astro read-only viewer:
+`app/v1/` is a read-only Astro viewer that follows the Lazurio Module
+Standard:
 
-- přesný listener je deklarovaný pouze v `lazurio.module.json`
-- zadne auth
-- zadne authoring UI
-- pouze renderuje `content/`
+- its only lease `main` lives in `lazurio.module.json`, inside the
+  Organization port pool; the App reads it from the listener environment
+  through `@lazurio/module-kit`;
+- it has no authentication and no authoring UI;
+- it renders `content/`; `src/tokens.ts` reads and validates
+  `content/brand/colors/tokens.json` at build time.
 
-## 4. Launchpad vztah
+## Place in the Organization
 
-Pokud workspace používá sdílený Lazurio Launchpad, design-system viewer má být
-v katalogu jako `design-system`; přesný port vlastní jeho
-`lazurio.module.json`. Organization pool slouží jen pro nové alokace, takže
-zavedený listener se při adopci Lazuriem nepřečísluje. Pokud Organizace ještě
-běží na legacy `modules/launchpad`, neregistruj root viewer nasilim; zapiš
-prechodovy stav do Launchpad docs.
+The design system is a root-level module of the Organization (slot
+`design-system`, mounted at `design-system/` next to `workspace/`). Apps of
+other modules use its brand assets as a versioned dependency, never through a
+relative path into this repository.
 
-## 5. Invarianty
+## Invariants
 
-- `design-system/` je in-tree, ne submodul.
-- Brand assety jine firmy se nekopiruji.
-- Secrets do design-systemu nepatri.
-- Produkce ma prednost pred kuratorovanym zrcadlem.
-- Viewer zustava read-only.
+- The design system is a standalone repository, never a submodule.
+- Another company's brand assets are never copied.
+- Secrets never belong here.
+- Production takes precedence over the curated mirror.
+- The viewer stays read-only.

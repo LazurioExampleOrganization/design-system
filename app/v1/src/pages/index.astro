@@ -1,45 +1,41 @@
 ---
 import "../styles/global.css";
-import { readFile } from "node:fs/promises";
-
-const tokenRaw = await readFile(new URL("../../../content/brand/colors/tokens.json", import.meta.url), "utf-8");
-const tokens = JSON.parse(tokenRaw);
-const colors = tokens.colors ?? {};
+import { tokens } from "../tokens";
 
 const sections = [
   {
     title: "Brand",
-    description: "Colors, typography, logo rules and baseline identity.",
-    href: "../content/brand/",
+    description: "Colours, typography, logo rules and the baseline identity.",
+    path: "content/brand/",
   },
   {
     title: "Examples",
     description: "Reviewable references for web, slides, documents and tables.",
-    href: "../content/examples/",
+    path: "content/examples/",
   },
   {
     title: "Templates",
     description: "Reusable starters for repeated output formats.",
-    href: "../content/templates/",
+    path: "content/templates/",
   },
 ];
 ---
 
 <!doctype html>
-<html lang="cs">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Design System Viewer</title>
+    <title>{tokens.name} design system</title>
   </head>
   <body>
     <main class="shell">
       <header class="hero">
-        <p class="eyebrow">GEN2 design-system</p>
-        <h1>{tokens.name ?? "Company"} design baseline</h1>
+        <p class="eyebrow">Design system</p>
+        <h1>{tokens.name} design baseline</h1>
         <p>
-          Read-only viewer for <code>design-system/content/</code>. Authoring
-          happens in Git by editing files, not inside this app.
+          Read-only viewer for the <code>content/</code> directory of this repository. Authoring
+          happens in Git by editing files, not inside this App.
         </p>
       </header>
 
@@ -48,15 +44,15 @@ const sections = [
           <article class="card">
             <h2>{section.title}</h2>
             <p>{section.description}</p>
-            <code>{section.href}</code>
+            <code>{section.path}</code>
           </article>
         ))}
       </section>
 
       <section class="panel">
-        <h2>Color Tokens</h2>
+        <h2>Colour tokens <small>({tokens.status})</small></h2>
         <div class="swatches">
-          {Object.entries(colors).map(([name, value]) => (
+          {Object.entries(tokens.colors).map(([name, value]) => (
             <div class="swatch">
               <span class="chip" style={`background:${value}`}></span>
               <div>

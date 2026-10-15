@@ -9,11 +9,11 @@
     {
       "id": "main",
       "host": "127.0.0.1",
-      "port": 5687
+      "port": 25301
     }
   ],
   "apps": [
-    "app/package.json"
+    "app/v1/package.json"
   ],
-  "default_app": "app/package.json"
+  "default_app": "app/v1/package.json"
 }

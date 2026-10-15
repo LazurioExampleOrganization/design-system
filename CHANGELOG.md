@@ -1,0 +1,25 @@
+# Changelog: design system
+
+Date versions: `YYYYMMDD`.
+
+## 20261016
+
+### Changed
+
+- Split from the Organization root's in-tree `design-system/` into its own
+  repository, with the history of that directory.
+- Adopted the Lazurio Module Standard: the viewer moved from `app/` to
+  `app/v1/`, is TypeScript only and reads its listener through
+  `@lazurio/module-kit`; preparation (`astro sync`) and a single-process `dev`
+  are declared; Bun is pinned to 1.4.2 with a fresh `bun.lock`; `bun run
+  check` and `bun test` run in CI.
+- The port lease moved into the Organization pool (`main` 5687 → 25301).
+- The colour tokens now have the shape the viewer reads (`name`, `status`,
+  `source`, `colors`) and are validated by a test; the viewer shows the draft
+  palette it already used.
+- README, AGENTS, ARCHITECTURE and the viewer page are in English.
+
+### Removed
+
+- The listener script that read the module's own lease file and the legacy
+  `LAZURIO_RUNTIME_HOST/PORT` pair.

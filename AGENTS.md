@@ -1,45 +1,61 @@
-# AGENTS.md — design-system
+# Design system: rules for agents
 
-Tento soubor platí pro práci uvnitř `design-system/`.
+This repository is the design system module of Lazurio Example Organization.
+These rules add to the Organization root `AGENTS.md`.
 
-Před jakoukoliv vizuální nebo formátovanou prací použij skill
-`design-system-lookup`. Pokud skill ještě není dostupný v cílovém workspace,
-čti minimálně `README.md`, `ARCHITECTURE.md`, `INITIALIZATION.md` a
-`BASELINE.md`.
+Before any visual or formatted work, use the Organization skill
+`design-system-lookup`. At minimum read `README.md`, `ARCHITECTURE.md`,
+`INITIALIZATION.md` and `BASELINE.md`.
 
-## Source-of-truth
+## Source of truth
 
-Pořadí autority:
+In order of authority:
 
-1. Produkční zdroje firmy (`modules/website/`, produkční UI, brand brief)
-2. Explicitní brand a voice dokumenty (`modules/knowledgebase/`,
-   `company/agents/voice/`)
-3. `design-system/` jako sjednocená a reviewovatelná vrstva
+1. Production sources of the Organization (website, production UI, brand
+   brief).
+2. Explicit brand and voice documents (the knowledgebase module and
+   `company/agents/voice/` in the Organization root).
+3. This design system as the unified, reviewable layer.
 
-Když se `design-system/` rozchází s produkcí, produkce má pravdu a
-design-system se aktualizuje.
+When the design system disagrees with production, production is right and the
+design system is updated.
 
-## Co sem patří
+## What belongs here
 
-- brand baseline a design tokens
-- typography, color, spacing a layout pravidla
-- reference examples pro web, slides, dokumenty, tabulky, merch
-- templates a startery pro opakované formáty
-- cross-platform UI poznámky pro `launchpad/` a `company/toolbox/`
+- the brand baseline and design tokens;
+- typography, colour, spacing and layout rules;
+- reference examples for web, slides, documents, tables and merchandise;
+- templates and starters for repeated formats.
 
-## Co sem nepatří
+## What does not belong here
 
-- secrets, API klíče, OAuth session data
-- náhodné moodboardy bez vazby na produkční brand
-- produkční authoring UI
-- velké exporty bez metadat a bez jasného source-of-truth
-- kopie brand assetů jiné firmy
+- secrets, API keys or OAuth session data;
+- moodboards without a link to the production brand;
+- a production authoring UI;
+- large exports without metadata or a clear source of truth;
+- copies of another company's brand assets.
 
-## Viewer
+## Lazurio Module Standard
 
-`app/` je read-only Astro viewer. Přesný listener vlastní
-`lazurio.module.json`; centrální Launchpad stejný lease předá runtime a drží
-single-instance zámek. Přímý `npm run dev` načte tentýž lease, takže port není
-závislý na ručně připraveném `.env`.
+- One repository is one module; the viewer App lives in `app/v1/`.
+- `dev` starts one Astro server; `prepare:app` (`astro sync`) is the
+  preparation and `check:prepared` checks it.
+- The App reads its host and port only from
+  `LAZURIO_RUNTIME_LISTENER_APP_HOST` and `_PORT` through `@lazurio/module-kit`
+  and exits with code 2 without them. The port lives only in
+  `lazurio.module.json`.
+- No `.env*` files, secrets or imports from outside this repository.
+- One change, one worktree, one branch, one pull request; the primary checkout
+  stays on `main`.
 
-Authoring zůstává souborový: edituj `content/`, ne app UI.
+## Verification before a pull request
+
+```sh
+cd app/v1
+bun install --frozen-lockfile
+bun run check
+bun test
+lazurio module setup <path to the module> --root <Lazurio Folder> --json
+```
+
+The expected `module setup` status is `current`.
