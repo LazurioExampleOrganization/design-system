@@ -1,50 +1,57 @@
-# AgentMint Design Baseline
+# Lazurio Example Organization design baseline
 
-Tenhle soubor je rychlá lidská baseline pro vizuální a formátovanou práci.
-Není náhrada za budoucí brand source of truth.
+This file is a quick human baseline for visual and formatted work.
+It does not replace a future brand source of truth.
 
 ## Source of truth
 
-- Primary brand source: `design-system/` do založení `modules/knowledgebase/`
-- Website source: plánovaný `modules/content/` nebo budoucí web modul
-- Voice source: `company/agents/voice/AGENTMINT_BASELINE_VOICE.md`
-- Strategy source: root dokumenty a později `modules/knowledgebase/`
+- Primary brand source: this repository, until the knowledgebase module
+  `workspace/knowledgebase/` holds the brand documents
+- Website source: the content module `workspace/content/` or a future web
+  module
+- Voice source: `company/agents/voice/EXAMPLE_BASELINE_VOICE.md` in the
+  Organization root
+- Strategy source: documents in the Organization root, later
+  `workspace/knowledgebase/`
 
 ## Brand identity
 
-- Public name: `AgentMint`
-- Legal/company name: zatím není určeno
-- Domain: zatím žádná veřejná doména; `agentmint.local` je lokální placeholder
-- Positioning sentence: AgentMint hledá a ověřuje legální online mechanismy,
-  kterými mohou AI agenti vytvářet příjem.
+- Public name: `Lazurio Example Organization`
+- Legal/company name: not decided yet
+- Domain: no public domain yet; `example.local` is a local placeholder
+- Positioning sentence: Lazurio Example Organization finds and verifies legal
+  online mechanisms through which AI agents can generate income.
 
-## Colors
+## Colours
 
-Kanonické hodnoty drž v `content/brand/colors/tokens.json`.
+Keep the canonical values in `content/brand/colors/tokens.json`.
 
-Směr: pracovní, analytický, důvěryhodný. Vyhnout se křiklavému "get rich
-quick" vzhledu.
+Direction: businesslike, analytical, trustworthy. Avoid a loud "get rich
+quick" look.
 
 ## Typography
 
-Kanonický font stack drž v `content/brand/typography/typography.md`.
+Keep the canonical font stack in `content/brand/typography/typography.md`.
 
 ## Layout principles
 
-- Upřednostňovat scanovatelné tabulky, evidence, metriky a rozhodovací bloky.
-- U research výstupů ukazovat zdroje, datum ověření a míru důkazu.
-- U experimentů vždy zviditelnit hypotézu, metriku, rozpočet a stop podmínku.
+- Prefer scannable tables, evidence, metrics and decision blocks.
+- In research outputs, show the sources, the date of verification and the
+  strength of the evidence.
+- In experiments, always make the hypothesis, metric, budget and stop
+  condition visible.
 
 ## Copy guardrails
 
-- Nepoužívat klamavé přísliby rychlého zbohatnutí.
-- Nepsat, že mechanismus funguje, pokud existuje jen hypotéza.
-- Nekopírovat tón, claimy ani identitu jiné firmy.
-- Mluvit konkrétně: mechanismus, důkaz, riziko, další test.
+- Do not make misleading promises of getting rich quickly.
+- Do not write that a mechanism works when there is only a hypothesis.
+- Do not copy another company's tone, claims or identity.
+- Speak concretely: mechanism, evidence, risk, next test.
 
 ## Forbidden drift
 
-- Nekopírovat brand assety jiné firmy.
-- Nevytvářet nové vizuální claimy bez opory ve firemním source-of-truth.
-- Nepsat design pravidla jen do chatu; stabilní pravidlo patří sem nebo do
-  příslušného `AGENTS.md`.
+- Do not copy another company's brand assets.
+- Do not create new visual claims without support in the Organization's
+  source of truth.
+- Do not write design rules only in a chat; a stable rule belongs here or in
+  the relevant `AGENTS.md`.

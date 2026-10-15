@@ -1,6 +1,6 @@
 # Typography
 
-Source-of-truth: `design-system/BASELINE.md`.
+Source of truth: `BASELINE.md`.
 
-AgentMint zatím nemá finální typografii. Pro pracovní dokumenty používej
-systémové fonty a čitelné tabulkové rozvržení.
+Lazurio Example Organization does not have final typography yet. For working
+documents, use system fonts and a readable table layout.

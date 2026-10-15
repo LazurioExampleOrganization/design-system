@@ -1,7 +1,11 @@
 # Palette
 
-Source-of-truth: `design-system/BASELINE.md`.
+Source of truth: `BASELINE.md`.
 
-AgentMint zatím nemá finální brand palette. Nepřebírej barvy ani assety jiné
-firmy. První verze má působit analyticky, důvěryhodně a bez get-rich-quick
-hypu.
+Lazurio Example Organization does not have a final brand palette yet. The
+current palette is a draft working palette defined in
+`content/brand/colors/tokens.json` (status `draft`): accent `#2563eb`, ink
+`#111827`, and neutral surfaces and borders.
+
+Do not copy another company's colours or assets. The first version should
+look analytical and trustworthy, without get-rich-quick hype.

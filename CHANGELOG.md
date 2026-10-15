@@ -18,6 +18,9 @@ Date versions: `YYYYMMDD`.
   `source`, `colors`) and are validated by a test; the viewer shows the draft
   palette it already used.
 - README, AGENTS, ARCHITECTURE and the viewer page are in English.
+- BASELINE, INITIALIZATION and the brand content (palette, typography,
+  examples) are in English; the palette is described as the draft working
+  palette in `tokens.json`.
 
 ### Removed
 

@@ -1,34 +1,35 @@
-# Design System Initialization
+# Design system initialization
 
-Tento checklist pouzij pri zalozeni nebo vetsim refreshi design systemu.
+Use this checklist when you set up the design system or refresh it
+substantially.
 
-## 1. Najdi source-of-truth
+## 1. Find the source of truth
 
-Projdi, pokud existuji:
+Go through these, where they exist:
 
-- `modules/website/README.md`
-- `modules/website/ARCHITECTURE.md`
-- `modules/website/AGENTS.md`
-- produkcni CSS / theme tokens ve website aplikaci
-- `modules/knowledgebase/` brand, strategy nebo service docs
-- `company/agents/voice/`
-- existujici prezentace, nabidky, datasheety a dokumenty
+- `workspace/website/README.md`
+- `workspace/website/ARCHITECTURE.md`
+- `workspace/website/AGENTS.md`
+- production CSS and theme tokens in the website App
+- brand, strategy or service documents in `workspace/knowledgebase/`
+- `company/agents/voice/` in the Organization root
+- existing presentations, offers, datasheets and documents
 
-## 2. Vytahni baseline
+## 2. Extract the baseline
 
-Zapis do `BASELINE.md`:
+Write into `BASELINE.md`:
 
-- kanonicky nazev a public brand name
-- tone-of-voice source
-- primary colors
+- the canonical name and the public brand name
+- the tone-of-voice source
+- primary colours
 - typography
 - layout principles
-- forbidden claims / zakazane vizualni smery
-- kde se maji aktualizovat produkcni surfaces
+- forbidden claims and forbidden visual directions
+- where the production surfaces should be updated
 
-## 3. Napln content/
+## 3. Fill `content/`
 
-Minimalni prvni commit:
+Minimum first commit:
 
 - `content/brand/colors/tokens.json`
 - `content/brand/colors/palette.md`
@@ -36,24 +37,25 @@ Minimalni prvni commit:
 - `content/examples/README.md`
 - `content/templates/README.md`
 
-## 4. Over viewer
+## 4. Check the viewer
 
 ```bash
-cd design-system/app
-npm install
-npm run build
+cd app/v1
+bun install --frozen-lockfile
+bun run build
 ```
 
-Pak viewer otevři přes centrální Launchpad jako modul `design-system`, nebo ho
-pro vývoj spusť přímo pomocí `npm run dev`. Obě cesty čtou stejný pevný
-listener z `lazurio.module.json`; ruční `.env` ani Organization pool zavedený
-port nemění.
+Then open the viewer through Lazurio, with `lazurio module start
+LazurioExampleOrganization/design-system` or from the Launchpad. The App reads
+its host and port only from the listener that Lazurio assigns from the `main`
+lease in `lazurio.module.json`, never from a `.env` file, and refuses to start
+without it.
 
-## 5. Zapis drift
+## 5. Record drift
 
-Kdyz zjistis rozpor mezi produkci a design-systemem:
+When you find a disagreement between production and the design system:
 
-1. produkce zustava pravda
-2. design-system oprav
-3. pokud je produkce zjevne zastarala, zapis otevreny follow-up do
-   `TODO.md` nebo do prislusneho modulu
+1. production stays the truth
+2. fix the design system
+3. if production is clearly out of date, record an open follow-up as an issue
+   in the owning repository

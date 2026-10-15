@@ -16,7 +16,7 @@ Every serious asset should have a sibling Markdown file with:
 ---
 title: Example title
 category: web
-source: modules/website/app
+source: workspace/website/app
 date: 2026-01-01
 ---
 ```
