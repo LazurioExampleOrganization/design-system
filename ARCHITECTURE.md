@@ -49,7 +49,13 @@ Standard:
 
 - its only lease `main` lives in `lazurio.module.json`, inside the
   Organization port pool; the App reads it from the listener environment
-  through `@lazurio/module-kit`;
+  through `@lazurio/module-kit`, and the config reads it only when Astro
+  serves, never during `astro build`;
+- opened from `main`, it runs as its static build (`build_output: "dist"`,
+  Module Standard 4.5): the Launchpad runs `build` (`astro build`, without the
+  listener), serves `dist/` with its own small static server and builds again
+  after a pull; `dev` (one Astro server) is the preview from a worktree or an
+  explicit development start;
 - it has no authentication and no authoring UI;
 - it renders `content/`; `src/tokens.ts` reads and validates
   `content/brand/colors/tokens.json` at build time.
