@@ -35,6 +35,8 @@
       "surface": "internal",
       "dev_script": "dev",
       "build_script": "build",
+      "build_output": "dist",
+      "static_fallback": "404",
       "tags": [
         "design-system",
         "brand"

@@ -40,6 +40,11 @@ design system is updated.
 - One repository is one module; the viewer App lives in `app/v1/`.
 - `dev` starts one Astro server; `prepare:app` (`astro sync`) is the
   preparation and `check:prepared` checks it.
+- Opened from `main`, the App runs as its static build (`build_output:
+  "dist"`, Module Standard 4.5). `build` (`astro build`) must succeed without
+  the listener and write `dist/index.html` for the health path `/`; the static
+  build stays in `build`, never in `prepare:app`. The build contract test
+  checks both.
 - The App reads its host and port only from
   `LAZURIO_RUNTIME_LISTENER_APP_HOST` and `_PORT` through `@lazurio/module-kit`
   and exits with code 2 without them. The port lives only in

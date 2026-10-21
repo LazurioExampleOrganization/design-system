@@ -31,8 +31,10 @@ with its history (`git subtree split`). It has no template upstream.
 Start it through Lazurio (`lazurio module start
 LazurioExampleOrganization/design-system`) or from the Launchpad. The App reads
 its host and port only from the listener that Lazurio assigns and refuses to
-start without it. It only renders `content/`; authoring happens by editing
-files in Git.
+start without it. Opened from `main`, Lazurio builds the viewer (`bun run
+build`) and serves `dist/`; the Astro development server runs only for a
+preview from a worktree or `lazurio module start --dev`. It only renders
+`content/`; authoring happens by editing files in Git.
 
 ## Develop
 
@@ -41,7 +43,7 @@ cd app/v1
 bun install --frozen-lockfile
 bun run prepare:app   # astro sync
 bun run check         # astro check and biome
-bun test              # tokens contract and start contract
+bun test              # tokens, start and build contracts
 bun run build         # static build
 ```
 
