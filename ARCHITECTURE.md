@@ -98,5 +98,7 @@ relative path into this repository.
 - Values live only in `tokens.json` (colours, type, spacing, radius, sizes,
   strokes, widths, breakpoints, motion); Markdown names tokens and never
   states a value in px or ms. The viewer's CSS reads them as custom
-  properties; only its media queries repeat the breakpoints, because CSS
-  cannot read a custom property there. Tests enforce all three.
+  properties. It has px values in exactly two places: its media queries,
+  which repeat the breakpoints because CSS cannot read a custom property
+  there, and its own geometry, which is not part of the design system and is
+  declared once as `--viewer-*`. Tests enforce all of it.

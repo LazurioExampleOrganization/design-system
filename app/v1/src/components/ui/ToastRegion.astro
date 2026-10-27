@@ -1,0 +1,43 @@
+---
+import { tokens } from "../../tokens";
+
+// The one place where live toasts appear (content/components/toast.md): a
+// polite live region, bottom right. At most three toasts; the oldest leaves
+// first.
+---
+
+<div class="toast-region" aria-live="polite" data-toast-region data-dismiss={tokens.motion["toast-dismiss"]}></div>
+
+<script>
+  const region = document.querySelector<HTMLElement>("[data-toast-region]");
+  const dismissAfter = Number(region?.dataset.dismiss ?? 0);
+
+  function show(templateId: string) {
+    const template = document.getElementById(templateId);
+    if (!region || !(template instanceof HTMLTemplateElement)) return;
+    const toast = template.content.firstElementChild?.cloneNode(true);
+    if (!(toast instanceof HTMLElement)) return;
+    const close = () => toast.remove();
+    toast.querySelector("[data-toast-close]")?.addEventListener("click", close);
+    if (toast.dataset.variant === "info" || toast.dataset.variant === "success") {
+      // Leaves after the dismiss time, but never while the reader hovers or
+      // focuses it.
+      let timer = window.setTimeout(close, dismissAfter);
+      const pause = () => window.clearTimeout(timer);
+      const resume = () => {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(close, dismissAfter);
+      };
+      toast.addEventListener("mouseenter", pause);
+      toast.addEventListener("focusin", pause);
+      toast.addEventListener("mouseleave", resume);
+      toast.addEventListener("focusout", resume);
+    }
+    region.append(toast);
+    while (region.children.length > 3) region.firstElementChild?.remove();
+  }
+
+  for (const trigger of document.querySelectorAll<HTMLElement>("[data-toast]")) {
+    trigger.addEventListener("click", () => show(trigger.dataset.toast ?? ""));
+  }
+</script>

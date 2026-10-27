@@ -26,7 +26,10 @@ Categories: `web`, `presentations`, `documents`, `tables`, `merch`, and
 
 `screens/` describes four screens that the viewer renders from the reference
 components and the tokens, in both themes. Each shows one or more patterns on
-realistic, fictional data:
+realistic, fictional data. What leads somewhere works: the App's navigation
+between the screens, "New experiment", the error summary's links, and Publish
+→ the confirm dialog → the live toast. Everything else is a picture of a
+control: it looks the same but can't be focused or pressed.
 
 | Screen | Shows |
 |---|---|

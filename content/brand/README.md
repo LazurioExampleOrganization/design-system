@@ -25,9 +25,12 @@ spacing, radius, sizes, strokes, widths, breakpoints and motion. The Markdown
 files name tokens (`text-muted`, `space-4`, `h2`, `size-control`) and explain
 when to use them; they never state a value in px or ms, and a test refuses one.
 The viewer renders the values on its **Tokens** page and its CSS reads them as
-custom properties. The one place that repeats values is the viewer's media
-queries, because CSS cannot read a custom property there; a test keeps them
-equal to `breakpoint`. When a value changes, change `tokens.json` (and, for a
+custom properties. Two things in the viewer's CSS are not tokens, and tests
+bound both: its media queries repeat the breakpoints, because CSS cannot read a
+custom property there, and a test keeps them equal to `breakpoint`; and the
+viewer's own geometry (the frames of its gallery, tokens page and example
+screens), which is not part of the design system, is declared once as
+`--viewer-*` and is the only other place with a px value. When a value changes, change `tokens.json` (and, for a
 breakpoint, those media queries) and nothing else.
 
 All of this is fictional: Lazurio Example Organization is the public reference

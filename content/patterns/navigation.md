@@ -8,9 +8,10 @@ order: 23
 
 ## Structure
 
-- **Sidebar** for the sections of an App (5–7 items, icon + label). The active
+- **Sidebar**, `width-sidebar` wide, for the sections of an App (5–7 items,
+  icon + label). The active
   item uses `accent-text` and an `accent` edge of `stroke-edge`.
-- **Header** with the wordmark, the current Organization and the person's menu.
+- **Header**, `size-header` high, with the wordmark, the current Organization and the person's menu.
 - **Page title** (`h1`) repeats the name of the active item, plus at most one
   primary action to its right.
 - **Tabs** for views of the same thing (an experiment's Plan, Log, Result);

@@ -134,7 +134,7 @@ describe("content", () => {
 
   test("pages name dimensions as tokens and never state a value in px or ms", () => {
     const offenders = markdown.filter((path) =>
-      /\b\d+(?:\.\d+)? ?(?:px|ms)\b/.test(readFileSync(path, "utf8")),
+      /\b\d+(?:\.\d+)? ?(?:px|ms|s)\b/.test(readFileSync(path, "utf8")),
     );
     expect(offenders.map((path) => relative(content, path))).toEqual([]);
   });
@@ -152,9 +152,15 @@ describe("content", () => {
       (group === "stroke" && key === "icon") ||
       (group === "width" && key === "slide") ||
       (group === "motion" && key === "loading-delay");
+    // A token is consumed as a custom property in CSS, or read from the tokens
+    // in a component (`tokens.motion["toast-dismiss"]` in ToastRegion).
+    const consumed = (group: string, key: string) =>
+      code.includes(`var(--${group}-${key})`) ||
+      code.includes(`tokens.${group}["${key}"]`) ||
+      code.includes(`tokens.${group}.${key}`);
     const unused = (["size", "stroke", "width", "motion"] as const).flatMap((group) =>
       Object.keys(tokens[group])
-        .filter((key) => !direct(group, key) && !code.includes(`var(--${group}-${key})`))
+        .filter((key) => !direct(group, key) && !consumed(group, key))
         .map((key) => `${group}-${key}`),
     );
     expect(unused).toEqual([]);
@@ -162,6 +168,16 @@ describe("content", () => {
     const queries = [...css.matchAll(/@media \(max-width: (\d+)px\)/g)].map(([, px]) => Number(px));
     expect(queries.length).toBeGreaterThan(0);
     expect(queries.filter((px) => !Object.values(tokens.breakpoint).includes(px))).toEqual([]);
+    // Every other px value of the CSS is the viewer's own geometry, declared
+    // once as --viewer-*; components and screens use tokens.
+    const stray = css
+      .split("\n")
+      .filter((line) => /\b\d+(?:\.\d+)?px\b/.test(line))
+      .filter(
+        (line) =>
+          !/^\s*--viewer-[a-z-]+: \d+px;$/.test(line) && !line.startsWith("@media (max-width: "),
+      );
+    expect(stray).toEqual([]);
   });
 
   test("the e-mail template uses only colours of the light theme", () => {

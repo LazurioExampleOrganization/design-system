@@ -29,9 +29,9 @@ Bottom right on desktop, bottom full width on phones.
 
 ## States
 
-Success and info disappear after 6 s, but stay while hovered or focused.
-Warning and error stay until closed. At most three toasts at once; the oldest
-leaves first.
+Success and info disappear after `motion-toast-dismiss`, but stay while
+hovered or focused. Warning and error stay until closed. At most three toasts
+at once; the oldest leaves first.
 
 ## Usage
 
@@ -52,6 +52,10 @@ of one word.
   warning and error.
 - Never the only place where an error is shown if the reader must act on it.
 - The auto-dismiss timer pauses on hover and focus.
+- A toast's controls work: Close closes it, and an action ("Undo", "View",
+  "Try again") does what it says. A toast without a real action has none.
+- A picture of a toast in documentation is a figure, not a live region, and
+  holds no control.
 
 ## Tokens
 

@@ -57,13 +57,29 @@ describe("build contract", () => {
         expect((html.match(/<dialog\b/g) ?? []).length).toBe(
           (html.match(/<dialog[^>]*\baria-labelledby="/g) ?? []).length,
         );
-        // A specimen is a picture: no control inside it.
-        for (const [figure] of html.matchAll(/<figure class="dialog-specimen[\s\S]*?<\/figure>/g)) {
+        // A picture of a component holds no control and no live region.
+        for (const [figure] of html.matchAll(
+          /<figure class="(?:dialog-specimen|picture)[\s\S]*?<\/figure>/g,
+        )) {
+          expect(figure).not.toMatch(/\brole="(?:status|alert)"|aria-live/);
           expect(figure).not.toMatch(/<(?:button|a|input|textarea|select)\b|tabindex=/);
         }
         // Ids are unique on every page (the skip target and generated heading ids).
         const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(([, id]) => id);
         expect(ids.filter((id, i) => ids.indexOf(id) !== i)).toEqual([]);
+        // No dead link anywhere, and outside the gallery every button does
+        // something: open or close a dialog, show or close a toast, switch the theme.
+        expect(html).not.toContain('href="#"');
+        if (!html.includes("<h1>Gallery</h1>")) {
+          for (const [button] of html.matchAll(/<button\b[^>]*>/g)) {
+            expect(button).toMatch(
+              /data-(?:dialog-open|dialog-close|toast|toast-close|theme-switch)\b/,
+            );
+          }
+        }
+        for (const [, target] of html.matchAll(/data-toast="([^"]+)"/g)) {
+          expect(html).toMatch(new RegExp(`<template id="${target}"`));
+        }
         for (const [, target] of html.matchAll(/data-dialog-open="([^"]+)"/g)) {
           expect(html).toMatch(new RegExp(`<dialog[^>]*\\bid="${target}"`));
         }

@@ -13,6 +13,8 @@ step**. It replaces the content area; the surrounding page stays.
 
 ## Anatomy
 
+At most `width-empty-state` wide, centred in the place it replaces.
+
 Icon (`size-icon-lg` inside a card, `size-icon-xl` for a page,
 `text-subtle`), title (`h4`),
 one sentence (`body-sm`, `text-muted`), one action (primary for a first use,

@@ -19,6 +19,8 @@ The end of an experiment: a decision is prepared as a draft and published.
 - The **confirm dialog** is a question ("Publish the stop decision?"), lists
   the consequences with numbers and says that it can't be undone. Its primary
   button is **Publish**.
-- After publishing, a success toast states what happened, with no fake undo.
+- "Publish" opens the real modal dialog; its "Publish" shows a live success
+  toast that states what happened, with no fake undo, and leaves after
+  `motion-toast-dismiss`. Step 3 is a picture of that toast.
 
 Pattern: [Irreversible actions: Draft and Publish](../../patterns/irreversible-actions.md).

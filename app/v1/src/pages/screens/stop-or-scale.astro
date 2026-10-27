@@ -43,7 +43,7 @@ import AppFrame from "../../layouts/AppFrame.astro";
             </ul>
             <p>It can't be undone. The draft stays editable until then.</p>
             <Fragment slot="footer">
-              <Button>Save draft</Button>
+              <Button visual>Save draft</Button>
               <Button variant="primary" icon="send" opens="publish-confirm">Publish</Button>
             </Fragment>
           </Card>
@@ -57,7 +57,7 @@ import AppFrame from "../../layouts/AppFrame.astro";
             <p>It can't be undone.</p>
             <Fragment slot="footer">
               <Button closes autofocus>Cancel</Button>
-              <Button variant="primary" icon="send" closes>Publish</Button>
+              <Button variant="primary" icon="send" closes toast="published-toast">Publish</Button>
             </Fragment>
           </Dialog>
         </div>
@@ -83,7 +83,12 @@ import AppFrame from "../../layouts/AppFrame.astro";
 
     <section>
       <p class="step-label">3 · Result</p>
-      <Toast variant="success" action="View">Decision published. The experiment is stopped and 4 people have the summary.</Toast>
+      <Toast variant="success" caption="Picture of the toast that Publish in the dialog shows. Try it in step 1.">
+        Decision published. The experiment is stopped and 4 people have the summary.
+      </Toast>
+      <Toast mode="live" id="published-toast" variant="success">
+        Decision published. The experiment is stopped and 4 people have the summary.
+      </Toast>
     </section>
   </div>
 </AppFrame>

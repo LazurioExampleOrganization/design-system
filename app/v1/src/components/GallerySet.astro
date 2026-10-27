@@ -74,19 +74,19 @@ const { prefix } = Astro.props;
   ]}
 >
   <tr>
-    <td><a href="#">Price comparison pages</a></td>
+    <td><span class="row-name">Price comparison pages</span></td>
     <td><Badge status="verified" /></td>
     <td class="num">3.1</td>
     <td class="num">1,240</td>
   </tr>
   <tr class="selected">
-    <td><a href="#">Weekly newsletter for small e-shops</a></td>
+    <td><span class="row-name">Weekly newsletter for small e-shops</span></td>
     <td><Badge status="running" /></td>
     <td class="num">1.4</td>
     <td class="num">380</td>
   </tr>
   <tr>
-    <td><a href="#">Template packs for event planners</a></td>
+    <td><span class="row-name">Template packs for event planners</span></td>
     <td><Badge status="hypothesis" /></td>
     <td class="num unknown">–</td>
     <td class="num unknown">–</td>
@@ -126,6 +126,10 @@ const { prefix } = Astro.props;
 
 <h3><a href="/components/toast/">Toast</a></h3>
 <div class="specimen">
+  <Button toast={`${prefix}-toast-live`}>Show a live toast</Button>
+</div>
+<Toast mode="live" id={`${prefix}-toast-live`} variant="success">Draft saved 10:42.</Toast>
+<div class="specimen">
   <Toast variant="info" action="View">Draft saved 10:42.</Toast>
   <Toast variant="success">Decision published. The experiment is stopped.</Toast>
   <Toast variant="warning">This budget exceeds the stop condition by 40 %.</Toast>
@@ -137,13 +141,13 @@ const { prefix } = Astro.props;
   <Card title="Competitor pricing">
     <EmptyState title="No sources yet" icon="link">
       Add the first link from research. Each source needs its date of verification.
-      <Button slot="action" icon="plus">Add source</Button>
+      <Button slot="action" icon="plus" visual>Add source</Button>
     </EmptyState>
   </Card>
   <Card title="Search results">
     <EmptyState title="No experiments match 'pricing'" icon="search">
       Clear the filter to see all 12 experiments.
-      <Button slot="action" variant="ghost">Clear filter</Button>
+      <Button slot="action" variant="ghost" visual>Clear filter</Button>
     </EmptyState>
   </Card>
 </div>

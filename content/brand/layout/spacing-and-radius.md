@@ -45,6 +45,7 @@ than the container.
 
 | Token | Use |
 |---|---|
+| `size-header` | The height of an App's header |
 | `size-control` | The height of buttons, inputs and selects |
 | `size-control-compact` | Compact buttons, icon buttons, filter chips |
 | `size-row`, `size-row-compact` | Table rows, default and compact |
@@ -66,11 +67,13 @@ Two levels only:
 
 | Surface | Width |
 |---|---|
+| An App's sidebar | `width-sidebar` |
 | A form | at most `width-form` |
 | Reading (documents, settings) | at most `width-reading` of content |
 | Working (tables, dashboards) | at most `width-working`, full width below |
 | Dialog | `width-dialog`, or `width-dialog-wide` for a dialog with a list |
 | Toast | `width-toast` |
+| Empty state | at most `width-empty-state` |
 | Slide | 16:9, `width-slide` wide, margins `space-16` |
 
 Breakpoints: `breakpoint-phone`, `breakpoint-tablet` and `breakpoint-desktop`.
@@ -84,5 +87,6 @@ Below `breakpoint-tablet` navigation collapses into a menu; below
 |---|---|
 | `motion-fast` | Opening and closing overlays (opacity only) |
 | `motion-loading-delay` | How long to wait before showing a loading skeleton |
+| `motion-toast-dismiss` | How long a success or info toast stays (paused while hovered or focused) |
 
 When the reader prefers reduced motion, nothing animates.

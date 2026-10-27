@@ -19,6 +19,10 @@ interface Props {
   // A picture of the button inside a specimen: looks the same, does nothing,
   // is not focusable and is not announced as a control.
   visual?: boolean;
+  // Navigates: a link that looks like a button.
+  href?: string;
+  // Shows the live Toast with this id (ToastRegion).
+  toast?: string;
 }
 
 const {
@@ -33,6 +37,8 @@ const {
   closes = false,
   autofocus = false,
   visual = false,
+  href,
+  toast,
 } = Astro.props;
 const classes = ["btn", `btn-${variant}`, size === "compact" && "btn-compact", extra];
 ---
@@ -43,6 +49,11 @@ const classes = ["btn", `btn-${variant}`, size === "compact" && "btn-compact", e
       {icon && <Icon name={icon} size="md" />}
       <slot />
     </span>
+  ) : href ? (
+    <a class:list={classes} href={href}>
+      {icon && <Icon name={icon} size="md" />}
+      <slot />
+    </a>
   ) : (
     <button
       type={type}
@@ -52,6 +63,7 @@ const classes = ["btn", `btn-${variant}`, size === "compact" && "btn-compact", e
       aria-haspopup={opens ? "dialog" : undefined}
       data-dialog-open={opens}
       data-dialog-close={closes ? "" : undefined}
+      data-toast={toast}
       autofocus={autofocus}
     >
       {loading ? <span class="spinner" aria-hidden="true" /> : icon && <Icon name={icon} size="md" />}
