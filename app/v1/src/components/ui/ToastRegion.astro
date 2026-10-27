@@ -9,6 +9,8 @@ import { tokens } from "../../tokens";
 <div class="toast-region" aria-live="polite" data-toast-region data-dismiss={tokens.motion["toast-dismiss"]}></div>
 
 <script>
+  import { dismissTimer } from "../../lib/dismiss-timer";
+
   const region = document.querySelector<HTMLElement>("[data-toast-region]");
   const dismissAfter = Number(region?.dataset.dismiss ?? 0);
 
@@ -17,21 +19,26 @@ import { tokens } from "../../tokens";
     if (!region || !(template instanceof HTMLTemplateElement)) return;
     const toast = template.content.firstElementChild?.cloneNode(true);
     if (!(toast instanceof HTMLElement)) return;
-    const close = () => toast.remove();
+    let stop = () => {};
+    const close = () => {
+      stop();
+      toast.remove();
+    };
     toast.querySelector("[data-toast-close]")?.addEventListener("click", close);
     if (toast.dataset.variant === "info" || toast.dataset.variant === "success") {
-      // Leaves after the dismiss time, but never while the reader hovers or
-      // focuses it.
-      let timer = window.setTimeout(close, dismissAfter);
-      const pause = () => window.clearTimeout(timer);
-      const resume = () => {
-        window.clearTimeout(timer);
-        timer = window.setTimeout(close, dismissAfter);
-      };
-      toast.addEventListener("mouseenter", pause);
-      toast.addEventListener("focusin", pause);
-      toast.addEventListener("mouseleave", resume);
-      toast.addEventListener("focusout", resume);
+      // Leaves after the dismiss time, but never while the reader hovers it or
+      // has focus inside it (lib/dismiss-timer.ts).
+      const timer = dismissTimer(dismissAfter, close, {
+        set: (run, ms) => window.setTimeout(run, ms),
+        clear: (id) => window.clearTimeout(id),
+      });
+      stop = timer.stop;
+      toast.addEventListener("mouseenter", () => timer.hover(true));
+      toast.addEventListener("mouseleave", () => timer.hover(false));
+      toast.addEventListener("focusin", () => timer.focus(true));
+      toast.addEventListener("focusout", (event) =>
+        timer.focus(event.relatedTarget instanceof Node && toast.contains(event.relatedTarget)),
+      );
     }
     region.append(toast);
     while (region.children.length > 3) region.firstElementChild?.remove();
