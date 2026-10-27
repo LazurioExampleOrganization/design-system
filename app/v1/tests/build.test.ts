@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { readdirSync, rmSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, rmSync, statSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import packageJson from "../package.json";
 import { routeOf } from "../src/lib/routes";
@@ -43,6 +43,24 @@ describe("build contract", () => {
         (route) => !isFile(join(output, route, "index.html")),
       );
       expect(missing).toEqual([]);
+      // A modal is a native <dialog> named by its title, and every trigger opens
+      // one that exists; a specimen claims no dialog role (content/components/dialog.md).
+      for (const html of htmlFiles(output).map((file) => readFileSync(file, "utf8"))) {
+        expect(html).not.toContain('role="dialog"');
+        expect(html).not.toContain("aria-modal");
+        for (const [, id, label] of html.matchAll(
+          /<dialog[^>]*\bid="([^"]+)"[^>]*\baria-labelledby="([^"]+)"/g,
+        )) {
+          expect(html).toContain(`id="${label}"`);
+          expect(id).toBeDefined();
+        }
+        expect((html.match(/<dialog\b/g) ?? []).length).toBe(
+          (html.match(/<dialog[^>]*\baria-labelledby="/g) ?? []).length,
+        );
+        for (const [, target] of html.matchAll(/data-dialog-open="([^"]+)"/g)) {
+          expect(html).toMatch(new RegExp(`<dialog[^>]*\\bid="${target}"`));
+        }
+      }
     },
     buildTimeoutMs,
   );
@@ -67,6 +85,14 @@ function contentRoutes(): string[] {
       return path.endsWith(".md") ? [routeOf(relative(content, path))] : [];
     });
   return walk(content);
+}
+
+function htmlFiles(dir: string): string[] {
+  return readdirSync(dir).flatMap((name) => {
+    const path = join(dir, name);
+    if (statSync(path).isDirectory()) return htmlFiles(path);
+    return path.endsWith(".html") ? [path] : [];
+  });
 }
 
 function isFile(path: string): boolean {

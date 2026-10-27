@@ -123,6 +123,15 @@ describe("content", () => {
     }
   });
 
+  test("the viewer writes no literal colour; every colour comes from a token", () => {
+    const src = resolve(import.meta.dir, "../src");
+    const literal = /#[0-9a-f]{6}\b|#[0-9a-f]{3}\b(?![\w-])|\b(?:rgba?|hsla?)\(/i;
+    const offenders = [...files(src, ".css"), ...files(src, ".astro")].filter((path) =>
+      literal.test(readFileSync(path, "utf8")),
+    );
+    expect(offenders.map((path) => relative(src, path))).toEqual([]);
+  });
+
   test("the e-mail template uses only colours of the light theme", () => {
     const light = new Set(ROLES.map((role) => roleColor(tokens, "light", role).toLowerCase()));
     const used = [

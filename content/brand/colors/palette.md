@@ -49,6 +49,7 @@ Source of truth: [`tokens.json`](tokens.json). It holds two layers:
 | `success`, `success-subtle` | Verified signal, success | Badge text and background, success toast |
 | `warning`, `warning-subtle` | Hypothesis, needs attention | Badge, warning toast, budget near limit |
 | `danger`, `danger-subtle` | Error, destructive, stopped | Error text, destructive button, error toast |
+| `scrim` | The shade behind and below overlays | Never solid: mixed with transparency for the dialog backdrop (60 %) and overlay shadows (12–24 %) |
 
 ## Rules
 

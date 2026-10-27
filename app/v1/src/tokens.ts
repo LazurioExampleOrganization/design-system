@@ -46,6 +46,7 @@ export const ROLES = [
   "warning-subtle",
   "danger",
   "danger-subtle",
+  "scrim",
 ] as const;
 export type Role = (typeof ROLES)[number];
 

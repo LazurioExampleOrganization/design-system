@@ -44,16 +44,29 @@ import AppFrame from "../../layouts/AppFrame.astro";
             <p>It can't be undone. The draft stays editable until then.</p>
             <Fragment slot="footer">
               <Button>Save draft</Button>
-              <Button variant="primary" icon="send">Publish</Button>
+              <Button variant="primary" icon="send" opens="publish-confirm">Publish</Button>
             </Fragment>
           </Card>
+          <Dialog id="publish-confirm" title="Publish the stop decision?">
+            <p>Publishing will:</p>
+            <ul>
+              <li>stop the experiment and its two ads;</li>
+              <li>release the remaining budget of [amount] EUR;</li>
+              <li>send the summary to 4 people.</li>
+            </ul>
+            <p>It can't be undone.</p>
+            <Fragment slot="footer">
+              <Button closes autofocus>Cancel</Button>
+              <Button variant="primary" icon="send" closes>Publish</Button>
+            </Fragment>
+          </Dialog>
         </div>
       </div>
     </section>
 
     <section>
       <p class="step-label">2 · Confirm</p>
-      <Dialog id="confirm" title="Publish the stop decision?" inline>
+      <Dialog id="confirm" title="Publish the stop decision?" mode="specimen">
         <p>Publishing will:</p>
         <ul>
           <li>stop the experiment and its two ads;</li>

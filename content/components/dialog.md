@@ -14,7 +14,7 @@ form is a page.
 
 ## Anatomy
 
-Overlay (graphite at 60 % opacity), container (`surface-raised`, `radius-lg`,
+Backdrop (`scrim` at 60 %), container (`surface-raised`, `radius-lg`,
 overlay shadow, 480 px), title (`h3`), body, footer with actions (secondary
 left, primary right), close button top right.
 
@@ -48,13 +48,17 @@ draft").
 
 ## Accessibility
 
-- `role="dialog"` (or the native `<dialog>`) with `aria-modal="true"` and
-  `aria-labelledby` the title.
-- Focus moves to the first focusable element (the least destructive one for a
-  destructive confirm) and returns to the trigger on close.
+- The native `<dialog>` opened with `showModal()`, `aria-labelledby` the
+  title: the browser announces it as modal and makes the rest of the page
+  inert, so focus stays inside.
+- Focus starts on the least destructive action (`autofocus` on "Cancel" for a
+  destructive confirm) and returns to the trigger on close; the trigger has
+  `aria-haspopup="dialog"`.
 - Escape closes, except while the action runs.
+- A picture of a dialog in documentation or a gallery is not a dialog: it is
+  shown inline in a `<figure>` with a caption, without the dialog role.
 
 ## Tokens
 
-`surface-raised`, `text`, `text-muted`, `border`, `danger`, `accent`,
-`focus`, `radius-lg`, `space-6`, type `h3`, `body`.
+`surface-raised`, `scrim`, `text`, `text-muted`, `border`, `danger`,
+`accent`, `focus`, `radius-lg`, `space-6`, type `h3`, `body`.

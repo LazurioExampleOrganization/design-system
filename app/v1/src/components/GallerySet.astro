@@ -94,7 +94,23 @@ const { prefix } = Astro.props;
 </Table>
 
 <h3><a href="/components/dialog/">Dialog</a></h3>
-<Dialog id={`${prefix}-dialog`} title="Publish the stop decision?" inline>
+<div class="specimen">
+  <Button variant="primary" icon="send" opens={`${prefix}-dialog-modal`}>Open the real dialog</Button>
+</div>
+<Dialog id={`${prefix}-dialog-modal`} title="Publish the stop decision?">
+  <p>Publishing will:</p>
+  <ul>
+    <li>stop the experiment and its two ads;</li>
+    <li>release the remaining budget of [amount] EUR;</li>
+    <li>send the summary to 4 people.</li>
+  </ul>
+  <p>It can't be undone.</p>
+  <Fragment slot="footer">
+    <Button closes autofocus>Cancel</Button>
+    <Button variant="primary" icon="send" closes>Publish</Button>
+  </Fragment>
+</Dialog>
+<Dialog id={`${prefix}-dialog`} title="Publish the stop decision?" mode="specimen">
   <p>Publishing will:</p>
   <ul>
     <li>stop the experiment and its two ads;</li>

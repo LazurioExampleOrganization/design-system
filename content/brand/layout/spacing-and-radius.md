@@ -44,7 +44,8 @@ than the container.
 Two levels only:
 
 1. **Raised**: `surface-raised` with a `border`. Cards, tables, inputs.
-2. **Overlay**: `surface-raised` with a soft shadow. Dialogs, toasts, menus.
+2. **Overlay**: `surface-raised` with a soft shadow of the `scrim` role.
+   Dialogs, toasts, menus.
 
 ## Layout widths
 
