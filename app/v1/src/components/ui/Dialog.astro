@@ -1,0 +1,24 @@
+---
+import Icon from "./Icon.astro";
+
+// content/components/dialog.md. Rendered open and static, inside its own
+// overlay, so a page can show it.
+interface Props {
+  id: string;
+  title: string;
+  inline?: boolean;
+}
+
+const { id, title, inline = false } = Astro.props;
+---
+
+<div class:list={["overlay", inline && "overlay-inline"]}>
+  <section class="dialog" role="dialog" aria-modal="true" aria-labelledby={`${id}-title`}>
+    <header class="dialog-header">
+      <h3 id={`${id}-title`}>{title}</h3>
+      <button type="button" class="icon-button" aria-label="Close"><Icon name="close" size={20} /></button>
+    </header>
+    <div class="dialog-body"><slot /></div>
+    <footer class="dialog-footer"><slot name="footer" /></footer>
+  </section>
+</div>

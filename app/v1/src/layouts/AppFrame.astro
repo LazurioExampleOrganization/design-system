@@ -1,0 +1,59 @@
+---
+import Icon from "../components/ui/Icon.astro";
+import type { IconName } from "../components/ui/types";
+import Head from "./Head.astro";
+import ThemeSwitch from "./ThemeSwitch.astro";
+
+// An example screen of a fictional App of the Organization: the App's own
+// chrome (sidebar, header, page title), built only from the tokens and the
+// reference components. A thin strip above says that it is an example and
+// leads back to the viewer.
+interface Props {
+  title: string;
+  screen: string;
+  active: "Experiments" | "Research" | "Playbooks" | "Decisions";
+  // The Markdown page that explains what the screen shows.
+  about: string;
+  notes?: string;
+}
+
+const { title, screen, active, about, notes } = Astro.props;
+const sections: { label: Props["active"]; icon: IconName }[] = [
+  { label: "Experiments", icon: "flask" },
+  { label: "Research", icon: "search" },
+  { label: "Decisions", icon: "fork" },
+  { label: "Playbooks", icon: "book" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head><Head title={`Screen: ${title}`} description={notes} /></head>
+  <body>
+    <div class="example-strip">
+      <span>Example screen · <strong>{screen}</strong> · fictional data</span>
+      <a href={about}>What to notice</a>
+      <a href="/">Back to the design system</a>
+      <ThemeSwitch />
+    </div>
+    <div class="app">
+      <nav class="app-nav" aria-label="Main">
+        <a class="wordmark" href="#">Example<span class="signal-dot" aria-hidden="true"></span></a>
+        <ul>
+          {sections.map((s) => (
+            <li>
+              <a href="#" class:list={[s.label === active && "active"]} aria-current={s.label === active ? "page" : undefined}>
+                <Icon name={s.icon} size={20} />
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="app-org">Lazurio Example Organization</p>
+      </nav>
+      <main class="app-main" id="content">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

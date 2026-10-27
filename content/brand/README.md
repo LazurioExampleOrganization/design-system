@@ -1,0 +1,30 @@
+---
+title: Foundations
+description: The brand, voice, colour, type, spacing and icon rules every output starts from.
+order: 1
+---
+
+# Foundations
+
+Everything visual starts here. Components, patterns and templates only combine
+these foundations; they never add a colour, a font size or a spacing value of
+their own.
+
+| File | Holds |
+|---|---|
+| [`brand.md`](brand.md) | The brand in one paragraph, the wordmark and the visual principles |
+| [`voice-and-tone.md`](voice-and-tone.md) | How the interface and documents sound, with do and don't examples |
+| [`colors/tokens.json`](colors/tokens.json) | **The source of truth** for colours, themes, type, spacing and radius |
+| [`colors/palette.md`](colors/palette.md) | The colour roles and when to use each |
+| [`typography/typography.md`](typography/typography.md) | Typefaces, the type scale and its rules |
+| [`layout/spacing-and-radius.md`](layout/spacing-and-radius.md) | The 4 px grid, spacing, radius and layout widths |
+| [`iconography/iconography.md`](iconography/iconography.md) | Icon style, sizes and meaning |
+
+The values themselves live only in `colors/tokens.json`. The Markdown files
+name tokens (`text-muted`, `space-4`, `h2`) and explain when to use them; the
+viewer renders the values on its **Tokens** page. When a value changes, change
+`tokens.json` and nothing else.
+
+All of this is fictional: Lazurio Example Organization is the public reference
+Organization of Lazurio, and its brand was invented to show what a complete
+design system looks like.

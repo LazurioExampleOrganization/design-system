@@ -1,0 +1,25 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "./types";
+
+// content/components/toast.md
+interface Props {
+  variant?: "info" | "success" | "warning" | "error";
+  action?: string;
+}
+
+const { variant = "info", action } = Astro.props;
+const icons: Record<NonNullable<Props["variant"]>, IconName> = {
+  info: "book",
+  success: "check",
+  warning: "alert",
+  error: "error",
+};
+---
+
+<div class:list={["toast", `toast-${variant}`]} role={variant === "warning" || variant === "error" ? "alert" : "status"}>
+  <span class="toast-icon"><Icon name={icons[variant]} size={20} /></span>
+  <p><slot /></p>
+  {action && <button type="button" class="toast-action">{action}</button>}
+  <button type="button" class="icon-button" aria-label="Close"><Icon name="close" size={16} /></button>
+</div>

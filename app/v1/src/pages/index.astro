@@ -1,68 +1,69 @@
 ---
-import "../styles/global.css";
-import { tokens } from "../tokens";
+import Card from "../components/ui/Card.astro";
+import { sectionEntries, SCREENS } from "../lib/nav";
+import Viewer from "../layouts/Viewer.astro";
+import { roleColor, tokens } from "../tokens";
 
-const sections = [
-  {
-    title: "Brand",
-    description: "Colours, typography, logo rules and the baseline identity.",
-    path: "content/brand/",
-  },
-  {
-    title: "Examples",
-    description: "Reviewable references for web, slides, documents and tables.",
-    path: "content/examples/",
-  },
-  {
-    title: "Templates",
-    description: "Reusable starters for repeated output formats.",
-    path: "content/templates/",
-  },
+const layers = [
+  { section: "brand", title: "Foundations", text: "Brand, voice, colour roles, type, spacing, radius and icons." },
+  { section: "components", title: "Components", text: "Button, input, card, table, dialog, toast, badge and empty state." },
+  { section: "patterns", title: "Patterns", text: "Forms, empty and error states, navigation, data tables, Draft and Publish." },
+  { section: "writing", title: "Writing", text: "Interface text, documents and the terminology of the method." },
+  { section: "templates", title: "Templates", text: "A research brief, an experiment review deck and an update e-mail." },
+  { section: "examples", title: "Examples", text: "Reviewable references and the rendered example screens." },
 ];
+const counts = Object.fromEntries(
+  await Promise.all(layers.map(async (l) => [l.section, (await sectionEntries(l.section)).length])),
+);
+const roles = ["surface", "text", "accent", "highlight", "success", "warning", "danger"] as const;
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{tokens.name} design system</title>
-  </head>
-  <body>
-    <main class="shell">
-      <header class="hero">
-        <p class="eyebrow">Design system</p>
-        <h1>{tokens.name} design baseline</h1>
-        <p>
-          Read-only viewer for the <code>content/</code> directory of this repository. Authoring
-          happens in Git by editing files, not inside this App.
-        </p>
-      </header>
+<Viewer title="Overview" description="The design system of Lazurio Example Organization." wide>
+  <header class="hero">
+    <p class="eyebrow">Design system · fictional reference</p>
+    <h1>A calm instrument panel</h1>
+    <p class="lead">
+      Lazurio Example Organization finds online mechanisms that demonstrably earn money, tests them
+      small and scales only what has evidence. Its interfaces, documents and slides look like a calm
+      instrument panel: graphite surfaces, one signal blue for the action that moves work forward,
+      and a warm lumen light only where the reader should look.
+    </p>
+    <p>
+      This viewer is read-only. Everything it shows lives in <code>content/</code> of this
+      repository and changes through pull requests; the values come only from
+      <code>content/brand/colors/tokens.json</code>.
+    </p>
+  </header>
 
-      <section class="grid" aria-label="Design system sections">
-        {sections.map((section) => (
-          <article class="card">
-            <h2>{section.title}</h2>
-            <p>{section.description}</p>
-            <code>{section.path}</code>
-          </article>
-        ))}
-      </section>
+  <section class="layers" aria-label="Layers of the design system">
+    {
+      layers.map((l) => (
+        <Card title={l.title} href={`/${l.section}/`} eyebrow={`${counts[l.section]} pages`}>
+          <p>{l.text}</p>
+        </Card>
+      ))
+    }
+    <Card title="Example screens" href={SCREENS[0]?.href} eyebrow={`${SCREENS.length} screens`}>
+      <p>Pages of a fictional App built only from the tokens and the components, in both themes.</p>
+    </Card>
+  </section>
 
-      <section class="panel">
-        <h2>Colour tokens <small>({tokens.status})</small></h2>
-        <div class="swatches">
-          {Object.entries(tokens.colors).map(([name, value]) => (
-            <div class="swatch">
-              <span class="chip" style={`background:${value}`}></span>
-              <div>
-                <strong>{name}</strong>
-                <code>{value}</code>
-              </div>
-            </div>
-          ))}
+  <h2>Roles at a glance</h2>
+  <div class="roles">
+    {
+      roles.map((role) => (
+        <div class="role">
+          <span class="chip" style={`background:var(--${role})`} />
+          <div>
+            <strong>{role}</strong>
+            <code>
+              {roleColor(tokens, "light", role)} · {roleColor(tokens, "dark", role)}
+            </code>
+            <small>light · dark</small>
+          </div>
         </div>
-      </section>
-    </main>
-  </body>
-</html>
+      ))
+    }
+  </div>
+  <p><a href="/foundations/tokens/">All tokens, both themes, with contrast ratios</a></p>
+</Viewer>

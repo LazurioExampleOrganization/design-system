@@ -1,7 +1,8 @@
 import { describe, expect, test } from "bun:test";
-import { rmSync, statSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { readdirSync, rmSync, statSync } from "node:fs";
+import { dirname, join, relative, resolve } from "node:path";
 import packageJson from "../package.json";
+import { routeOf } from "../src/lib/routes";
 
 // The build contract of the Lazurio Module Standard (kap. 4.5): opened from
 // `main`, the App runs as its build. The Launchpad runs `build_script` with only
@@ -37,10 +38,36 @@ describe("build contract", () => {
       const path = entrypoint.health.path;
       const files = path.endsWith("/") ? [`${path}index.html`] : [path, `${path}.html`];
       expect(files.some((file) => isFile(join(output, file)))).toBe(true);
+      // Every page of content/ and the viewer's own pages are in the output.
+      const missing = [...contentRoutes(), ...VIEWER_PAGES].filter(
+        (route) => !isFile(join(output, route, "index.html")),
+      );
+      expect(missing).toEqual([]);
     },
     buildTimeoutMs,
   );
 });
+
+const VIEWER_PAGES = [
+  "foundations/tokens",
+  "components/gallery",
+  "screens/experiments",
+  "screens/new-experiment",
+  "screens/stop-or-scale",
+  "screens/research-sources",
+  "screens/experiment-update-email",
+];
+
+function contentRoutes(): string[] {
+  const content = resolve(app, "../../content");
+  const walk = (dir: string): string[] =>
+    readdirSync(dir).flatMap((name) => {
+      const path = join(dir, name);
+      if (statSync(path).isDirectory()) return walk(path);
+      return path.endsWith(".md") ? [routeOf(relative(content, path))] : [];
+    });
+  return walk(content);
+}
 
 function isFile(path: string): boolean {
   return statSync(path, { throwIfNoEntry: false })?.isFile() ?? false;

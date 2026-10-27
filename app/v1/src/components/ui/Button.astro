@@ -1,0 +1,35 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "./types";
+
+// content/components/button.md
+interface Props {
+  variant?: "primary" | "secondary" | "ghost" | "danger";
+  size?: "default" | "compact";
+  icon?: IconName;
+  disabled?: boolean;
+  loading?: boolean;
+  type?: "button" | "submit";
+  class?: string;
+}
+
+const {
+  variant = "secondary",
+  size = "default",
+  icon,
+  disabled = false,
+  loading = false,
+  type = "button",
+  class: extra,
+} = Astro.props;
+---
+
+<button
+  type={type}
+  class:list={["btn", `btn-${variant}`, size === "compact" && "btn-compact", extra]}
+  disabled={disabled || loading}
+  aria-busy={loading ? "true" : undefined}
+>
+  {loading ? <span class="spinner" aria-hidden="true" /> : icon && <Icon name={icon} size={20} />}
+  <slot />
+</button>

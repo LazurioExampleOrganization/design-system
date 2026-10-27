@@ -1,0 +1,82 @@
+---
+import Badge from "../../components/ui/Badge.astro";
+import type { Status } from "../../components/ui/types";
+import Button from "../../components/ui/Button.astro";
+import Icon from "../../components/ui/Icon.astro";
+import Input from "../../components/ui/Input.astro";
+import Table from "../../components/ui/Table.astro";
+import AppFrame from "../../layouts/AppFrame.astro";
+
+// Fictional data. A rate always comes with its sample; unknown values are "–".
+const rows: {
+  name: string;
+  mechanism: string;
+  status: Status;
+  rate?: string;
+  sample?: string;
+  verified?: string;
+  owner: string;
+  next: string;
+  changed?: boolean;
+}[] = [
+  { name: "Price comparison pages", mechanism: "Refurbished laptops, mobile-first", status: "verified", rate: "3.1", sample: "1,240", verified: "12 Oct 2026", owner: "Mia Chen", next: "Stop or scale decision due" },
+  { name: "Weekly newsletter for small e-shops", mechanism: "Paid curation", status: "running", rate: "1.4", sample: "380", verified: "20 Oct 2026", owner: "Leo Martin", next: "Stop condition on 3 Nov" },
+  { name: "Localized spreadsheet templates", mechanism: "Template marketplace", status: "scaling", rate: "4.8", sample: "5,400", verified: "25 Oct 2026", owner: "Leo Martin", next: "Review budget on 15 Nov", changed: true },
+  { name: "Template packs for event planners", mechanism: "Digital downloads", status: "hypothesis", owner: "Nora Weiss", next: "Write the smallest test" },
+  { name: "Paid community for freelance translators", mechanism: "Membership", status: "draft", owner: "Nora Weiss", next: "Publish the experiment plan" },
+  { name: "Comparison reviews of standing desks", mechanism: "Affiliate content", status: "stopped", rate: "0.3", sample: "2,010", verified: "2 Oct 2026", owner: "Mia Chen", next: "Decision published" },
+];
+---
+
+<AppFrame title="Experiments" screen="Experiments" active="Experiments" about="/examples/screens/experiments/">
+  <header class="page-header">
+    <div>
+      <h1>Experiments</h1>
+      <p>12 experiments · 3 with a verified signal · 1 decision due</p>
+    </div>
+    <Button variant="primary" icon="plus">New experiment</Button>
+  </header>
+
+  <div class="toolbar">
+    <Input id="search" label="Search experiments" placeholder="Name or mechanism" />
+    <span class="chip-filter">Owner: anyone</span>
+    <span class="chip-filter">Status: all but stopped</span>
+    <Button variant="ghost" size="compact">Clear all</Button>
+  </div>
+
+  <Table
+    caption="Experiments · sorted by: needs a decision first, then last change"
+    columns={[
+      { label: "Experiment", sort: "ascending" },
+      { label: "Status" },
+      { label: "Conversion (%)", numeric: true },
+      { label: "Sample (visits)", numeric: true },
+      { label: "Verified", numeric: true },
+      { label: "Owner" },
+      { label: "Next step" },
+    ]}
+  >
+    {
+      rows.map((r) => (
+        <tr>
+          <td>
+            <a href="#" class:list={[r.changed && "changed"]}>{r.name}</a>
+            <span class="sub">{r.mechanism}</span>
+          </td>
+          <td>
+            <Badge status={r.status} /> {r.changed && <Badge status="new" />}
+          </td>
+          <td class:list={["num", !r.rate && "unknown"]}>{r.rate ?? "–"}</td>
+          <td class:list={["num", !r.sample && "unknown"]}>{r.sample ?? "–"}</td>
+          <td class:list={["num", !r.verified && "unknown"]}>{r.verified ?? "–"}</td>
+          <td>{r.owner}</td>
+          <td>{r.next}</td>
+        </tr>
+      ))
+    }
+  </Table>
+  <p class="meta">
+    <span><Icon name="list" size={16} /> Showing 6 of 12 · stopped experiments hidden by the filter</span>
+    <span>Rates without a sample are shown as a hypothesis, not as a result.</span>
+  </p>
+</AppFrame>
