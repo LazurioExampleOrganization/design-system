@@ -6,7 +6,7 @@ order: 42
 
 # Template: experiment review deck
 
-Eight slides, 16:9 (1920 × 1080), margins `space-16`. One idea per slide; the
+Eight slides, 16:9 and `width-slide` wide, margins `space-16`. One idea per slide; the
 slide title is a full-sentence conclusion. Slide numbers and the footer
 "Lazurio Example Organization · [date] · Draft" in `caption`, `text-muted`.
 

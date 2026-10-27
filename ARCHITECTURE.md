@@ -95,5 +95,8 @@ relative path into this repository.
 - Secrets never belong here.
 - Production takes precedence over the curated mirror.
 - The viewer stays read-only.
-- Values live only in `tokens.json`; Markdown names tokens, it never copies
-  their values.
+- Values live only in `tokens.json` (colours, type, spacing, radius, sizes,
+  strokes, widths, breakpoints, motion); Markdown names tokens and never
+  states a value in px or ms. The viewer's CSS reads them as custom
+  properties; only its media queries repeat the breakpoints, because CSS
+  cannot read a custom property there. Tests enforce all three.

@@ -132,6 +132,38 @@ describe("content", () => {
     expect(offenders.map((path) => relative(src, path))).toEqual([]);
   });
 
+  test("pages name dimensions as tokens and never state a value in px or ms", () => {
+    const offenders = markdown.filter((path) =>
+      /\b\d+(?:\.\d+)? ?(?:px|ms)\b/.test(readFileSync(path, "utf8")),
+    );
+    expect(offenders.map((path) => relative(content, path))).toEqual([]);
+  });
+
+  test("the viewer consumes every dimension token, and its media queries are the breakpoints", () => {
+    const src = resolve(import.meta.dir, "../src");
+    const code = [...files(src, ".css"), ...files(src, ".astro")]
+      .map((path) => readFileSync(path, "utf8"))
+      .join("\n");
+    // Icons read `size-icon-*` and `stroke-icon` from the tokens directly
+    // (Icon.astro). The viewer draws no slide and loads nothing, so it has no
+    // use for `width-slide` and `motion-loading-delay`.
+    const direct = (group: string, key: string) =>
+      (group === "size" && key.startsWith("icon-")) ||
+      (group === "stroke" && key === "icon") ||
+      (group === "width" && key === "slide") ||
+      (group === "motion" && key === "loading-delay");
+    const unused = (["size", "stroke", "width", "motion"] as const).flatMap((group) =>
+      Object.keys(tokens[group])
+        .filter((key) => !direct(group, key) && !code.includes(`var(--${group}-${key})`))
+        .map((key) => `${group}-${key}`),
+    );
+    expect(unused).toEqual([]);
+    const css = readFileSync(join(src, "styles/global.css"), "utf8");
+    const queries = [...css.matchAll(/@media \(max-width: (\d+)px\)/g)].map(([, px]) => Number(px));
+    expect(queries.length).toBeGreaterThan(0);
+    expect(queries.filter((px) => !Object.values(tokens.breakpoint).includes(px))).toEqual([]);
+  });
+
   test("the e-mail template uses only colours of the light theme", () => {
     const light = new Set(ROLES.map((role) => roleColor(tokens, "light", role).toLowerCase()));
     const used = [

@@ -2,15 +2,19 @@
 // Outline icons drawn for this viewer: 24 × 24 grid, 1.5 px stroke, round caps
 // and joins, `currentColor` (content/brand/iconography/iconography.md).
 // Decorative unless `label` is given.
+import { tokens } from "../../tokens";
 import type { IconName } from "./types";
 
+// Sizes and the stroke are tokens: `size-icon-*` and `stroke-icon`.
 interface Props {
   name: IconName;
-  size?: 16 | 20 | 24 | 48;
+  size?: "sm" | "md" | "lg" | "xl";
   label?: string;
 }
 
-const { name, size = 20, label } = Astro.props;
+const { name, size: step = "md", label } = Astro.props;
+const size = tokens.size[`icon-${step}`];
+const strokeWidth = tokens.stroke.icon;
 
 const paths: Record<IconName, string> = {
   flask: "M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3M7.5 14h9",
@@ -39,7 +43,7 @@ const paths: Record<IconName, string> = {
   viewBox="0 0 24 24"
   fill="none"
   stroke="currentColor"
-  stroke-width="1.5"
+  stroke-width={strokeWidth}
   stroke-linecap="round"
   stroke-linejoin="round"
   role={label ? "img" : undefined}

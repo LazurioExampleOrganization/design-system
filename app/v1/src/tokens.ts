@@ -5,7 +5,10 @@ import raw from "../../../content/brand/colors/tokens.json";
 //
 // `colors` holds the primitive palette. `themes` maps every colour role to a
 // primitive, once for light and once for dark; components use roles only.
-// `typography`, `space` and `radius` are the scales.
+// `typography`, `space` and `radius` are the scales; `size` (controls, table
+// rows, icons), `stroke`, `width`, `breakpoint` (px) and `motion` (ms) are the
+// other dimensions a page of content/ may prescribe. Pages name them; only
+// this file holds their values.
 export type TypeStyle = { size: number; lineHeight: number; weight: number };
 
 export type DesignTokens = {
@@ -17,6 +20,11 @@ export type DesignTokens = {
   typography: { families: Record<"sans" | "mono", string>; scale: Record<string, TypeStyle> };
   space: Record<string, number>;
   radius: Record<string, number>;
+  size: Record<string, number>;
+  stroke: Record<string, number>;
+  width: Record<string, number>;
+  breakpoint: Record<string, number>;
+  motion: Record<string, number>;
 };
 
 export const THEMES = ["light", "dark"] as const;
@@ -68,10 +76,21 @@ function nonNegative(value: unknown, path: string): number {
 
 export function parseTokens(value: unknown): DesignTokens {
   if (typeof value !== "object" || value === null) throw new Error("tokens must be an object");
-  const { name, status, source, colors, themes, typography, space, radius } = value as Record<
-    string,
-    unknown
-  >;
+  const {
+    name,
+    status,
+    source,
+    colors,
+    themes,
+    typography,
+    space,
+    radius,
+    size,
+    stroke,
+    width,
+    breakpoint,
+    motion,
+  } = value as Record<string, unknown>;
   for (const [field, text] of Object.entries({ name, status, source })) {
     if (typeof text !== "string" || text.length === 0) {
       throw new Error(`tokens.${field} must be a non-empty string`);
@@ -144,6 +163,11 @@ export function parseTokens(value: unknown): DesignTokens {
     },
     space: scaleOf(space, "tokens.space"),
     radius: scaleOf(radius, "tokens.radius"),
+    size: scaleOf(size, "tokens.size"),
+    stroke: scaleOf(stroke, "tokens.stroke"),
+    width: scaleOf(width, "tokens.width"),
+    breakpoint: scaleOf(breakpoint, "tokens.breakpoint"),
+    motion: scaleOf(motion, "tokens.motion"),
   };
 }
 
@@ -175,6 +199,10 @@ export function scaleVariables(t: DesignTokens): string {
   return [
     ...Object.entries(t.space).map(([k, v]) => `--space-${k}: ${v}px;`),
     ...Object.entries(t.radius).map(([k, v]) => `--radius-${k}: ${v}px;`),
+    ...(["size", "stroke", "width", "breakpoint"] as const).flatMap((group) =>
+      Object.entries(t[group]).map(([k, v]) => `--${group}-${k}: ${v}px;`),
+    ),
+    ...Object.entries(t.motion).map(([k, v]) => `--motion-${k}: ${v}ms;`),
     `--font-sans: ${t.typography.families.sans};`,
     `--font-mono: ${t.typography.families.mono};`,
     ...Object.entries(t.typography.scale).map(

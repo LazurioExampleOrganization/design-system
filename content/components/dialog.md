@@ -15,7 +15,9 @@ form is a page.
 ## Anatomy
 
 Backdrop (`scrim` at 60 %), container (`surface-raised`, `radius-lg`,
-overlay shadow, 480 px), title (`h3`), body, footer with actions (secondary
+overlay shadow, `width-dialog`, or `width-dialog-wide` when the body is a
+list), title (`h3`), body, footer with actions
+(secondary
 left, primary right), close button top right.
 
 ## Variants
@@ -28,7 +30,8 @@ left, primary right), close button top right.
 
 ## States
 
-Opening and closing animate opacity only (150 ms; none when the reader prefers
+Opening and closing animate opacity only (`motion-fast`; none when the reader
+prefers
 reduced motion). While the action runs, the primary button shows loading and
 the dialog cannot be dismissed.
 
@@ -61,4 +64,5 @@ draft").
 ## Tokens
 
 `surface-raised`, `scrim`, `text`, `text-muted`, `border`, `danger`,
-`accent`, `focus`, `radius-lg`, `space-6`, type `h3`, `body`.
+`accent`, `focus`, `radius-lg`, `space-6`, `width-dialog`,
+`width-dialog-wide`, `motion-fast`, type `h3`, `body`.

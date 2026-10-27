@@ -13,7 +13,8 @@ step**. It replaces the content area; the surrounding page stays.
 
 ## Anatomy
 
-Icon (24 px inside a card, 48 px for a page, `text-subtle`), title (`h4`),
+Icon (`size-icon-lg` inside a card, `size-icon-xl` for a page,
+`text-subtle`), title (`h4`),
 one sentence (`body-sm`, `text-muted`), one action (primary for a first use,
 secondary otherwise).
 

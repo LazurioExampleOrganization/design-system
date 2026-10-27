@@ -1,17 +1,19 @@
 ---
-title: Spacing, radius and layout
-description: The 4 px grid, the spacing and radius scales and layout widths.
+title: Spacing, sizes and layout
+description: Spacing, radius, sizes, strokes, layout widths, breakpoints and motion.
 order: 6
 ---
 
-# Spacing, radius and layout
+# Spacing, sizes and layout
 
-Source of truth for the values: `space` and `radius` in
-[`../colors/tokens.json`](../colors/tokens.json).
+Source of truth for the values: `space`, `radius`, `size`, `stroke`,
+`width`, `breakpoint` and `motion` in
+[`../colors/tokens.json`](../colors/tokens.json). This page names the tokens;
+the viewer's **Tokens** page shows their values.
 
 ## Spacing
 
-Everything sits on a **4 px grid**. Use the named steps only:
+Everything sits on a grid of `space-1`. Use the named steps only:
 
 | Step | Use |
 |---|---|
@@ -39,6 +41,19 @@ wrong.
 Nested corners: an element inside a rounded container uses a smaller radius
 than the container.
 
+## Sizes and strokes
+
+| Token | Use |
+|---|---|
+| `size-control` | The height of buttons, inputs and selects |
+| `size-control-compact` | Compact buttons, icon buttons, filter chips |
+| `size-row`, `size-row-compact` | Table rows, default and compact |
+| `size-icon-sm` … `size-icon-xl` | Icons (see [iconography](../iconography/iconography.md)) |
+| `stroke-hairline` | Borders and dividers |
+| `stroke-focus` | The focus ring and its offset |
+| `stroke-edge` | The accent edge of a selected item |
+| `stroke-icon` | The line of outline icons |
+
 ## Elevation
 
 Two levels only:
@@ -51,11 +66,23 @@ Two levels only:
 
 | Surface | Width |
 |---|---|
-| Reading (documents, settings) | max 720 px of content |
-| Working (tables, dashboards) | max 1280 px, full width below |
-| Dialog | 480 px, or 640 px for a dialog with a list |
-| Slide | 16:9, 1920 × 1080, margins `space-16` |
+| A form | at most `width-form` |
+| Reading (documents, settings) | at most `width-reading` of content |
+| Working (tables, dashboards) | at most `width-working`, full width below |
+| Dialog | `width-dialog`, or `width-dialog-wide` for a dialog with a list |
+| Toast | `width-toast` |
+| Slide | 16:9, `width-slide` wide, margins `space-16` |
 
-Breakpoints: 640 px (phone), 1024 px (tablet), 1280 px (desktop). Below 640 px
-navigation collapses and tables become stacked rows (see
+Breakpoints: `breakpoint-phone`, `breakpoint-tablet` and `breakpoint-desktop`.
+Below `breakpoint-tablet` navigation collapses into a menu; below
+`breakpoint-phone` tables become stacked rows (see
 [`../../patterns/data-tables.md`](../../patterns/data-tables.md)).
+
+## Motion
+
+| Token | Use |
+|---|---|
+| `motion-fast` | Opening and closing overlays (opacity only) |
+| `motion-loading-delay` | How long to wait before showing a loading skeleton |
+
+When the reader prefers reduced motion, nothing animates.

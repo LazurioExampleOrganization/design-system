@@ -92,6 +92,22 @@ function contrastNote(theme: (typeof THEMES)[number], role: Role): string | unde
     ))
   }
 
+  <h2>Sizes, strokes, widths, breakpoints and motion</h2>
+  {
+    (["size", "stroke", "width", "breakpoint", "motion"] as const).map((group) =>
+      Object.entries(tokens[group]).map(([name, value]) => (
+        <div class="type-row">
+          <code>
+            {group}-{name}
+          </code>
+          <span>
+            {value} {group === "motion" ? "ms" : "px"}
+          </span>
+        </div>
+      )),
+    )
+  }
+
   <h2>Radius</h2>
   <div class="specimen">
     {

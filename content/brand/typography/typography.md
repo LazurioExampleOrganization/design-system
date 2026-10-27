@@ -29,7 +29,7 @@ machine without Inter falls back to its system font instead of a random serif.
 | `h3` | A subsection, a card title |
 | `h4` | A group label inside a section |
 | `body-lg` | The lead paragraph under a title |
-| `body` | Running text. **16 px is the minimum for reading text.** |
+| `body` | Running text. **The minimum size for reading text.** |
 | `body-sm` | Dense UI: tables, form hints, metadata |
 | `caption` | Labels above values, badges, axis labels |
 | `data` | Figures in tables and charts, with tabular numerals |

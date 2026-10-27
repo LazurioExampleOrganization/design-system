@@ -18,8 +18,8 @@ const icons: Record<NonNullable<Props["variant"]>, IconName> = {
 ---
 
 <div class:list={["toast", `toast-${variant}`]} role={variant === "warning" || variant === "error" ? "alert" : "status"}>
-  <span class="toast-icon"><Icon name={icons[variant]} size={20} /></span>
+  <span class="toast-icon"><Icon name={icons[variant]} size="md" /></span>
   <p><slot /></p>
   {action && <button type="button" class="toast-action">{action}</button>}
-  <button type="button" class="icon-button" aria-label="Close"><Icon name="close" size={16} /></button>
+  <button type="button" class="icon-button" aria-label="Close"><Icon name="close" size="sm" /></button>
 </div>

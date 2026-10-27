@@ -13,7 +13,8 @@ mechanism, one metric. A card is not a layout grid for unrelated content.
 
 ## Anatomy
 
-Container (`surface-raised`, 1 px `border`, `radius-lg`, padding `space-6`),
+Container (`surface-raised`, a `stroke-hairline` `border`, `radius-lg`,
+padding `space-6`),
 optional eyebrow (`caption`), title (`h3`), body, optional footer with actions
 or metadata.
 
@@ -28,7 +29,7 @@ or metadata.
 ## States
 
 Default, hover and focus (interactive only), selected (`accent-subtle`
-background, `accent` left edge 3 px).
+background, an `accent` left edge of `stroke-edge`).
 
 ## Usage
 

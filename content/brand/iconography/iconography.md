@@ -8,7 +8,8 @@ order: 7
 
 ## Style
 
-- **Outline icons**, 1.5 px stroke at 24 px, round caps and joins. One open
+- **Outline icons** with a `stroke-icon` stroke, drawn at `size-icon-lg`,
+  round caps and joins. One open
   source set for the whole Organization (for example Lucide, ISC licence);
   never mix sets.
 - Icons are drawn in the colour of the text next to them (`currentColor`).
@@ -19,12 +20,13 @@ order: 7
 
 | Size | Use |
 |---|---|
-| 16 px | Inside `body-sm` text, table cells, badges |
-| 20 px | Buttons, inputs, navigation |
-| 24 px | Empty states inside cards, toolbars |
-| 48 px | Empty states of a whole page |
+| `size-icon-sm` | Inside `body-sm` text, table cells, badges |
+| `size-icon-md` | Buttons, inputs, navigation |
+| `size-icon-lg` | Empty states inside cards, toolbars |
+| `size-icon-xl` | Empty states of a whole page |
 
-Spacing between an icon and its label is `space-1` (16 px icons) or `space-2`.
+Spacing between an icon and its label is `space-1` (`size-icon-sm` icons) or
+`space-2`.
 
 ## Meaning
 

@@ -13,7 +13,7 @@ const { title, icon = "search", page = false } = Astro.props;
 ---
 
 <div class:list={["empty", page && "empty-page"]}>
-  <span class="empty-icon"><Icon name={icon} size={page ? 48 : 24} /></span>
+  <span class="empty-icon"><Icon name={icon} size={page ? "xl" : "lg"} /></span>
   <h4>{title}</h4>
   <p><slot /></p>
   <div class="empty-action"><slot name="action" /></div>

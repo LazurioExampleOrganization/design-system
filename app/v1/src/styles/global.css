@@ -66,8 +66,8 @@ code {
 }
 
 :focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
+  outline: var(--stroke-focus) solid var(--focus);
+  outline-offset: var(--stroke-focus);
 }
 
 .skip {
@@ -90,8 +90,8 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: var(--size-control-compact);
+  height: var(--size-control-compact);
   padding: 0;
   border: 0;
   border-radius: var(--radius-md);
@@ -146,7 +146,7 @@ code {
   gap: var(--space-4);
   height: 56px;
   padding: 0 var(--space-6);
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--stroke-hairline) solid var(--border);
   background: var(--surface-raised);
 }
 
@@ -175,7 +175,7 @@ code {
   height: calc(100vh - 56px);
   overflow-y: auto;
   padding: var(--space-6) var(--space-4);
-  border-right: 1px solid var(--border);
+  border-right: var(--stroke-hairline) solid var(--border);
   font: var(--type-body-sm);
 }
 
@@ -192,7 +192,7 @@ code {
 .sidebar a {
   display: block;
   padding: var(--space-1) var(--space-3);
-  border-left: 3px solid transparent;
+  border-left: var(--stroke-edge) solid transparent;
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   color: var(--text-muted);
   text-decoration: none;
@@ -251,7 +251,7 @@ code {
 /* ---------- Rendered Markdown ---------- */
 
 .prose {
-  max-width: 720px;
+  max-width: var(--width-reading);
 }
 
 .prose > h1:first-child {
@@ -272,7 +272,7 @@ code {
 .prose th,
 .prose td {
   padding: var(--space-2) var(--space-3);
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--stroke-hairline) solid var(--border);
   text-align: left;
   vertical-align: top;
 }
@@ -286,7 +286,7 @@ code {
 .prose blockquote {
   margin: var(--space-4) 0;
   padding: var(--space-3) var(--space-4);
-  border-left: 3px solid var(--accent);
+  border-left: var(--stroke-edge) solid var(--accent);
   background: var(--accent-subtle);
 }
 
@@ -311,7 +311,7 @@ code {
 .prose hr {
   margin: var(--space-8) 0;
   border: 0;
-  border-top: 1px dashed var(--border-strong);
+  border-top: var(--stroke-hairline) dashed var(--border-strong);
 }
 
 /* ---------- Overview ---------- */
@@ -344,9 +344,9 @@ code {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  height: 40px;
+  height: var(--size-control);
   padding: 0 var(--space-4);
-  border: 1px solid var(--border-strong);
+  border: var(--stroke-hairline) solid var(--border-strong);
   border-radius: var(--radius-md);
   background: var(--surface-raised);
   color: var(--text);
@@ -361,7 +361,7 @@ code {
 }
 
 .btn:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: translateY(var(--stroke-hairline));
 }
 
 .btn:disabled {
@@ -374,7 +374,7 @@ code {
 }
 
 .btn-compact {
-  height: 36px;
+  height: var(--size-control-compact);
   padding: 0 var(--space-3);
   font: var(--type-body-sm);
   font-weight: 600;
@@ -408,9 +408,9 @@ code {
 }
 
 .spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid currentColor;
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+  border: var(--stroke-focus) solid currentColor;
   border-right-color: transparent;
   border-radius: var(--radius-pill);
   animation: spin 0.8s linear infinite;
@@ -448,9 +448,9 @@ code {
 .field input,
 .field textarea {
   width: 100%;
-  min-height: 40px;
+  min-height: var(--size-control);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--border-strong);
+  border: var(--stroke-hairline) solid var(--border-strong);
   border-radius: var(--radius-md);
   background: var(--surface-raised);
   color: var(--text);
@@ -472,7 +472,7 @@ code {
 }
 
 .field input.align-end {
-  padding-right: 56px;
+  padding-right: calc(var(--space-12) + var(--space-2));
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
@@ -515,7 +515,7 @@ code {
 .card {
   position: relative;
   padding: var(--space-6);
-  border: 1px solid var(--border);
+  border: var(--stroke-hairline) solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-raised);
 }
@@ -540,7 +540,7 @@ code {
 }
 
 .card-selected {
-  border-left: 3px solid var(--accent);
+  border-left: var(--stroke-edge) solid var(--accent);
   background: var(--accent-subtle);
 }
 
@@ -559,7 +559,7 @@ code {
   gap: var(--space-3);
   margin-top: var(--space-4);
   padding-top: var(--space-4);
-  border-top: 1px solid var(--border);
+  border-top: var(--stroke-hairline) solid var(--border);
   color: var(--text-muted);
   font: var(--type-body-sm);
 }
@@ -575,7 +575,7 @@ code {
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 2px var(--space-2);
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
   font: var(--type-caption);
   white-space: nowrap;
@@ -619,7 +619,7 @@ code {
 /* Table */
 .table-wrap {
   overflow-x: auto;
-  border: 1px solid var(--border);
+  border: var(--stroke-hairline) solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-raised);
 }
@@ -639,7 +639,7 @@ code {
 
 .table th {
   padding: var(--space-2) var(--space-4);
-  border-top: 1px solid var(--border);
+  border-top: var(--stroke-hairline) solid var(--border);
   background: var(--surface-sunken);
   color: var(--text-muted);
   font: var(--type-caption);
@@ -648,13 +648,13 @@ code {
 }
 
 .table td {
-  height: 44px;
+  height: var(--size-row);
   padding: var(--space-2) var(--space-4);
-  border-top: 1px solid var(--border);
+  border-top: var(--stroke-hairline) solid var(--border);
 }
 
 .table-compact td {
-  height: 36px;
+  height: var(--size-row-compact);
   padding: var(--space-1) var(--space-3);
 }
 
@@ -726,6 +726,17 @@ dialog.dialog {
   color: var(--text);
 }
 
+dialog.dialog[open],
+dialog.dialog[open]::backdrop {
+  animation: fade-in var(--motion-fast) ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 dialog.dialog::backdrop {
   background: color-mix(in srgb, var(--scrim) 60%, transparent);
 }
@@ -735,12 +746,16 @@ dialog.dialog::backdrop {
 }
 
 .dialog {
-  width: min(480px, 100%);
+  width: min(var(--width-dialog), 100%);
   border-radius: var(--radius-lg);
   background: var(--surface-raised);
   box-shadow:
     0 12px 32px color-mix(in srgb, var(--scrim) 24%, transparent),
     0 2px 6px color-mix(in srgb, var(--scrim) 12%, transparent);
+}
+
+.dialog-wide {
+  width: min(var(--width-dialog-wide), 100%);
 }
 
 .dialog-header {
@@ -778,7 +793,7 @@ dialog.dialog::backdrop {
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
-  width: min(360px, 100%);
+  width: min(var(--width-toast), 100%);
   padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   background: var(--surface-raised);
@@ -911,7 +926,7 @@ dialog.dialog::backdrop {
 .theme-panel {
   margin-bottom: var(--space-10);
   padding: var(--space-8);
-  border: 1px solid var(--border);
+  border: var(--stroke-hairline) solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface);
   color: var(--text);
@@ -961,7 +976,7 @@ dialog.dialog::backdrop {
   flex: 0 0 auto;
   width: 40px;
   height: 40px;
-  border: 1px solid var(--border);
+  border: var(--stroke-hairline) solid var(--border);
   border-radius: var(--radius-md);
 }
 
@@ -988,7 +1003,7 @@ dialog.dialog::backdrop {
   align-items: baseline;
   gap: var(--space-4);
   padding: var(--space-3) 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--stroke-hairline) solid var(--border);
 }
 
 .type-row code {
@@ -1035,7 +1050,7 @@ dialog.dialog::backdrop {
   display: flex;
   flex-direction: column;
   padding: var(--space-6) var(--space-4);
-  border-right: 1px solid var(--border);
+  border-right: var(--stroke-hairline) solid var(--border);
   background: var(--surface-raised);
 }
 
@@ -1054,7 +1069,7 @@ dialog.dialog::backdrop {
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-2) var(--space-3);
-  border-left: 3px solid transparent;
+  border-left: var(--stroke-edge) solid transparent;
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   color: var(--text-muted);
   font-weight: 500;
@@ -1080,7 +1095,7 @@ dialog.dialog::backdrop {
 
 .app-main {
   width: 100%;
-  max-width: 1280px;
+  max-width: var(--width-working);
   padding: var(--space-8) var(--space-10) var(--space-16);
 }
 
@@ -1119,9 +1134,9 @@ dialog.dialog::backdrop {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  height: 32px;
+  height: var(--size-control-compact);
   padding: 0 var(--space-3);
-  border: 1px solid var(--border-strong);
+  border: var(--stroke-hairline) solid var(--border-strong);
   border-radius: var(--radius-pill);
   background: var(--surface-raised);
   color: var(--text);
@@ -1129,7 +1144,7 @@ dialog.dialog::backdrop {
 }
 
 .form {
-  max-width: 560px;
+  max-width: var(--width-form);
 }
 
 .form-footer {
@@ -1138,13 +1153,13 @@ dialog.dialog::backdrop {
   gap: var(--space-3);
   margin-top: var(--space-6);
   padding-top: var(--space-4);
-  border-top: 1px solid var(--border);
+  border-top: var(--stroke-hairline) solid var(--border);
 }
 
 .error-summary {
   margin-bottom: var(--space-6);
   padding: var(--space-4);
-  border-left: 3px solid var(--danger);
+  border-left: var(--stroke-edge) solid var(--danger);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   background: var(--danger-subtle);
 }
@@ -1208,7 +1223,7 @@ dialog.dialog::backdrop {
 .email-frame {
   width: 100%;
   height: 760px;
-  border: 1px solid var(--border);
+  border: var(--stroke-hairline) solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-raised);
 }
@@ -1225,7 +1240,7 @@ dialog.dialog::backdrop {
     position: static;
     height: auto;
     border-right: 0;
-    border-bottom: 1px solid var(--border);
+    border-bottom: var(--stroke-hairline) solid var(--border);
   }
 
   .app-nav {
@@ -1233,7 +1248,7 @@ dialog.dialog::backdrop {
     flex-wrap: wrap;
     align-items: center;
     border-right: 0;
-    border-bottom: 1px solid var(--border);
+    border-bottom: var(--stroke-hairline) solid var(--border);
   }
 
   .app-nav .wordmark {
@@ -1266,7 +1281,9 @@ dialog.dialog::backdrop {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .spinner {
+  .spinner,
+  dialog.dialog[open],
+  dialog.dialog[open]::backdrop {
     animation: none;
   }
 }

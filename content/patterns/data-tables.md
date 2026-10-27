@@ -36,6 +36,6 @@ actions and "Clear selection". A bulk action that cannot be undone follows
 
 ## Small screens
 
-Below 640 px each row is a stacked block: the name and the status badge first,
+Below `breakpoint-phone` each row is a stacked block: the name and the status badge first,
 then label–value pairs. Horizontal scrolling of a whole table is the last
 resort, with the first column sticky.

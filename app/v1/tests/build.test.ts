@@ -57,6 +57,13 @@ describe("build contract", () => {
         expect((html.match(/<dialog\b/g) ?? []).length).toBe(
           (html.match(/<dialog[^>]*\baria-labelledby="/g) ?? []).length,
         );
+        // A specimen is a picture: no control inside it.
+        for (const [figure] of html.matchAll(/<figure class="dialog-specimen[\s\S]*?<\/figure>/g)) {
+          expect(figure).not.toMatch(/<(?:button|a|input|textarea|select)\b|tabindex=/);
+        }
+        // Ids are unique on every page (the skip target and generated heading ids).
+        const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(([, id]) => id);
+        expect(ids.filter((id, i) => ids.indexOf(id) !== i)).toEqual([]);
         for (const [, target] of html.matchAll(/data-dialog-open="([^"]+)"/g)) {
           expect(html).toMatch(new RegExp(`<dialog[^>]*\\bid="${target}"`));
         }

@@ -14,7 +14,7 @@ heading. It is not a button and not a counter of notifications.
 ## Anatomy
 
 Container (`radius-sm`, padding `space-1` vertical, `space-2` horizontal),
-optional 16 px icon, label (`caption`).
+optional `size-icon-sm` icon, label (`caption`).
 
 ## Variants
 

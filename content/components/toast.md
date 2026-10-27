@@ -13,7 +13,8 @@ published, failed. It is not for system news or marketing.
 
 ## Anatomy
 
-Container (`surface-raised`, overlay shadow, `radius-md`, 360 px), status icon,
+Container (`surface-raised`, overlay shadow, `radius-md`, `width-toast`),
+status icon,
 message (`body-sm`), optional single action ("Undo", "View"), close button.
 Bottom right on desktop, bottom full width on phones.
 

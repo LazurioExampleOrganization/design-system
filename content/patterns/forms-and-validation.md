@@ -10,7 +10,7 @@ Example screen: [New experiment](../examples/screens/new-experiment.md).
 
 ## Layout
 
-- One column, labels above fields, max 560 px wide. Related fields (a value
+- One column, labels above fields, at most `width-form` wide. Related fields (a value
   and its unit) may share a row.
 - Fields in the order the person thinks: what, why, how much, until when.
   For an experiment that is **hypothesis → metric → budget → stop condition →

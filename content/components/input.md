@@ -25,9 +25,9 @@ fields use `surface-sunken` and no border.
 
 | State | Look |
 |---|---|
-| Default | `surface-raised`, 1 px `border-strong` |
+| Default | `surface-raised`, a `stroke-hairline` `border-strong` border |
 | Hover | Border `text-subtle` |
-| Focus | 2 px `focus` ring |
+| Focus | A `stroke-focus` `focus` ring |
 | Filled | Same as default; the value is `text` |
 | Error | Border `danger`, message in `danger` with the error icon |
 | Disabled | `surface-sunken`, `text-subtle`, no ring |
@@ -57,5 +57,5 @@ example a date or a metric threshold.").
 ## Tokens
 
 `surface-raised`, `surface-sunken`, `border-strong`, `text`, `text-muted`,
-`text-subtle`, `danger`, `focus`, `radius-md`, `space-2`, `space-4`, type
-`body` and `body-sm`.
+`text-subtle`, `danger`, `focus`, `radius-md`, `space-2`, `space-4`,
+`size-control`, `stroke-hairline`, `stroke-focus`, type `body` and `body-sm`.

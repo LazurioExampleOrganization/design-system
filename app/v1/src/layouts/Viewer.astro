@@ -21,7 +21,7 @@ const here = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.ur
 <html lang="en">
   <head><Head title={title} description={description} /></head>
   <body>
-    <a class="skip" href="#content">Skip to content</a>
+    <a class="skip" href="#main-content">Skip to content</a>
     <header class="topbar">
       <a class="wordmark" href="/">Example<span class="signal-dot" aria-hidden="true"></span></a>
       <span class="topbar-label">Design system <small>({tokens.status})</small></span>
@@ -48,7 +48,7 @@ const here = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.ur
           ))
         }
       </nav>
-      <main id="content" class:list={["page", wide && "page-wide"]}>
+      <main id="main-content" class:list={["page", wide && "page-wide"]}>
         <slot />
       </main>
     </div>

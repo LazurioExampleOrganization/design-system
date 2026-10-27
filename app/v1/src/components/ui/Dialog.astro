@@ -10,23 +10,26 @@ import Icon from "./Icon.astro";
 // trigger when it closes. Elements with `data-dialog-close` close it.
 //
 // `specimen`: a static, non-modal picture of the same dialog for the gallery
-// and the screens, inside a <figure> that says so. It claims no dialog role.
+// and the screens, inside a <figure> that says so. It claims no dialog role and
+// holds no control: its buttons are passed with `visual`.
 interface Props {
   id: string;
   title: string;
   mode?: "modal" | "specimen";
+  // `width-dialog-wide`, for a dialog with a list.
+  wide?: boolean;
 }
 
-const { id, title, mode = "modal" } = Astro.props;
+const { id, title, mode = "modal", wide = false } = Astro.props;
 ---
 
 {
   mode === "modal" ? (
-    <dialog class="dialog" id={id} aria-labelledby={`${id}-title`}>
+    <dialog class:list={["dialog", wide && "dialog-wide"]} id={id} aria-labelledby={`${id}-title`}>
       <header class="dialog-header">
         <h3 id={`${id}-title`}>{title}</h3>
         <button type="button" class="icon-button" aria-label="Close" data-dialog-close>
-          <Icon name="close" size={20} />
+          <Icon name="close" size="md" />
         </button>
       </header>
       <div class="dialog-body">
@@ -40,12 +43,12 @@ const { id, title, mode = "modal" } = Astro.props;
     <figure class="dialog-specimen">
       <figcaption class="specimen-label">Specimen of a dialog, shown inline. The real one is modal.</figcaption>
       <div class="overlay overlay-inline">
-      <section class="dialog" aria-labelledby={`${id}-title`}>
+      <section class:list={["dialog", wide && "dialog-wide"]} aria-labelledby={`${id}-title`}>
         <header class="dialog-header">
           <h3 id={`${id}-title`}>{title}</h3>
-          <button type="button" class="icon-button" aria-label="Close">
-            <Icon name="close" size={20} />
-          </button>
+          <span class="icon-button" aria-hidden="true">
+            <Icon name="close" size="md" />
+          </span>
         </header>
         <div class="dialog-body">
           <slot />

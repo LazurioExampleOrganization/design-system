@@ -13,8 +13,9 @@ page is a link, not a button.
 
 ## Anatomy
 
-Container, label, optional leading icon. Height 40 px (36 px compact), padding
-`space-4` horizontal, radius `radius-md`.
+Container, label, optional leading icon (`size-icon-md`). Height
+`size-control` (`size-control-compact` for compact), padding `space-4`
+horizontal, radius `radius-md`.
 
 ## Variants
 
@@ -31,8 +32,8 @@ Container, label, optional leading icon. Height 40 px (36 px compact), padding
 |---|---|
 | Default | As the variant |
 | Hover | Primary: `accent-hover`; others: `surface-sunken` background |
-| Focus | 2 px `focus` ring with 2 px offset, never removed |
-| Active | Same as hover, 1 px lower |
+| Focus | A `stroke-focus` `focus` ring, offset by `stroke-focus`, never removed |
+| Active | Same as hover, `stroke-hairline` lower |
 | Disabled | 40 % opacity, no pointer, still readable; explain why nearby |
 | Loading | Label stays, a spinner replaces the icon, the button is disabled and keeps its width |
 
@@ -59,4 +60,5 @@ experiment", "Publish". Two to three words.
 ## Tokens
 
 `accent`, `accent-hover`, `on-accent`, `border-strong`, `surface-sunken`,
-`danger`, `focus`, `radius-md`, `space-2`, `space-4`, type `body` (600).
+`danger`, `focus`, `radius-md`, `space-2`, `space-4`, `size-control`,
+`size-control-compact`, `size-icon-md`, `stroke-focus`, type `body` (600).

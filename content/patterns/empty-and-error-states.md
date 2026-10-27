@@ -12,7 +12,7 @@ Every place that shows data has four states, and each is designed:
 
 | State | Shows |
 |---|---|
-| **Loading** | Skeletons in the shape of the content, after 300 ms; never a blank area |
+| **Loading** | Skeletons in the shape of the content, after `motion-loading-delay`; never a blank area |
 | **Empty** | An [Empty state](../components/empty-state.md) with one next step |
 | **Partial** | The data that arrived, plus an inline warning about what didn't |
 | **Error** | What failed, why if known, and what to do |

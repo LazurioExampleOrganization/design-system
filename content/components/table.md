@@ -14,8 +14,8 @@ sample and result. Use a list or cards when items have different attributes.
 ## Anatomy
 
 Container (`surface-raised`, `border`, `radius-md`), header row
-(`surface-sunken`, `caption` in `text-muted`), body rows (`body-sm`, 44 px
-high, `border` between rows), optional toolbar above (search, filters, the one
+(`surface-sunken`, `caption` in `text-muted`), body rows (`body-sm`,
+`size-row` high, `border` between rows), optional toolbar above (search, filters, the one
 primary action) and footer below (count, pagination).
 
 ## Variants
@@ -23,7 +23,7 @@ primary action) and footer below (count, pagination).
 | Variant | Use |
 |---|---|
 | **Default** | Up to ~200 rows, paginated beyond |
-| **Compact** | 36 px rows for dense operator views |
+| **Compact** | `size-row-compact` rows for dense operator views |
 | **Selectable** | A checkbox column for bulk actions |
 
 ## States
@@ -52,7 +52,8 @@ dash "–", never "0" when the value is unknown.
 - A real `<table>` with `<th scope="col">`; a caption names the table (visible
   or visually hidden).
 - Sortable headers are buttons with `aria-sort`.
-- Below 640 px each row becomes a stacked card that repeats the header labels.
+- Below `breakpoint-phone` each row becomes a stacked card that repeats the
+  header labels.
 
 ## Tokens
 

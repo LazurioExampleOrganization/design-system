@@ -9,7 +9,7 @@ order: 23
 ## Structure
 
 - **Sidebar** for the sections of an App (5–7 items, icon + label). The active
-  item uses `accent-text` and a 3 px `accent` edge.
+  item uses `accent-text` and an `accent` edge of `stroke-edge`.
 - **Header** with the wordmark, the current Organization and the person's menu.
 - **Page title** (`h1`) repeats the name of the active item, plus at most one
   primary action to its right.
@@ -24,7 +24,7 @@ order: 23
 | Same order of sections in every App of the Organization | Reorder by usage |
 | Names that are nouns: "Experiments", "Research", "Playbooks" | Verbs or slogans: "Get insights" |
 | Keep the URL meaningful and shareable | Open a page in a dialog |
-| Collapse the sidebar to a menu button below 1024 px | Hide sections behind "More" on desktop |
+| Collapse the sidebar to a menu button below `breakpoint-tablet` | Hide sections behind "More" on desktop |
 
 ## Accessibility
 

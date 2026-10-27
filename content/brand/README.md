@@ -17,13 +17,18 @@ their own.
 | [`colors/tokens.json`](colors/tokens.json) | **The source of truth** for colours, themes, type, spacing and radius |
 | [`colors/palette.md`](colors/palette.md) | The colour roles and when to use each |
 | [`typography/typography.md`](typography/typography.md) | Typefaces, the type scale and its rules |
-| [`layout/spacing-and-radius.md`](layout/spacing-and-radius.md) | The 4 px grid, spacing, radius and layout widths |
+| [`layout/spacing-and-radius.md`](layout/spacing-and-radius.md) | Spacing, radius, sizes, strokes, layout widths, breakpoints and motion |
 | [`iconography/iconography.md`](iconography/iconography.md) | Icon style, sizes and meaning |
 
-The values themselves live only in `colors/tokens.json`. The Markdown files
-name tokens (`text-muted`, `space-4`, `h2`) and explain when to use them; the
-viewer renders the values on its **Tokens** page. When a value changes, change
-`tokens.json` and nothing else.
+The values themselves live only in `colors/tokens.json`: colours, type,
+spacing, radius, sizes, strokes, widths, breakpoints and motion. The Markdown
+files name tokens (`text-muted`, `space-4`, `h2`, `size-control`) and explain
+when to use them; they never state a value in px or ms, and a test refuses one.
+The viewer renders the values on its **Tokens** page and its CSS reads them as
+custom properties. The one place that repeats values is the viewer's media
+queries, because CSS cannot read a custom property there; a test keeps them
+equal to `breakpoint`. When a value changes, change `tokens.json` (and, for a
+breakpoint, those media queries) and nothing else.
 
 All of this is fictional: Lazurio Example Organization is the public reference
 Organization of Lazurio, and its brand was invented to show what a complete
