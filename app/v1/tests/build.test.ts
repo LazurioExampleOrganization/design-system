@@ -73,7 +73,7 @@ describe("build contract", () => {
         if (!html.includes("<h1>Gallery</h1>")) {
           for (const [button] of html.matchAll(/<button\b[^>]*>/g)) {
             expect(button).toMatch(
-              /data-(?:dialog-open|dialog-close|toast|toast-close|theme-switch)\b/,
+              /data-(?:dialog-open|dialog-close|toast|toast-close|theme-switch|menu-toggle|search-clear)\b/,
             );
           }
         }

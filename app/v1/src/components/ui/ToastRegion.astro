@@ -10,9 +10,23 @@ import { tokens } from "../../tokens";
 
 <script>
   import { dismissTimer } from "../../lib/dismiss-timer";
+  import { focusReturn } from "../../lib/focus-return";
 
   const region = document.querySelector<HTMLElement>("[data-toast-region]");
   const dismissAfter = Number(region?.dataset.dismiss ?? 0);
+  const closers = new WeakMap<Element, () => void>();
+
+  // When a toast that holds focus leaves, focus goes back to where it came
+  // from, or to the page's main region if that is gone or inside a closed
+  // dialog; it is never dropped on <body>.
+  function restoreFocus(from: HTMLElement | null) {
+    const origin = from && {
+      connected: from.isConnected,
+      inClosedDialog: from.closest("dialog:not([open])") !== null,
+      disabled: from.matches(":disabled"),
+    };
+    (focusReturn(origin) === "origin" ? from : document.getElementById("main-content"))?.focus();
+  }
 
   function show(templateId: string) {
     const template = document.getElementById(templateId);
@@ -20,10 +34,19 @@ import { tokens } from "../../tokens";
     const toast = template.content.firstElementChild?.cloneNode(true);
     if (!(toast instanceof HTMLElement)) return;
     let stop = () => {};
+    let cameFrom: HTMLElement | null = null;
+    toast.addEventListener("focusin", (event) => {
+      if (!cameFrom && event.relatedTarget instanceof HTMLElement && !toast.contains(event.relatedTarget)) {
+        cameFrom = event.relatedTarget;
+      }
+    });
     const close = () => {
+      const hadFocus = toast.contains(document.activeElement);
       stop();
       toast.remove();
+      if (hadFocus) restoreFocus(cameFrom);
     };
+    closers.set(toast, close);
     toast.querySelector("[data-toast-close]")?.addEventListener("click", close);
     if (toast.dataset.variant === "info" || toast.dataset.variant === "success") {
       // Leaves after the dismiss time, but never while the reader hovers it or
@@ -41,7 +64,13 @@ import { tokens } from "../../tokens";
       );
     }
     region.append(toast);
-    while (region.children.length > 3) region.firstElementChild?.remove();
+    while (region.children.length > 3) {
+      const oldest = region.firstElementChild;
+      if (!oldest) break;
+      const closeOldest = closers.get(oldest);
+      if (closeOldest) closeOldest();
+      else oldest.remove();
+    }
   }
 
   for (const trigger of document.querySelectorAll<HTMLElement>("[data-toast]")) {

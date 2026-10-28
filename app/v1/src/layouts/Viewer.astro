@@ -1,8 +1,10 @@
 ---
+import Icon from "../components/ui/Icon.astro";
 import ToastRegion from "../components/ui/ToastRegion.astro";
 import { navigation } from "../lib/nav";
 import { tokens } from "../tokens";
 import Head from "./Head.astro";
+import MenuToggle from "./MenuToggle.astro";
 import ThemeSwitch from "./ThemeSwitch.astro";
 
 // The read-only design system viewer: the wordmark, the layers in the sidebar
@@ -26,10 +28,14 @@ const here = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.ur
     <header class="topbar">
       <a class="wordmark" href="/">Example<span class="signal-dot" aria-hidden="true"></span></a>
       <span class="topbar-label">Design system <small>({tokens.status})</small></span>
+      <button type="button" class="btn btn-ghost btn-compact menu-button" aria-expanded="false" aria-controls="viewer-sections" data-menu-toggle>
+        <Icon name="list" size="md" />
+        Menu
+      </button>
       <ThemeSwitch />
     </header>
     <div class="viewer">
-      <nav class="sidebar" aria-label="Design system">
+      <nav class="sidebar collapsible" id="viewer-sections" aria-label="Design system">
         {
           groups.map((group) => (
             <section>
@@ -49,10 +55,11 @@ const here = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.ur
           ))
         }
       </nav>
-      <main id="main-content" class:list={["page", wide && "page-wide"]}>
+      <main id="main-content" tabindex="-1" class:list={["page", wide && "page-wide"]}>
         <slot />
       </main>
     </div>
     <ToastRegion />
+    <MenuToggle />
   </body>
 </html>

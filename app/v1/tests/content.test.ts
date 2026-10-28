@@ -172,7 +172,7 @@ describe("content", () => {
     // once as --viewer-*; components and screens use tokens.
     const stray = css
       .split("\n")
-      .filter((line) => /\b\d+(?:\.\d+)?px\b/.test(line))
+      .filter((line) => /\b\d+(?:\.\d+)?(?:px|ms|s)\b/.test(line))
       .filter(
         (line) =>
           !/^\s*--viewer-[a-z-]+: \d+px;$/.test(line) && !line.startsWith("@media (max-width: "),

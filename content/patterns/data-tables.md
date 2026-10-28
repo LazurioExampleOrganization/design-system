@@ -15,8 +15,10 @@ filters show as removable chips with "Clear all".
 
 ## Default order
 
-By what the reader decides on: status (needs a decision first), then the date
-of the last change, newest first. Say the order in the header (`aria-sort`).
+By what the reader decides on: the next decision first (due now, then by
+date, then undated and finished experiments). Say the order in the caption.
+Mark a column with `aria-sort` only when the rows really are sorted by that
+column and its header is a sort button.
 
 ## Evidence columns
 
@@ -24,7 +26,8 @@ A table that shows results also shows **where they came from**:
 
 - the sample size next to every rate ("3.1 % of 1,240");
 - the date of verification;
-- a link to the source or the experiment log.
+- the source: a link to it, or the path of the experiment log
+  (`workspace/experiments/<experiment>/log.md`).
 
 A rate without its sample is shown as a hypothesis, not as a result.
 

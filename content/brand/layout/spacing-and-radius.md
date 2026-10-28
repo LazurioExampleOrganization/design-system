@@ -87,6 +87,7 @@ Below `breakpoint-tablet` navigation collapses into a menu; below
 |---|---|
 | `motion-fast` | Opening and closing overlays (opacity only) |
 | `motion-loading-delay` | How long to wait before showing a loading skeleton |
+| `motion-spin` | One turn of a busy spinner |
 | `motion-toast-dismiss` | How long a success or info toast stays (paused while hovered or focused) |
 
 When the reader prefers reduced motion, nothing animates.

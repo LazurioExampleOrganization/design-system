@@ -54,6 +54,9 @@ of one word.
 - The auto-dismiss timer pauses on hover and focus.
 - A toast's controls work: Close closes it, and an action ("Undo", "View",
   "Try again") does what it says. A toast without a real action has none.
+- When a toast that holds focus leaves (Close, or pushed out as the fourth),
+  focus returns to where it came from, or to the page's main region; it is
+  never dropped.
 - A picture of a toast in documentation is a figure, not a live region, and
   holds no control.
 

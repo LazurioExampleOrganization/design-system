@@ -14,11 +14,18 @@ The list of all experiments of the Organization.
 ## What to notice
 
 - **One primary action** ("New experiment") next to the page title.
-- **Status first**: the table is sorted by status (needs a decision first),
-  then by the last change. Status is a [badge](../../components/badge.md) with a
-  word.
-- **Evidence in the row**: every rate has its sample ("3.1 % of 1,240") and the
-  date of verification. A rate without a sample would be a hypothesis.
+- **The next decision first**: the caption says the order (due now, then by
+  date, then undated and finished), and no column claims a sort it doesn't
+  have. Status is a [badge](../../components/badge.md) with a word.
+- **Evidence in the row**: every rate has its sample ("3.1 % of 1,240"), the
+  date of verification and the path of its experiment log. A rate without them
+  would be a hypothesis.
+- **Search works**: it filters the rows, the count below the table follows it
+  and is announced, and when nothing matches an empty state offers "Clear
+  search".
+- Below `breakpoint-phone` the rows become stacked blocks that repeat their
+  labels, and below `breakpoint-tablet` the App's sections collapse behind
+  "Menu".
 - **Figures align right** with tabular numerals; unknown values are "–".
 - The "New" highlight marks the one row that changed since the last visit.
 

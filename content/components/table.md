@@ -51,7 +51,8 @@ dash "–", never "0" when the value is unknown.
 
 - A real `<table>` with `<th scope="col">`; a caption names the table (visible
   or visually hidden).
-- Sortable headers are buttons with `aria-sort`.
+- Sortable headers are buttons, and only the column the rows are actually
+  sorted by carries `aria-sort`.
 - Below `breakpoint-phone` each row becomes a stacked card that repeats the
   header labels.
 

@@ -1,6 +1,7 @@
 ---
 import Icon from "../components/ui/Icon.astro";
 import ToastRegion from "../components/ui/ToastRegion.astro";
+import MenuToggle from "./MenuToggle.astro";
 import type { IconName } from "../components/ui/types";
 import Head from "./Head.astro";
 import ThemeSwitch from "./ThemeSwitch.astro";
@@ -43,7 +44,11 @@ const sections: { label: Props["active"]; icon: IconName; href?: string }[] = [
     <div class="app">
       <nav class="app-nav" aria-label="Main">
         <a class="wordmark" href="/screens/experiments/">Example<span class="signal-dot" aria-hidden="true"></span></a>
-        <ul>
+        <button type="button" class="btn btn-ghost btn-compact menu-button" aria-expanded="false" aria-controls="app-sections" data-menu-toggle>
+          <Icon name="list" size="md" />
+          Menu
+        </button>
+        <ul id="app-sections" class="collapsible">
           {sections.map((s) => (
             <li>
               {s.href ? (
@@ -62,10 +67,11 @@ const sections: { label: Props["active"]; icon: IconName; href?: string }[] = [
         </ul>
         <p class="app-org">Lazurio Example Organization</p>
       </nav>
-      <main class="app-main" id="main-content">
+      <main class="app-main" id="main-content" tabindex="-1">
         <slot />
       </main>
     </div>
     <ToastRegion />
+    <MenuToggle />
   </body>
 </html>
