@@ -24,12 +24,25 @@ looks better.
 
 ## Layers
 
-### Brand baseline
+### Foundations (brand baseline)
 
-`content/brand/` holds `colors/tokens.json` (the source of truth for colour
-tokens), `colors/palette.md`, `typography/typography.md`, logos and assets
-when they exist and may live in Git, and links to the canonical brand
-documents.
+`content/brand/` holds `colors/tokens.json`, the one source of truth for every
+value: the primitive palette (`colors`), the colour roles of the light and
+dark themes (`themes`), the type scale, spacing and radius. Next to it,
+`brand.md`, `voice-and-tone.md`, `colors/palette.md`,
+`typography/typography.md`, `layout/spacing-and-radius.md` and
+`iconography/iconography.md` explain when to use which token, by name and
+without repeating values. Logos and assets go here when they exist and may
+live in Git.
+
+### Components, patterns and writing
+
+`content/components/` describes the basic components, each page with the same
+sections (purpose, anatomy, variants, states, usage, content, accessibility,
+tokens). `content/patterns/` combines them for recurring problems, including
+Draft and Publish for irreversible actions. `content/writing/` holds the rules
+for interface text and documents and the terminology list. They use tokens by
+name only.
 
 ### Examples
 
@@ -57,8 +70,16 @@ Standard:
   after a pull; `dev` (one Astro server) is the preview from a worktree or an
   explicit development start;
 - it has no authentication and no authoring UI;
-- it renders `content/`; `src/tokens.ts` reads and validates
-  `content/brand/colors/tokens.json` at build time.
+- it renders `content/`: every Markdown file is a page at its path (an Astro
+  content collection, `src/content.config.ts`), and relative links between
+  files are rewritten to those pages (`src/lib/md-links.ts`);
+- `src/tokens.ts` reads and validates `content/brand/colors/tokens.json` at
+  build time and turns its roles into CSS custom properties for both themes;
+- `src/components/ui/` is a reference implementation of the components for
+  the Gallery and the example screens, not a published package;
+- the tests check the token contract, WCAG AA contrast of every role pair the
+  components use, the content contract of every layer and that every page is
+  in the build.
 
 ## Place in the Organization
 
@@ -74,3 +95,10 @@ relative path into this repository.
 - Secrets never belong here.
 - Production takes precedence over the curated mirror.
 - The viewer stays read-only.
+- Values live only in `tokens.json` (colours, type, spacing, radius, sizes,
+  strokes, widths, breakpoints, motion); Markdown names tokens and never
+  states a value in px or ms. The viewer's CSS reads them as custom
+  properties. It has px values in exactly two places: its media queries,
+  which repeat the breakpoints because CSS cannot read a custom property
+  there, and its own geometry, which is not part of the design system and is
+  declared once as `--viewer-*`. Tests enforce all of it.

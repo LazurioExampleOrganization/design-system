@@ -20,9 +20,12 @@ with its history (`git subtree split`). It has no template upstream.
 |---|---|
 | `BASELINE.md` | The human baseline for visual and formatted work |
 | `INITIALIZATION.md` | The checklist for setting up or refreshing the design system |
-| `content/brand/` | Colour tokens, palette, typography and brand notes |
-| `content/examples/` | Reviewable references across formats |
-| `content/templates/` | Starters for documents, slides and tables |
+| `content/brand/` | **Foundations**: the brand, voice and tone, the tokens (`colors/tokens.json`), colour roles, typography, spacing and radius, iconography |
+| `content/components/` | Button, input, card, table, dialog, toast, badge and empty state, each with states, usage and accessibility |
+| `content/patterns/` | Forms and validation, empty and error states, navigation, data tables, irreversible actions (Draft and Publish) |
+| `content/writing/` | Interface text, documents and the terminology list |
+| `content/templates/` | Starters: a research brief, an experiment review deck and an update e-mail |
+| `content/examples/` | Reviewable references, including the four example screens the viewer renders |
 | `app/v1/` | The read-only viewer App (Astro, TypeScript) |
 | `lazurio.module.json` | Module id, port lease and Apps |
 
@@ -35,6 +38,11 @@ start without it. Opened from `main`, Lazurio builds the viewer (`bun run
 build`) and serves `dist/`; the Astro development server runs only for a
 preview from a worktree or `lazurio module start --dev`. It only renders
 `content/`; authoring happens by editing files in Git.
+
+The viewer shows every Markdown page of `content/` at its path, the tokens of
+both themes with their contrast ratios (**Tokens**), every component in its
+states in both themes (**Gallery**) and the example screens of a fictional App
+(**Screens**).
 
 ## Develop
 

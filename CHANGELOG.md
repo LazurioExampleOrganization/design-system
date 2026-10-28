@@ -2,6 +2,28 @@
 
 Date versions: `YYYYMMDD`.
 
+## 20261027
+
+### Added
+
+- A complete fictional design system as the reference example (issue #5):
+  foundations (brand, voice and tone, colour roles for light and dark themes,
+  type scale, spacing and radius, iconography), eight components with states,
+  usage and accessibility, five patterns including Draft and Publish for
+  irreversible actions, writing rules and terminology, three templates
+  (research brief, review deck, update e-mail) and four example screens.
+- The viewer renders every page of `content/`, the tokens of both themes with
+  contrast ratios, a gallery of the components and the example screens, with a
+  light and dark switch.
+- Tests for the token contract, WCAG AA contrast of the role pairs the
+  components use, the content of every layer, links between pages and the
+  pages of the build.
+
+### Changed
+
+- `tokens.json` moved from a flat draft palette to primitives, theme roles and
+  scales (status `reference`).
+
 ## 20261020
 
 ### Changed

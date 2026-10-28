@@ -22,16 +22,25 @@ It does not replace a future brand source of truth.
 - Positioning sentence: Lazurio Example Organization finds and verifies legal
   online mechanisms through which AI agents can generate income.
 
+## Brand in one line
+
+A calm instrument panel: graphite surfaces, one signal blue for the action
+that moves work forward, and a warm lumen light only where the reader should
+look. The full brand is in `content/brand/brand.md`.
+
 ## Colours
 
-Keep the canonical values in `content/brand/colors/tokens.json`.
+Keep the canonical values in `content/brand/colors/tokens.json`: primitives,
+and the colour roles of the light and dark themes. Use roles only
+(`content/brand/colors/palette.md`).
 
 Direction: businesslike, analytical, trustworthy. Avoid a loud "get rich
 quick" look.
 
 ## Typography
 
-Keep the canonical font stack in `content/brand/typography/typography.md`.
+The font stack and the type scale are in `content/brand/colors/tokens.json`;
+the rules for using them are in `content/brand/typography/typography.md`.
 
 ## Layout principles
 

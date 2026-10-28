@@ -20,6 +20,25 @@ In order of authority:
 When the design system disagrees with production, production is right and the
 design system is updated.
 
+## Which file for which output
+
+Read `BASELINE.md` and `content/brand/colors/tokens.json` first, always. Then:
+
+| You are producing | Read |
+|---|---|
+| Any visual output | `content/brand/brand.md`, `content/brand/colors/palette.md` (roles, never primitives) |
+| A document, report or research brief | `content/writing/documents.md`, `content/templates/document/research-brief.md`, `content/brand/typography/typography.md` |
+| A presentation | `content/templates/presentation/experiment-review.md`, `content/brand/layout/spacing-and-radius.md` |
+| An e-mail | `content/templates/email/experiment-update.md` and `.html`, `content/writing/ui-text.md` |
+| A screen, page or component of an App | `content/components/<component>.md`, the matching `content/patterns/*.md`, and the example screens in `content/examples/screens/` |
+| Interface text (buttons, errors, empty states) | `content/writing/ui-text.md`, `content/writing/terminology.md` |
+| Anything that sends, publishes, pays or deletes | `content/patterns/irreversible-actions.md`: prepare a Draft, act only after "Publish" |
+| Tone of any text | `content/brand/voice-and-tone.md`; the source of truth is `company/agents/voice/` in the Organization root |
+
+Use tokens by name (`text-muted`, `space-4`, `h2`); never invent a colour,
+size or spacing value. If what you need is missing, say so and propose the
+addition as a pull request here instead of improvising it in the output.
+
 ## What belongs here
 
 - the brand baseline and design tokens;
