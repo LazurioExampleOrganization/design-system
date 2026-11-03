@@ -1,6 +1,48 @@
 # Changelog: design system
 
-Date versions: `YYYYMMDD`.
+From 1.0.0 a release is an annotated tag `v<semver>` with a GitHub Release,
+and the version is independent of the App generation (`docs/extending.md`).
+The dated entries below (`YYYYMMDD`) come from before the template.
+
+## 1.0.0 (proposed, not released)
+
+The first release as a public template of the Marketplace of Lazurio. The App
+stays generation `app/v1`.
+
+### Added
+
+- `LICENSE` (MIT) and `NOTICE`: what the license covers, that the brand is
+  fictional, and the third-party notes (no font, image or icon file is
+  distributed; Inter and JetBrains Mono are named in the font stacks only).
+- `docs/adoption.md`: how an agent adopts the template into another
+  Organization (live rights, name collision, `lazurio module create`, a merge
+  that keeps the release as an ancestor, the Organization's own brand, Teams
+  last, nothing published without the person's instruction).
+- `docs/extending.md`: changes within the generation, when the module would
+  change generation, taking a newer release by merging its tag, the release
+  rules, and how the website, knowledge base and presentations templates
+  build on the design system.
+- Five screens for the Marketplace card in `docs/screenshots/` (WebP, 1600 px,
+  invented content).
+- Tests for paths that check out on Windows and for the template contract
+  (license, documents, exact versions, Bun in CI, screens).
+
+### Changed
+
+- Stack profile `content@2026.11` of Lazurio: Bun 1.4.2 → 1.4.4, Astro 5.18.2 → 7.4.5,
+  `@astrojs/check` 0.9.9 → 0.9.12, TypeScript 5.9.3 → 6.0.3, Biome 2.4.15 →
+  2.6.4, `@types/bun` 1.4.2 → 1.4.4, and `@astrojs/markdown-remark` 7.3.5 for
+  the `unified()` processor that runs the link rewrite. Every version is
+  exact. Biome keeps its Markdown and YAML formatters off, as the profile
+  asks. The built pages look the same as before (compared pixel by pixel).
+- `bun run check` runs the type check, Biome and every test; CI runs only that
+  command, with `concurrency` and a timeout.
+- README and AGENTS describe the template; the Module Standard link points to
+  `Lazurio/LazurioPlatform`.
+
+### For adopted modules
+
+Nothing yet: this is the first release.
 
 ## 20261027
 

@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import { unified } from "@astrojs/markdown-remark";
 import { astroServerOptions, ModuleKitError, onShutdown } from "@lazurio/module-kit";
 import { defineConfig } from "astro/config";
 import { rewriteContentLinks } from "./src/lib/md-links";
@@ -24,13 +25,18 @@ function listenerServer(): ReturnType<typeof astroServerOptions> {
 if (serving) onShutdown(() => undefined);
 
 // The Markdown of content/ links between its files relatively, as on GitHub;
-// the viewer rewrites those links to its own pages.
+// the viewer rewrites those links to its own pages. The rewrite is a rehype
+// plugin, so the App keeps the unified() processor that Astro 7 no longer
+// installs by default (upgrade guide to v7, Markdown processor).
 const contentRoot = fileURLToPath(new URL("../../content/", import.meta.url));
 
 export default defineConfig({
   ...(serving ? { server: listenerServer() } : {}),
   // Code blocks take the theme's own colours (global.css), not a highlighter's.
-  markdown: { syntaxHighlight: false, rehypePlugins: [rewriteContentLinks(contentRoot)] },
+  markdown: {
+    syntaxHighlight: false,
+    processor: unified({ rehypePlugins: [rewriteContentLinks(contentRoot)] }),
+  },
   vite: {
     // No .env* files on the start path (standard 4.3).
     envDir: false,
