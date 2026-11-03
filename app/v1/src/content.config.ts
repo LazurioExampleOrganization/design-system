@@ -1,5 +1,6 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 import { routeOf } from "./lib/routes";
 
 // Every Markdown file of content/ is a page of the viewer. Its id is its route
