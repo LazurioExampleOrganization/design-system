@@ -4,7 +4,7 @@ From 1.0.0 a release is an annotated tag `v<semver>` with a GitHub Release,
 and the version is independent of the App generation (`docs/extending.md`).
 The dated entries below (`YYYYMMDD`) come from before the template.
 
-## 1.0.0 (proposed, not released)
+## 1.0.0 — 2026-11-03
 
 The first release as a public template of the Marketplace of Lazurio. The App
 stays generation `app/v1`.
