@@ -317,11 +317,6 @@ code {
   font-family: var(--font-mono);
 }
 
-.prose pre code {
-  padding: 0;
-  background: none;
-}
-
 .prose hr {
   margin: var(--space-8) 0;
   border: 0;
@@ -344,10 +339,6 @@ code {
   grid-template-columns: repeat(auto-fill, minmax(var(--viewer-card-min), 1fr));
   gap: var(--space-4);
   margin-bottom: var(--space-10);
-}
-
-.layers .card h3 {
-  margin-top: 0;
 }
 
 /* ---------- Components ---------- */
@@ -540,11 +531,6 @@ a.btn {
 
 .card h3 {
   margin: 0 0 var(--space-2);
-}
-
-.card h3 a {
-  color: var(--text);
-  text-decoration: none;
 }
 
 .card-interactive h3 a::after {
@@ -1091,6 +1077,29 @@ dialog.dialog::backdrop {
   min-height: calc(100vh - var(--size-control));
 }
 
+.error-summary {
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  border-left: var(--stroke-edge) solid var(--danger);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--danger-subtle);
+}
+
+.error-summary h2 {
+  margin: 0 0 var(--space-2);
+  font: var(--type-h4);
+}
+
+.error-summary ul {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.error-summary a {
+  color: var(--danger);
+  font-weight: 600;
+}
+
 .app-nav {
   display: flex;
   flex-direction: column;
@@ -1196,29 +1205,6 @@ dialog.dialog::backdrop {
   border-top: var(--stroke-hairline) solid var(--border);
 }
 
-.error-summary {
-  margin-bottom: var(--space-6);
-  padding: var(--space-4);
-  border-left: var(--stroke-edge) solid var(--danger);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  background: var(--danger-subtle);
-}
-
-.error-summary h2 {
-  margin: 0 0 var(--space-2);
-  font: var(--type-h4);
-}
-
-.error-summary ul {
-  margin: 0;
-  padding-left: var(--space-5);
-}
-
-.error-summary a {
-  color: var(--danger);
-  font-weight: 600;
-}
-
 .split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -1275,6 +1261,21 @@ dialog.dialog::backdrop {
 
 #main-content:focus {
   outline: none;
+}
+
+/* ---------- Context overrides ---------- */
+
+/* These descendant rules beat the plain element rules above by specificity;
+   they stay after them so that the source order says the same thing. */
+
+.prose pre code {
+  padding: 0;
+  background: none;
+}
+
+.card h3 a {
+  color: var(--text);
+  text-decoration: none;
 }
 
 /* ---------- Small screens ---------- */
