@@ -10,9 +10,33 @@ that can be repeated across the website, presentations, documents, tables,
 offers and internal tools.
 
 The repository is a module that follows the
-[Lazurio Module Standard](https://github.com/HumanAndMachines/Lazurio/blob/main/manual/module-standard.md).
+[Lazurio Module Standard](https://github.com/Lazurio/LazurioPlatform/blob/main/docs/module-standard.md).
 It was split from the Organization root's in-tree `design-system/` directory
-with its history (`git subtree split`). It has no template upstream.
+with its history (`git subtree split`).
+
+![The overview of the design system viewer](docs/screenshots/overview.webp)
+
+## A template in the Marketplace of Lazurio
+
+This repository is also a public template: another Organization can take the
+design system's structure, components, patterns and tests and make them its
+own. The Marketplace of Lazurio offers it under "Přidat do Organizace"; an
+agent then follows [`docs/adoption.md`](docs/adoption.md), creates a private
+module of that Organization and merges a release of this repository into it,
+so that later releases arrive as ordinary merges. Nothing is installed or
+published without the person's instruction.
+
+- App generation `app/v1`: no data of its own; the content is Markdown and
+  tokens in Git.
+- Content stack profile: Bun 1.4.4, Astro 7.4.5, TypeScript 6.0.3, Biome
+  2.6.4, every version exact.
+- [`docs/extending.md`](docs/extending.md): changes within the generation,
+  when the module would change generation, taking a newer release, releasing,
+  and how the website, knowledge base and presentations templates build on
+  the design system.
+- Releases are annotated tags `v<semver>` with a GitHub Release
+  ([`CHANGELOG.md`](CHANGELOG.md)).
+- Screens for the Marketplace card: [`docs/screenshots/`](docs/screenshots/).
 
 ## Layout
 
@@ -27,7 +51,9 @@ with its history (`git subtree split`). It has no template upstream.
 | `content/templates/` | Starters: a research brief, an experiment review deck and an update e-mail |
 | `content/examples/` | Reviewable references, including the four example screens the viewer renders |
 | `app/v1/` | The read-only viewer App (Astro, TypeScript) |
+| `docs/` | Adoption into another Organization, extending, the Marketplace screens |
 | `lazurio.module.json` | Module id, port lease and Apps |
+| `LICENSE`, `NOTICE` | MIT license; what it covers and the third-party notes |
 
 ## Run the viewer
 
@@ -50,9 +76,8 @@ states in both themes (**Gallery**) and the example screens of a fictional App
 cd app/v1
 bun install --frozen-lockfile
 bun run prepare:app   # astro sync
-bun run check         # astro check and biome
-bun test              # tokens, start and build contracts
-bun run build         # static build
+bun run check         # astro check, Biome and every test, the build included
+bun run build         # static build only
 ```
 
 ## Authority
@@ -61,3 +86,9 @@ When the design system disagrees with a production source (the website, a
 production UI, the brand brief in the knowledgebase or the voice guide in the
 Organization root), production wins and the design system is updated. The
 design system is a curated mirror, never a parallel brand silo.
+
+## License
+
+MIT, see [`LICENSE`](LICENSE). The brand, people and figures are fictional;
+[`NOTICE`](NOTICE) says what the license covers and lists the third-party
+material (none is distributed here).
