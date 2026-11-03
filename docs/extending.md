@@ -13,8 +13,10 @@ repository-db, v4 in a Dolt database. The design system's content is
 Markdown and `tokens.json` in Git, edited through pull requests, so it has no
 data of its own and stays `app/v1`.
 
-The tools follow the **content stack profile** (release 2026.11) shared by the
-Marketplace templates built on Astro (design system, website, knowledge base):
+The tools follow the stack profile **[`content@2026.11`](https://github.com/Lazurio/LazurioPlatform/blob/main/docs/stack-profiles.md#content)** of Lazurio,
+shared by the Marketplace templates built on Astro (design system, website,
+knowledge base). The profile defines the pins below except
+`@astrojs/markdown-remark`, which this App adds for its rehype plugin:
 
 | Tool | Version | Why |
 | --- | --- | --- |
@@ -27,7 +29,9 @@ Marketplace templates built on Astro (design system, website, knowledge base):
 | `@lazurio/module-kit` | 0.2.0 | Listener, shutdown and development server options |
 
 Every dependency is pinned exactly (no `^` or `~`) and `bun.lock` is
-committed; the template test fails on a range.
+committed; the template test fails on a range. As the profile asks, Biome
+lints and formats the TypeScript, JSON and CSS of the App, leaves `.astro`
+files out, and keeps its Markdown and YAML formatters off.
 
 ## Changes within the generation
 
@@ -112,11 +116,13 @@ The version is semantic and independent of the generation:
   release that needs no change in adopted modules;
 - **patch**: fixes, and patch versions of tools for a security fix.
 
-Tool versions change only in two planned ways: a **stack profile release**
-(new versions of the tools within the generation, for example TypeScript 7
-once `@astrojs/check` supports it, or Biome formatting Markdown) and a
-**generation change** (the data layer). Each is one release of the template
-that adopted modules take by merging its tag.
+Tool versions change only in two planned ways: a **profile release** of
+Lazurio (`YYYY.MM`: new versions of the tools within the generation, for
+example TypeScript 7 once `@astrojs/check` supports it) and a **generation
+change** (the data layer). Besides these, only a patch version with a security
+fix changes. The template adopts a profile release as a release of its own and
+names the profile release in `README.md` and `CHANGELOG.md`; adopted modules
+take it by merging that tag.
 
 Before a release:
 

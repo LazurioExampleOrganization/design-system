@@ -29,11 +29,12 @@ stays generation `app/v1`.
 
 ### Changed
 
-- Content stack profile 2026.11: Bun 1.4.2 → 1.4.4, Astro 5.18.2 → 7.4.5,
+- Stack profile `content@2026.11` of Lazurio: Bun 1.4.2 → 1.4.4, Astro 5.18.2 → 7.4.5,
   `@astrojs/check` 0.9.9 → 0.9.12, TypeScript 5.9.3 → 6.0.3, Biome 2.4.15 →
   2.6.4, `@types/bun` 1.4.2 → 1.4.4, and `@astrojs/markdown-remark` 7.3.5 for
   the `unified()` processor that runs the link rewrite. Every version is
-  exact. The built pages look the same as before (compared pixel by pixel).
+  exact. Biome keeps its Markdown and YAML formatters off, as the profile
+  asks. The built pages look the same as before (compared pixel by pixel).
 - `bun run check` runs the type check, Biome and every test; CI runs only that
   command, with `concurrency` and a timeout.
 - README and AGENTS describe the template; the Module Standard link points to
