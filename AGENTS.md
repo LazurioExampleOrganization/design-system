@@ -77,7 +77,8 @@ addition as a pull request here instead of improvising it in the output.
 ## Template
 
 This repository is a public template of the Marketplace of Lazurio (MIT,
-`LICENSE` and `NOTICE`). Everything in it must stay publishable:
+`LICENSE` and `NOTICE`), published by LazurioTemplates. Everything in it must
+stay publishable:
 
 - only the invented brand Example; never a real
   company's brand, content, customers or data, and never a font, image or

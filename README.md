@@ -22,7 +22,9 @@ own. The Marketplace of Lazurio offers it under "Přidat do Organizace"; an
 agent then follows [`docs/adoption.md`](docs/adoption.md), creates a private
 module of that Organization and merges a release of this repository into it,
 so that later releases arrive as ordinary merges. Nothing is installed or
-published without the person's instruction.
+published without the person's instruction. LazurioTemplates publishes the
+template; Lazurio Example Organization adopts it from the Marketplace like
+any other Organization.
 
 - App generation `app/v1`: no data of its own; the content is Markdown and
   tokens in Git.

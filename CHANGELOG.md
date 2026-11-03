@@ -39,6 +39,12 @@ stays generation `app/v1`.
   command, with `concurrency` and a timeout.
 - README and AGENTS describe the template; the Module Standard link points to
   `Lazurio/LazurioPlatform`.
+- Source: `LazurioTemplates/design-system` publishes the template, with fresh
+  Git history from the tree of LazurioExampleOrganization/design-system#7. The
+  Organization identity is placeholders (`company` `REPLACE-WITH-ORG-NAME`,
+  runtime id `replace-with-org-slug-design-system-v1`, port lease 24902), the
+  invented brand is called Example (its wordmark already was), and
+  `.github/CODEOWNERS` is not part of the template.
 
 ### For adopted modules
 
