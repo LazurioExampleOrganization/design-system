@@ -26,8 +26,8 @@ published without the person's instruction.
 
 - App generation `app/v1`: no data of its own; the content is Markdown and
   tokens in Git.
-- Content stack profile: Bun 1.4.4, Astro 7.4.5, TypeScript 6.0.3, Biome
-  2.6.4, every version exact.
+- Stack profile [`content@2026.11`](https://github.com/Lazurio/LazurioPlatform/blob/main/docs/stack-profiles.md#content): Bun 1.4.4, Astro 7.4.5,
+  TypeScript 6.0.3, Biome 2.6.4, every version exact.
 - [`docs/extending.md`](docs/extending.md): changes within the generation,
   when the module would change generation, taking a newer release, releasing,
   and how the website, knowledge base and presentations templates build on
