@@ -12,7 +12,7 @@
     "typecheck": "astro check",
     "lint": "biome check .",
     "format": "biome check --write .",
-    "check": "astro check && biome check .",
+    "check": "bun run typecheck && bun run lint && bun run test",
     "test": "bun test"
   },
   "dependencies": {
