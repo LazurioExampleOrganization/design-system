@@ -1,0 +1,41 @@
+name: windows portability
+
+# The kit runs wherever a module that merged the design system runs, people's
+# Windows computers included: its manifest, the lock (Git, paths) and the
+# generated tokens must hold there too. Only code can break that, so this runs
+# for pull requests that change the App, the sources or a workflow, and on
+# demand; never after a merge to main (Module Standard, CI).
+on:
+  pull_request:
+    paths:
+      - "app/**"
+      - "brand/**"
+      - "tokens/**"
+      - ".gitattributes"
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: kit tests (windows-latest)
+    runs-on: windows-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: app/v1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      # The kit's manifest and lock, the icons, the generated files, the
+      # contrast of the tokens and paths that check out on Windows.
+      - run: bun test tests/kit.test.ts tests/tokens.test.ts tests/paths.test.ts

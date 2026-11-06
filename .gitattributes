@@ -1,0 +1,8 @@
+# Keep every text file LF on every platform. The kit's manifest and a module's
+# lock hash the files, so a Windows checkout with core.autocrlf=true must not
+# turn them into CRLF; in a module that merged the design system as a subtree
+# this file applies to the subtree too.
+* text=auto eol=lf
+*.woff2 binary
+*.webp binary
+*.png binary
