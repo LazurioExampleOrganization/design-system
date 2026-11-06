@@ -34,6 +34,8 @@ Read `BASELINE.md` and `content/brand/colors/tokens.json` first, always. Then:
 | Interface text (buttons, errors, empty states) | `content/writing/ui-text.md`, `content/writing/terminology.md` |
 | Anything that sends, publishes, pays or deletes | `content/patterns/irreversible-actions.md`: prepare a Draft, act only after "Publish" |
 | Tone of any text | `content/brand/voice-and-tone.md`; the source of truth is `company/agents/voice/` in the Organization root |
+| An adoption of this template into another Organization | `docs/adoption.md` |
+| A change of tools, a generation change, a release or a template update | `docs/extending.md`, `CHANGELOG.md` |
 
 Use tokens by name (`text-muted`, `space-4`, `h2`); never invent a colour,
 size or spacing value. If what you need is missing, say so and propose the
@@ -72,13 +74,29 @@ addition as a pull request here instead of improvising it in the output.
 - One change, one worktree, one branch, one pull request; the primary checkout
   stays on `main`.
 
+## This Organization's copy
+
+This module is Lazurio Example Organization's copy of the Marketplace template
+`LazurioTemplates/design-system` (MIT, `LICENSE` and `NOTICE` stay with the
+copy), adopted at v1.0.0 (`fc64dc06b563587b215481c9d54b41f0d045aba8`).
+
+- Take a newer release only by merging its tag (`docs/extending.md`); never
+  copy, squash or rebase it in.
+- On every merge the Organization keeps its identity: `lazurio.module.json`
+  (`company`, port lease), `lazurio.runtime` `id`, `title`, `company` and
+  `module`, `REPOSITORY` in `app/v1/src/lib/routes.ts`, its name in the brand,
+  baseline, viewer and templates, and `.github/CODEOWNERS`. Everything else
+  takes the template's side.
+- The brand stays fictional and public: never a real company's brand,
+  content, customers or data. A reusable improvement goes to the template as a
+  pull request there and returns here with its release.
+
 ## Verification before a pull request
 
 ```sh
 cd app/v1
 bun install --frozen-lockfile
-bun run check
-bun test
+bun run check      # astro check, Biome and every test, the build included
 lazurio module setup <path to the module> --root <Lazurio Folder> --json
 ```
 
