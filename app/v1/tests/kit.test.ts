@@ -9,7 +9,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { messages, readLazurioLocale, resolveLocale } from "../kit/core/i18n";
 import { type KitLock, verifyKit, verifyLock } from "../kit/core/lock";
 import { nextTab } from "../kit/core/tabs";
@@ -94,6 +94,7 @@ describe("the kit", () => {
   test("imports nothing outside itself but React, React DOM types and Astro's types", () => {
     const problems: string[] = [];
     for (const file of files(kit).filter((path) => /\.(ts|tsx|astro)$/.test(path))) {
+      const name = relative(kit, file).split("\\").join("/");
       const text = readFileSync(file, "utf8");
       for (const [, from] of text.matchAll(/(?:import|export)[^"']*?from\s+["']([^"']+)["']/g)) {
         if (!from) continue;
@@ -108,15 +109,13 @@ describe("the kit", () => {
             "node:fs",
             "node:path",
           ].includes(from);
-        if (!allowed) problems.push(`${file.slice(kit.length + 1)}: ${from}`);
-        if (from.startsWith("../")) {
-          const target = resolve(file, "..", from);
-          if (!target.startsWith(kit))
-            problems.push(`${file.slice(kit.length + 1)}: leaves the kit (${from})`);
+        if (!allowed) problems.push(`${name}: ${from}`);
+        if (from.startsWith("../") && relative(kit, resolve(file, "..", from)).startsWith("..")) {
+          problems.push(`${name}: leaves the kit (${from})`);
         }
       }
-      if (/from\s+["']node:/.test(text) && !file.endsWith("core/lock.ts")) {
-        problems.push(`${file.slice(kit.length + 1)}: Node APIs belong only in core/lock.ts`);
+      if (/from\s+["']node:/.test(text) && name !== "core/lock.ts") {
+        problems.push(`${name}: Node APIs belong only in core/lock.ts`);
       }
     }
     expect(problems).toEqual([]);
