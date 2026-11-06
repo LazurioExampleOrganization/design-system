@@ -1,0 +1,35 @@
+---
+import { messagesFor } from "../core/i18n";
+import type { Crumb, Locale } from "../core/types";
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** The last item is the current page. */
+  items: Crumb[];
+  locale?: Locale;
+}
+
+const { items, locale } = Astro.props;
+---
+<nav class="ds-breadcrumbs" aria-label={messagesFor(locale).breadcrumbs}>
+  <ol class="ds-breadcrumbs__list">
+    {
+      items.map((item, index) =>
+        index === items.length - 1 ? (
+          <li class="ds-breadcrumbs__item">
+            <span class="ds-breadcrumbs__current" aria-current="page">{item.label}</span>
+          </li>
+        ) : (
+          <li class="ds-breadcrumbs__item">
+            {item.href ? (
+              <a class="ds-breadcrumbs__link" href={item.href}>{item.label}</a>
+            ) : (
+              <span class="ds-breadcrumbs__link">{item.label}</span>
+            )}
+            <Icon name="nav-arrow-right" size="sm" class="ds-breadcrumbs__separator" />
+          </li>
+        ),
+      )
+    }
+  </ol>
+</nav>

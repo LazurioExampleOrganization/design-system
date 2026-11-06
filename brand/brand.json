@@ -1,0 +1,116 @@
+{
+  "schema": "design-system.brand.v1",
+  "name": "Example",
+  "summary": {
+    "cs": "Example je vymyšlená firma. Její design system ukazuje, jak vypadá řádný design system Organizace v Lazuriu.",
+    "en": "Example is an invented company. Its design system shows what a proper design system of an Organization in Lazurio looks like."
+  },
+  "repository": "https://github.com/LazurioTemplates/design-system",
+  "palette": {
+    "neutral": {
+      "0": "#ffffff",
+      "25": "#fbfaf9",
+      "50": "#f5f4f3",
+      "100": "#ecebea",
+      "200": "#dddcdb",
+      "300": "#c3c2c1",
+      "400": "#8c8c8c",
+      "500": "#707070",
+      "600": "#515151",
+      "700": "#3d3d3d",
+      "800": "#262626",
+      "900": "#171717",
+      "950": "#090909",
+      "1000": "#000000"
+    },
+    "accent": {
+      "50": "#ebf1fe",
+      "100": "#d2ddfd",
+      "200": "#a8b9fb",
+      "300": "#7083f7",
+      "400": "#3a48ef",
+      "500": "#0d12db",
+      "600": "#0b0eb4",
+      "700": "#0b0e91",
+      "800": "#0c0d72",
+      "900": "#0c0c53",
+      "950": "#080935"
+    },
+    "red": {
+      "50": "#fff0f2",
+      "100": "#ffdde1",
+      "200": "#febdc5",
+      "300": "#f68d9e",
+      "400": "#e2617b",
+      "500": "#c64060",
+      "600": "#a72a4b",
+      "700": "#891c3b",
+      "800": "#6a142c",
+      "900": "#4c0d1e",
+      "950": "#300611"
+    },
+    "amber": {
+      "50": "#fcf4ea",
+      "100": "#f6e5d1",
+      "200": "#eacba8",
+      "300": "#d9a66a",
+      "400": "#c2832f",
+      "500": "#a76700",
+      "600": "#8c5100",
+      "700": "#723f00",
+      "800": "#583000",
+      "900": "#3f2100",
+      "950": "#271300"
+    },
+    "green": {
+      "50": "#edf9f1",
+      "100": "#d6efe0",
+      "200": "#b1ddc4",
+      "300": "#77c49c",
+      "400": "#3ea978",
+      "500": "#008e5c",
+      "600": "#007547",
+      "700": "#005e37",
+      "800": "#004829",
+      "900": "#00331c",
+      "950": "#001f10"
+    }
+  },
+  "fonts": {
+    "text": {
+      "family": "Inter Variable",
+      "fallback": ["Inter", "system-ui", "sans-serif"],
+      "weight": "100 900",
+      "files": [
+        { "file": "fonts/inter-latin-wght-normal.woff2", "subset": "latin" },
+        { "file": "fonts/inter-latin-ext-wght-normal.woff2", "subset": "latin-ext" }
+      ]
+    },
+    "heading": {
+      "family": "Inter Tight Variable",
+      "fallback": ["Inter Tight", "Inter", "system-ui", "sans-serif"],
+      "weight": "100 900",
+      "files": [
+        { "file": "fonts/inter-tight-latin-wght-normal.woff2", "subset": "latin" },
+        { "file": "fonts/inter-tight-latin-ext-wght-normal.woff2", "subset": "latin-ext" }
+      ]
+    },
+    "mono": {
+      "family": "Geist Mono Variable",
+      "fallback": ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+      "weight": "100 900",
+      "files": [
+        { "file": "fonts/geist-mono-latin-wght-normal.woff2", "subset": "latin" },
+        { "file": "fonts/geist-mono-latin-ext-wght-normal.woff2", "subset": "latin-ext" }
+      ]
+    }
+  },
+  "radius": { "xs": "3px", "sm": "6px", "md": "10px", "lg": "16px", "pill": "999px" },
+  "logo": { "symbol": "logo/symbol.svg" },
+  "illustrations": {
+    "empty": "illustrations/empty.svg",
+    "search": "illustrations/search.svg",
+    "done": "illustrations/done.svg"
+  },
+  "roles": { "light": {}, "dark": {} }
+}

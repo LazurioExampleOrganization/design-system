@@ -1,0 +1,76 @@
+---
+import Button from "@design-system/astro/Button.astro";
+import Toast from "@design-system/astro/Toast.astro";
+import Demo from "../../components/Demo.astro";
+import type { ViewProps } from "../types";
+import Layout from "./Layout.astro";
+
+type Props = ViewProps;
+const props = Astro.props;
+const { locale } = props;
+const t = ({
+  cs: {
+    saved: ["Koncept uložen", "Najdete ho v Nabídkách."],
+    sent: ["Faktura odeslána", "Studio Lípa ji dostane do pěti minut."],
+    failed: ["Spojení se přerušilo", "Změny zůstaly v prohlížeči. Zkusíme to znovu."],
+    showSaved: "Ukázat potvrzení",
+    showFailed: "Ukázat chybu",
+  },
+  en: {
+    saved: ["Draft saved", "You find it under Quotes."],
+    sent: ["Invoice sent", "Studio Lípa receives it within five minutes."],
+    failed: ["The connection dropped", "Your changes stayed in the browser. We will try again."],
+    showSaved: "Show a confirmation",
+    showFailed: "Show an error",
+  },
+} as const)[locale];
+const code = {
+  astro: `
+---
+import ToastRegion from "@design-system/astro/ToastRegion.astro";
+---
+<ToastRegion />
+<script>
+  import { showToast } from "@design-system/core/toast";
+  showToast({ tone: "success", title: "${t.saved[0]}", body: "${t.saved[1]}" }, { locale: "${locale}" });
+</script>`,
+  react: `
+import { Toast, ToastRegion, useToasts } from "@design-system/react";
+
+const { toasts, show, dismiss } = useToasts();
+show({ tone: "success", title: "${t.saved[0]}", body: "${t.saved[1]}" });
+
+<ToastRegion>
+  {toasts.map(({ key, ...toast }) => <Toast key={key} {...toast} onDismiss={() => dismiss(key)} />)}
+</ToastRegion>`,
+};
+---
+<Layout {...props} code={code}>
+  <Fragment slot="example">
+    <Demo locale={locale} layout="stack">
+      {
+        () => (
+          <ol class="toast-specimens">
+            <Toast tone="success" title={t.saved[0]} body={t.saved[1]} locale={locale} />
+            <Toast tone="info" title={t.sent[0]} body={t.sent[1]} locale={locale} />
+            <Toast tone="danger" title={t.failed[0]} body={t.failed[1]} locale={locale} />
+          </ol>
+        )
+      }
+    </Demo>
+    <div class="stage__row">
+      <Button variant="primary" data-ds-toast-show={JSON.stringify({ tone: "success", title: t.saved[0], body: t.saved[1] })}>{t.showSaved}</Button>
+      <Button data-ds-toast-show={JSON.stringify({ tone: "danger", title: t.failed[0], body: t.failed[1] })}>{t.showFailed}</Button>
+    </div>
+  </Fragment>
+</Layout>
+<style is:global>
+  .toast-specimens {
+    display: grid;
+    gap: var(--ds-space-8);
+    max-width: var(--ds-size-toast);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>

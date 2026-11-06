@@ -1,0 +1,66 @@
+/* A badge reports a state: colour, icon and word together, never colour
+ * alone. A tag labels data and is square, so it is not mistaken for a state. */
+
+.ds-badge {
+  --_bg: var(--ds-color-surface-muted);
+  --_fg: var(--ds-color-ink-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-4);
+  max-width: 100%;
+  padding: var(--ds-space-2) var(--ds-space-8);
+  border-radius: var(--ds-radius-pill);
+  background: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--ds-type-status-font);
+  font-size: var(--ds-type-status-size);
+  font-weight: var(--ds-type-status-weight);
+  line-height: var(--ds-type-status-leading);
+  letter-spacing: var(--ds-type-status-tracking);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.ds-badge--accent {
+  --_bg: var(--ds-color-accent-soft);
+  --_fg: var(--ds-color-accent-strong);
+}
+
+.ds-badge--success {
+  --_bg: var(--ds-color-success-soft);
+  --_fg: var(--ds-color-success);
+}
+
+.ds-badge--warning {
+  --_bg: var(--ds-color-warning-soft);
+  --_fg: var(--ds-color-warning);
+}
+
+.ds-badge--danger {
+  --_bg: var(--ds-color-danger-soft);
+  --_fg: var(--ds-color-danger);
+}
+
+.ds-badge--info {
+  --_bg: var(--ds-color-info-soft);
+  --_fg: var(--ds-color-info);
+}
+
+.ds-badge .ds-icon {
+  width: var(--ds-size-icon-sm);
+  height: var(--ds-size-icon-sm);
+}
+
+.ds-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--ds-space-4);
+  border: var(--ds-size-border) solid var(--ds-color-line);
+  border-radius: var(--ds-radius-xs);
+  background: var(--ds-color-surface-muted);
+  color: var(--ds-color-ink);
+  font-family: var(--ds-type-mono-font);
+  font-size: var(--ds-type-status-size);
+  line-height: var(--ds-type-status-leading);
+  white-space: nowrap;
+}

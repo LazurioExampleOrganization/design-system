@@ -1,0 +1,124 @@
+---
+import Button from "@design-system/astro/Button.astro";
+import Dialog from "@design-system/astro/Dialog.astro";
+import TextField from "@design-system/astro/TextField.astro";
+import Demo from "../../components/Demo.astro";
+import type { ViewProps } from "../types";
+import Layout from "./Layout.astro";
+
+type Props = ViewProps;
+const props = Astro.props;
+const { locale } = props;
+const t = {
+  cs: {
+    openDelete: "Smazat koncept",
+    openForm: "Přejmenovat projekt",
+    deleteTitle: "Smazat koncept faktury?",
+    deleteText: "Koncept 2026-0146 zmizí i se všemi poznámkami. Smazání nejde vrátit.",
+    keep: "Ponechat",
+    remove: "Smazat koncept",
+    formTitle: "Přejmenovat projekt",
+    formText: "Nový název uvidí všichni, kdo s projektem pracují.",
+    name: "Název projektu",
+    cancel: "Zrušit",
+    save: "Uložit název",
+  },
+  en: {
+    openDelete: "Delete the draft",
+    openForm: "Rename the project",
+    deleteTitle: "Delete the invoice draft?",
+    deleteText: "Draft 2026-0146 disappears with all its notes. Deleting cannot be undone.",
+    keep: "Keep it",
+    remove: "Delete the draft",
+    formTitle: "Rename the project",
+    formText: "Everyone who works on the project sees the new name.",
+    name: "Project name",
+    cancel: "Cancel",
+    save: "Save the name",
+  },
+}[locale];
+const code = {
+  astro: `
+---
+import Button from "@design-system/astro/Button.astro";
+import Dialog from "@design-system/astro/Dialog.astro";
+---
+<Button variant="danger" data-ds-dialog-open="delete-draft">${t.openDelete}</Button>
+<Dialog id="delete-draft" title="${t.deleteTitle}" size="sm">
+  <p>${t.deleteText}</p>
+  <Fragment slot="footer">
+    <form method="dialog"><Button type="submit">${t.keep}</Button></form>
+    <Button variant="danger">${t.remove}</Button>
+  </Fragment>
+</Dialog>`,
+  react: `
+import { Button, Dialog } from "@design-system/react";
+
+const [open, setOpen] = useState(false);
+
+<Button variant="danger" onClick={() => setOpen(true)}>${t.openDelete}</Button>
+<Dialog id="delete-draft" title="${t.deleteTitle}" size="sm" open={open} onClose={() => setOpen(false)}
+  footer={<>
+    <Button onClick={() => setOpen(false)}>${t.keep}</Button>
+    <Button variant="danger" onClick={removeDraft}>${t.remove}</Button>
+  </>}>
+  <p>${t.deleteText}</p>
+</Dialog>`,
+};
+---
+<Layout {...props} code={code}>
+  <Fragment slot="example">
+    <Demo locale={locale} single>
+      {
+        () => (
+          <>
+            <Button variant="danger" icon="trash" data-ds-dialog-open="dialog-delete">{t.openDelete}</Button>
+            <Button icon="edit-pencil" data-ds-dialog-open="dialog-rename">{t.openForm}</Button>
+          </>
+        )
+      }
+    </Demo>
+    <div class="stage stage--split dialog-specimens" inert>
+      {
+        (["light", "dark"] as const).map((theme) => (
+          <div class="stage__panel" data-theme={theme}>
+            <div class="dialog-specimen">
+              <Dialog id={`dialog-specimen-${theme}`} title={t.deleteTitle} size="sm" locale={locale}>
+                <p style="margin:0">{t.deleteText}</p>
+                <Fragment slot="footer">
+                  <Button>{t.keep}</Button>
+                  <Button variant="danger">{t.remove}</Button>
+                </Fragment>
+              </Dialog>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Fragment>
+  <Dialog id="dialog-delete" title={t.deleteTitle} size="sm" locale={locale}>
+    <p style="margin:0">{t.deleteText}</p>
+    <Fragment slot="footer">
+      <form method="dialog"><Button type="submit">{t.keep}</Button></form>
+      <form method="dialog"><Button type="submit" variant="danger" data-ds-toast-show={JSON.stringify({ tone: "success", title: locale === "cs" ? "Koncept smazán" : "Draft deleted" })}>{t.remove}</Button></form>
+    </Fragment>
+  </Dialog>
+  <Dialog id="dialog-rename" title={t.formTitle} description={t.formText} locale={locale}>
+    <form method="dialog" id="rename-form">
+      <TextField id="rename-name" name="name" label={t.name} value="Web pro Studio Lípa" required />
+    </form>
+    <Fragment slot="footer">
+      <Button type="submit" form="rename-form" value="cancel" formnovalidate>{t.cancel}</Button>
+      <Button type="submit" form="rename-form" variant="primary">{t.save}</Button>
+    </Fragment>
+  </Dialog>
+</Layout>
+<style is:global>
+  .dialog-specimen .ds-dialog {
+    position: static;
+    display: block;
+    width: 100%;
+    opacity: 1;
+    transform: none;
+  }
+</style>

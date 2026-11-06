@@ -1,0 +1,90 @@
+---
+import { font, type } from "@design-system/tokens";
+import DoDont from "../../components/DoDont.astro";
+import Markdown from "../../components/Markdown.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Section from "../../components/Section.astro";
+import type { ViewProps } from "../types";
+
+type Props = ViewProps;
+const { locale, entry } = Astro.props;
+const t = {
+  cs: {
+    roles: "Typografické role",
+    faces: "Písma",
+    sample: "Příliš žluťoučký kůň úpěl ďábelské ódy",
+    samples: {
+      hero: "Nabídky hotové za odpoledne",
+      section: "Jak Example pracuje",
+      display: "Faktury za říjen",
+      title: "Platební údaje",
+      lead: "Example hlídá splatnosti a připomene je dřív, než bude pozdě.",
+      body: "Faktura odejde zákazníkovi až po vaší kontrole. Do té doby ji můžete upravit nebo smazat.",
+      "body-sm": "Řádek tabulky, text v kartě nebo popis v dialogu.",
+      label: "Uložit změny",
+      meta: "Upraveno před 5 minutami · Jana Nováková",
+      status: "Po splatnosti",
+      mono: "FV-2026-0142",
+    } as Record<string, string>,
+    faceUse: { text: "Text, ovládací prvky, metadata", heading: "Nadpisy", mono: "Kód, čísla dokladů" },
+  },
+  en: {
+    roles: "Type roles",
+    faces: "Typefaces",
+    sample: "The quick brown fox jumps over the lazy dog",
+    samples: {
+      hero: "Quotes done in an afternoon",
+      section: "How Example works",
+      display: "Invoices for October",
+      title: "Payment details",
+      lead: "Example watches due dates and reminds you before it is too late.",
+      body: "The invoice goes to the customer only after you check it. Until then you can change or delete it.",
+      "body-sm": "A table row, the text of a card or a dialog's description.",
+      label: "Save changes",
+      meta: "Edited 5 minutes ago · Jana Nováková",
+      status: "Overdue",
+      mono: "INV-2026-0142",
+    } as Record<string, string>,
+    faceUse: { text: "Text, controls, metadata", heading: "Headings", mono: "Code, document numbers" },
+  },
+}[locale];
+const roles = Object.entries(type);
+---
+<article class="page">
+  <PageHeader title={entry.data.title} description={entry.data.description} />
+  <Markdown entry={entry} />
+  <Section title={t.roles} id="roles">
+    <div>
+      {
+        roles.map(([name, role]) => (
+          <div class="specimen">
+            <p
+              style={`margin:0;font-family:var(--ds-type-${name}-font);font-size:var(--ds-type-${name}-size);font-weight:var(--ds-type-${name}-weight);line-height:var(--ds-type-${name}-leading);letter-spacing:var(--ds-type-${name}-tracking)`}
+            >
+              {t.samples[name]}
+            </p>
+            <p class="specimen__meta">
+              {name} · {role.font} · {role.size} / {role.leading} · {role.weight}
+              {role.tracking !== "0" ? ` · ${role.tracking}` : ""}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+  <Section title={t.faces} id="faces">
+    <div class="grid">
+      {
+        (["text", "heading", "mono"] as const).map((role) => (
+          <figure class="ds-card" style="margin:0">
+            <p style={`margin:0;font-family:${font[role]};font-size:var(--ds-type-title-size);font-weight:var(--ds-type-title-weight)`}>{t.sample}</p>
+            <figcaption class="ds-type-meta">
+              <code>{font[role].split(",")[0]}</code> · {t.faceUse[role]}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </Section>
+  <DoDont locale={locale} items={entry.data} />
+</article>

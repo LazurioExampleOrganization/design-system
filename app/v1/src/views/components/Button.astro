@@ -1,0 +1,85 @@
+---
+import Button from "@design-system/astro/Button.astro";
+import Demo from "../../components/Demo.astro";
+import States from "../../components/States.astro";
+import type { ViewProps } from "../types";
+import Layout from "./Layout.astro";
+
+type Props = ViewProps;
+const props = Astro.props;
+const { locale } = props;
+const t = {
+  cs: {
+    save: "Uložit změny",
+    cancel: "Zrušit",
+    note: "Přidat poznámku",
+    more: "Další možnosti",
+    del: "Smazat projekt",
+    edit: "Upravit",
+    states: ["Hlavní", "Vedlejší", "Měkké", "Tiché", "Nevratná akce", "S ikonou", "Jen ikona", "Odkaz", "Malé", "Velké", "Zakázané", "Probíhá"],
+    sending: "Odesílá se",
+    open: "Otevřít fakturu",
+  },
+  en: {
+    save: "Save changes",
+    cancel: "Cancel",
+    note: "Add a note",
+    more: "More options",
+    del: "Delete project",
+    edit: "Edit",
+    states: ["Primary", "Secondary", "Soft", "Quiet", "Destructive", "With an icon", "Icon only", "Link", "Small", "Large", "Disabled", "Busy"],
+    sending: "Sending",
+    open: "Open the invoice",
+  },
+}[locale];
+const code = {
+  astro: `
+---
+import Button from "@design-system/astro/Button.astro";
+---
+<Button variant="primary" type="submit">${t.save}</Button>
+<Button>${t.cancel}</Button>
+<Button variant="quiet" icon="edit-pencil" iconOnly label="${t.edit}" />
+<Button variant="primary" busy>${t.sending}</Button>`,
+  react: `
+import { Button } from "@design-system/react";
+
+<Button variant="primary" type="submit">${t.save}</Button>
+<Button onClick={close}>${t.cancel}</Button>
+<Button variant="quiet" icon="edit-pencil" iconOnly label="${t.edit}" />
+<Button variant="primary" busy={saving}>${t.sending}</Button>`,
+};
+---
+<Layout {...props} code={code}>
+  <Demo slot="example" locale={locale}>
+    {
+      () => (
+        <>
+          <Button variant="primary" locale={locale}>{t.save}</Button>
+          <Button locale={locale}>{t.cancel}</Button>
+          <Button variant="soft" icon="plus" locale={locale}>{t.note}</Button>
+          <Button variant="quiet" icon="more-horiz" iconOnly label={t.more} locale={locale} />
+        </>
+      )
+    }
+  </Demo>
+  <States slot="states" items={t.states}>
+    {
+      (index: number) =>
+        [
+          <Button variant="primary">{t.save}</Button>,
+          <Button>{t.cancel}</Button>,
+          <Button variant="soft">{t.note}</Button>,
+          <Button variant="quiet">{t.more}</Button>,
+          <Button variant="danger" icon="trash">{t.del}</Button>,
+          <Button icon="plus">{t.note}</Button>,
+          <Button variant="quiet" icon="edit-pencil" iconOnly label={t.edit} />,
+          <Button href="#states" iconEnd="arrow-right">{t.open}</Button>,
+          <Button size="sm">{t.cancel}</Button>,
+          <Button size="lg" variant="primary">{t.save}</Button>,
+          <Button variant="primary" disabled>{t.save}</Button>,
+          <Button variant="primary" busy locale={locale}>{t.sending}</Button>,
+        ][index]
+    }
+  </States>
+</Layout>

@@ -1,0 +1,74 @@
+---
+import Button from "@design-system/astro/Button.astro";
+import EmptyState from "@design-system/astro/EmptyState.astro";
+import Demo from "../../components/Demo.astro";
+import States from "../../components/States.astro";
+import type { ViewProps } from "../types";
+import Layout from "./Layout.astro";
+
+type Props = ViewProps;
+const props = Astro.props;
+const { locale } = props;
+const t = ({
+  cs: {
+    first: ["Zatím žádná nabídka", "První nabídku poskládáte z ceníku za pár minut."],
+    create: "Vytvořit nabídku",
+    search: ["Nic jsme nenašli", "Zkuste jiné slovo, nebo zrušte filtr Po splatnosti."],
+    clear: "Zrušit filtr",
+    done: ["Vše vyřízeno", "Žádná faktura nečeká na připomenutí."],
+    states: ["Nic nenalezeno", "Hotovo"],
+  },
+  en: {
+    first: ["No quotes yet", "You put the first quote together from the price list in a few minutes."],
+    create: "Create a quote",
+    search: ["Nothing found", "Try another word, or clear the Overdue filter."],
+    clear: "Clear the filter",
+    done: ["All done", "No invoice is waiting for a reminder."],
+    states: ["Nothing found", "Done"],
+  },
+} as const)[locale];
+const code = {
+  astro: `
+---
+import EmptyState from "@design-system/astro/EmptyState.astro";
+import Button from "@design-system/astro/Button.astro";
+---
+<EmptyState title="${t.first[0]}" illustration="empty">
+  <p>${t.first[1]}</p>
+  <Button slot="actions" variant="primary" icon="plus">${t.create}</Button>
+</EmptyState>`,
+  react: `
+import { Button, EmptyState } from "@design-system/react";
+
+<EmptyState title="${t.first[0]}" illustration="empty"
+  actions={<Button variant="primary" icon="plus">${t.create}</Button>}>
+  <p>${t.first[1]}</p>
+</EmptyState>`,
+};
+---
+<Layout {...props} code={code}>
+  <Demo slot="example" locale={locale}>
+    {
+      () => (
+        <EmptyState title={t.first[0]} illustration="empty" headingLevel={3}>
+          <p>{t.first[1]}</p>
+          <Button slot="actions" variant="primary" icon="plus">{t.create}</Button>
+        </EmptyState>
+      )
+    }
+  </Demo>
+  <States slot="states" items={t.states} wide>
+    {
+      (index: number) =>
+        [
+          <EmptyState title={t.search[0]} icon="search" headingLevel={3}>
+            <p>{t.search[1]}</p>
+            <Button slot="actions" size="sm">{t.clear}</Button>
+          </EmptyState>,
+          <EmptyState title={t.done[0]} illustration="done" headingLevel={3}>
+            <p>{t.done[1]}</p>
+          </EmptyState>,
+        ][index]
+    }
+  </States>
+</Layout>

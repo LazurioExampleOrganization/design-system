@@ -1,0 +1,66 @@
+---
+import Tabs from "@design-system/astro/Tabs.astro";
+import Demo from "../../components/Demo.astro";
+import type { ViewProps } from "../types";
+import Layout from "./Layout.astro";
+
+type Props = ViewProps;
+const props = Astro.props;
+const { locale } = props;
+const t = {
+  cs: {
+    label: "Části zakázky",
+    tabs: ["Přehled", "Faktury", "Poznámky"],
+    panels: [
+      "Zakázka běží od září. Další krok je předávka webu 20. listopadu.",
+      "Tři faktury, jedna z nich po splatnosti.",
+      "Zákazník chce v lednu doplnit anglickou verzi.",
+    ],
+  },
+  en: {
+    label: "Parts of the job",
+    tabs: ["Overview", "Invoices", "Notes"],
+    panels: [
+      "The job has run since September. The next step is handing over the website on 20 November.",
+      "Three invoices, one of them overdue.",
+      "The customer wants to add an English version in January.",
+    ],
+  },
+}[locale];
+const ids = ["overview", "invoices", "notes"];
+const code = {
+  astro: `
+---
+import Tabs from "@design-system/astro/Tabs.astro";
+---
+<Tabs label="${t.label}" items={[
+  { id: "overview", label: "${t.tabs[0]}" },
+  { id: "invoices", label: "${t.tabs[1]}", badge: "3" },
+]}>
+  <p slot="overview">${t.panels[0]}</p>
+  <p slot="invoices">${t.panels[1]}</p>
+</Tabs>`,
+  react: `
+import { Tabs } from "@design-system/react";
+
+<Tabs label="${t.label}"
+  items={[{ id: "overview", label: "${t.tabs[0]}" }, { id: "invoices", label: "${t.tabs[1]}", badge: "3" }]}
+  panels={{ overview: <p>${t.panels[0]}</p>, invoices: <p>${t.panels[1]}</p> }} />`,
+};
+---
+<Layout {...props} code={code}>
+  <Demo slot="example" locale={locale} layout="stack">
+    {
+      (theme: string) => (
+        <Tabs
+          label={t.label}
+          items={ids.map((id, index) => ({ id: `${id}-${theme}`, label: t.tabs[index] ?? id, badge: index === 1 ? "3" : undefined }))}
+        >
+          {ids.map((id, index) => (
+            <p slot={`${id}-${theme}`} class="ds-type-body-sm" style="margin:0">{t.panels[index]}</p>
+          ))}
+        </Tabs>
+      )
+    }
+  </Demo>
+</Layout>

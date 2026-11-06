@@ -1,0 +1,96 @@
+---
+import Logo from "@design-system/astro/Logo.astro";
+import Table from "@design-system/astro/Table.astro";
+import { brandName } from "@design-system/brand";
+import { font, palette } from "@design-system/tokens";
+import Demo from "../../components/Demo.astro";
+import DoDont from "../../components/DoDont.astro";
+import Markdown from "../../components/Markdown.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Section from "../../components/Section.astro";
+import type { ViewProps } from "../types";
+
+type Props = ViewProps;
+const { locale, entry } = Astro.props;
+const t = {
+  cs: {
+    logo: "Logo",
+    accent: "Akcent značky",
+    fonts: "Písma",
+    swap: "Kde značka bydlí",
+    file: "Soubor",
+    holds: "Co drží",
+    swapCaption: "Soubory značky",
+    rows: [
+      ["brand/brand.json", "Jméno, krátký popis česky a anglicky, paleta, písma, zaoblení, logo, ilustrace, případné úpravy rolí"],
+      ["brand/logo/", "Symbol loga v SVG, kreslený v currentColor"],
+      ["brand/fonts/", "Soubory písem WOFF2 a jejich licence"],
+      ["brand/illustrations/", "Vlastní ilustrace v SVG"],
+      ["brand/content/", "Tato stránka česky a anglicky"],
+      ["brand/design.md", "Popis značky pro DESIGN.md"],
+    ],
+  },
+  en: {
+    logo: "Logo",
+    accent: "The brand's accent",
+    fonts: "Typefaces",
+    swap: "Where the brand lives",
+    file: "File",
+    holds: "Holds",
+    swapCaption: "The brand's files",
+    rows: [
+      ["brand/brand.json", "Name, a short summary in Czech and English, palette, fonts, radius, logo, illustrations, role overrides"],
+      ["brand/logo/", "The logo symbol as SVG, drawn in currentColor"],
+      ["brand/fonts/", "The WOFF2 font files and their licences"],
+      ["brand/illustrations/", "Own illustrations as SVG"],
+      ["brand/content/", "This page in Czech and English"],
+      ["brand/design.md", "The brand's description for DESIGN.md"],
+    ],
+  },
+}[locale];
+---
+<article class="page">
+  <PageHeader title={entry.data.title} description={entry.data.description} />
+  <Section title={t.logo} id="logo">
+    <Demo locale={locale}>
+      {
+        () => (
+          <>
+            <Logo size="lg" />
+            <Logo />
+            <Logo size="sm" />
+            <Logo wordmark={false} />
+          </>
+        )
+      }
+    </Demo>
+  </Section>
+  <Markdown entry={entry} />
+  <Section title={t.accent} id="accent">
+    <div class="ramp" role="img" aria-label={`${brandName}: accent`}>
+      {Object.entries(palette.accent).map(([step, hex]) => (
+        <div class="ramp__step" style={`background:${hex};color:${Number(step) >= 400 ? "var(--ds-palette-neutral-0)" : "var(--ds-palette-neutral-950)"}`}>
+          <span>{step}</span>
+          <code>{hex}</code>
+        </div>
+      ))}
+    </div>
+  </Section>
+  <Section title={t.fonts} id="fonts">
+    <div class="grid">
+      {(["heading", "text", "mono"] as const).map((role) => (
+        <div class="ds-card">
+          <p style={`margin:0;font-family:${font[role]};font-size:var(--ds-type-display-size);font-weight:var(--ds-type-display-weight);line-height:1`}>Aa Žž 0123</p>
+          <p class="ds-type-meta"><code>{font[role].split(",")[0]}</code></p>
+        </div>
+      ))}
+    </div>
+  </Section>
+  <Section title={t.swap} id="files">
+    <Table id="brand-files" caption={t.swapCaption} hideCaption density="compact">
+      <thead><tr><th scope="col">{t.file}</th><th scope="col">{t.holds}</th></tr></thead>
+      <tbody>{t.rows.map(([file, holds]) => <tr><th scope="row"><code>{file}</code></th><td>{holds}</td></tr>)}</tbody>
+    </Table>
+  </Section>
+  <DoDont locale={locale} items={entry.data} />
+</article>

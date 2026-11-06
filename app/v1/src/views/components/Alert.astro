@@ -1,0 +1,66 @@
+---
+import Alert from "@design-system/astro/Alert.astro";
+import Button from "@design-system/astro/Button.astro";
+import Demo from "../../components/Demo.astro";
+import type { ViewProps } from "../types";
+import Layout from "./Layout.astro";
+
+type Props = ViewProps;
+const props = Astro.props;
+const { locale } = props;
+const t = ({
+  cs: {
+    info: ["Faktury odcházejí v 8:00", "Co vystavíte dnes, dostanou zákazníci zítra ráno."],
+    success: ["Platba spárována", "Studio Lípa zaplatilo fakturu 2026-0143."],
+    warning: ["Dvě faktury jsou po splatnosti", "Pošlete připomínku, nebo zavolejte zákazníkovi."],
+    danger: ["Fakturu se nepodařilo odeslat", "Adresa fakturace@example nemá doménu. Opravte ji v kartě zákazníka."],
+    remind: "Poslat připomínku",
+    fix: "Opravit adresu",
+  },
+  en: {
+    info: ["Invoices leave at 8:00", "What you issue today reaches customers tomorrow morning."],
+    success: ["Payment matched", "Studio Lípa paid invoice 2026-0143."],
+    warning: ["Two invoices are overdue", "Send a reminder, or call the customer."],
+    danger: ["The invoice could not be sent", "The address fakturace@example has no domain. Fix it on the customer's card."],
+    remind: "Send a reminder",
+    fix: "Fix the address",
+  },
+} as const)[locale];
+const code = {
+  astro: `
+---
+import Alert from "@design-system/astro/Alert.astro";
+import Button from "@design-system/astro/Button.astro";
+---
+<Alert tone="warning" title="${t.warning[0]}">
+  <p>${t.warning[1]}</p>
+  <Button slot="actions" size="sm">${t.remind}</Button>
+</Alert>`,
+  react: `
+import { Alert, Button } from "@design-system/react";
+
+<Alert tone="warning" title="${t.warning[0]}" actions={<Button size="sm">${t.remind}</Button>}>
+  <p>${t.warning[1]}</p>
+</Alert>`,
+};
+---
+<Layout {...props} code={code}>
+  <Demo slot="example" locale={locale} layout="stack">
+    {
+      () => (
+        <>
+          <Alert tone="info" title={t.info[0]} locale={locale}><p>{t.info[1]}</p></Alert>
+          <Alert tone="success" title={t.success[0]} locale={locale}><p>{t.success[1]}</p></Alert>
+          <Alert tone="warning" title={t.warning[0]} locale={locale}>
+            <p>{t.warning[1]}</p>
+            <Button slot="actions" size="sm">{t.remind}</Button>
+          </Alert>
+          <Alert tone="danger" title={t.danger[0]} locale={locale}>
+            <p>{t.danger[1]}</p>
+            <Button slot="actions" size="sm">{t.fix}</Button>
+          </Alert>
+        </>
+      )
+    }
+  </Demo>
+</Layout>

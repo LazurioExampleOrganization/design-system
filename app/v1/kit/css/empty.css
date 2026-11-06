@@ -1,0 +1,56 @@
+/* An empty state says why the place is empty and what to do next. */
+
+.ds-empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--ds-space-8);
+  max-width: calc(var(--ds-size-measure) * 0.75);
+  margin-inline: auto;
+  padding: var(--ds-space-48) var(--ds-space-24);
+  text-align: center;
+}
+
+.ds-empty__art {
+  width: calc(var(--ds-space-128) + var(--ds-space-32));
+  height: auto;
+  margin-block-end: var(--ds-space-8);
+  color: var(--ds-color-ink-faint);
+}
+
+.ds-empty__icon {
+  display: grid;
+  place-items: center;
+  width: var(--ds-size-control-lg);
+  height: var(--ds-size-control-lg);
+  margin-block-end: var(--ds-space-8);
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-color-surface-muted);
+  color: var(--ds-color-ink-muted);
+}
+
+.ds-empty__title {
+  margin: 0;
+  font-family: var(--ds-type-title-font);
+  font-size: var(--ds-type-title-size);
+  font-weight: var(--ds-type-title-weight);
+  line-height: var(--ds-type-title-leading);
+  letter-spacing: var(--ds-type-title-tracking);
+}
+
+.ds-empty__body {
+  color: var(--ds-color-ink-muted);
+  font-size: var(--ds-type-body-sm-size);
+  line-height: var(--ds-type-body-sm-leading);
+}
+
+.ds-empty__body > * {
+  margin: 0;
+}
+
+.ds-empty__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--ds-space-8);
+  margin-block-start: var(--ds-space-8);
+}

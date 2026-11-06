@@ -1,0 +1,16 @@
+---
+// One toast, as `showToast` and the React Toast render it. Mostly for
+// documentation; Apps show toasts with `showToast` (core/toast.ts).
+import { toastHtml } from "../core/toast";
+import type { Locale, ToastTone } from "../core/types";
+
+interface Props {
+  tone?: ToastTone;
+  title: string;
+  body?: string;
+  locale?: Locale;
+}
+
+const { tone, title, body, locale } = Astro.props;
+---
+<Fragment set:html={toastHtml({ tone, title, body }, locale)} />

@@ -1,0 +1,24 @@
+---
+import Card from "@design-system/astro/Card.astro";
+import { getEntry } from "astro:content";
+import Markdown from "../components/Markdown.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { COMPONENT_PAGES, href } from "../lib/site";
+import type { ViewProps } from "./types";
+
+type Props = ViewProps;
+const { locale, entry } = Astro.props;
+const cards = await Promise.all(
+  COMPONENT_PAGES.map(async (page) => {
+    const text = await getEntry("docs", `${locale}/${page.slug}`);
+    return { href: href(locale, page.slug), title: page.label[locale], description: text?.data.description ?? "" };
+  }),
+);
+---
+<article class="page">
+  <PageHeader title={entry.data.title} description={entry.data.description} />
+  <div class="grid">
+    {cards.map((card) => <Card href={card.href} title={card.title} description={card.description} headingLevel={2} />)}
+  </div>
+  <Markdown entry={entry} />
+</article>

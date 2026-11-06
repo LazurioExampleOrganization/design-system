@@ -1,0 +1,87 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { buttonClass } from "../core/classes";
+import { messagesFor } from "../core/i18n";
+import type { IconName } from "../core/icons";
+import type { ButtonVariant, Locale, Size } from "../core/types";
+import Icon from "./Icon.astro";
+
+interface Props extends Omit<HTMLAttributes<"button">, "type"> {
+  variant?: ButtonVariant;
+  size?: Size;
+  /** An icon before the label. */
+  icon?: IconName;
+  /** An icon after the label. */
+  iconEnd?: IconName;
+  /** Only the icon shows; `label` names the button. */
+  iconOnly?: boolean;
+  /** The accessible name of an icon-only button. */
+  label?: string;
+  /** Renders a link that looks like a button. */
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  /** The action is running: a spinner replaces the icon, the button ignores presses. */
+  busy?: boolean;
+  block?: boolean;
+  locale?: Locale;
+}
+
+const {
+  variant,
+  size = "md",
+  icon,
+  iconEnd,
+  iconOnly = false,
+  label,
+  href,
+  type = "button",
+  disabled = false,
+  busy = false,
+  block,
+  locale,
+  class: className,
+  ...rest
+} = Astro.props;
+const classes = buttonClass({ variant, size, iconOnly, block, className: className ?? undefined });
+const iconSize = size === "sm" ? "sm" : "md";
+const loading = `, ${messagesFor(locale).loading}`;
+---
+{
+  href !== undefined ? (
+    <a
+      class={classes}
+      href={disabled ? undefined : href}
+      aria-disabled={disabled ? "true" : undefined}
+      aria-label={iconOnly ? label : undefined}
+      {...rest}
+    >
+      {busy ? <span class="ds-spinner" aria-hidden="true" /> : icon && <Icon name={icon} size={iconSize} />}
+      {!iconOnly && (
+        <span class="ds-button__label">
+          <slot />
+          {busy && <span class="ds-visually-hidden">{loading}</span>}
+        </span>
+      )}
+      {iconEnd && <Icon name={iconEnd} size={iconSize} />}
+    </a>
+  ) : (
+    <button
+      type={type}
+      class={classes}
+      disabled={disabled}
+      aria-disabled={busy ? "true" : undefined}
+      aria-busy={busy ? "true" : undefined}
+      aria-label={iconOnly ? label : undefined}
+      {...rest}
+    >
+      {busy ? <span class="ds-spinner" aria-hidden="true" /> : icon && <Icon name={icon} size={iconSize} />}
+      {!iconOnly && (
+        <span class="ds-button__label">
+          <slot />
+          {busy && <span class="ds-visually-hidden">{loading}</span>}
+        </span>
+      )}
+      {iconEnd && <Icon name={iconEnd} size={iconSize} />}
+    </button>
+  )
+}

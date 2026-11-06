@@ -1,0 +1,43 @@
+---
+import { cx } from "../core/classes";
+import type { HeadingLevel } from "../core/types";
+import Icon from "./Icon.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** The whole card is one link; then it holds no other control. */
+  href?: string;
+  tone?: "default" | "muted";
+  headingLevel?: HeadingLevel;
+  class?: string;
+}
+
+const { title, description, href, tone = "default", headingLevel = 3, class: className } = Astro.props;
+const Heading = `h${headingLevel}` as const;
+const classes = cx("ds-card", tone === "muted" && "ds-card--muted", href !== undefined && "ds-card--link", className);
+---
+{
+  href !== undefined ? (
+    <a class={classes} href={href}>
+      {title && <Heading class="ds-card__title">{title}</Heading>}
+      {description && <p class="ds-card__description">{description}</p>}
+      <Icon name="arrow-right" class="ds-card__arrow" />
+    </a>
+  ) : (
+    <article class={classes}>
+      {title && <Heading class="ds-card__title">{title}</Heading>}
+      {description && <p class="ds-card__description">{description}</p>}
+      {Astro.slots.has("default") && (
+        <div class="ds-card__body">
+          <slot />
+        </div>
+      )}
+      {Astro.slots.has("footer") && (
+        <div class="ds-card__footer">
+          <slot name="footer" />
+        </div>
+      )}
+    </article>
+  )
+}

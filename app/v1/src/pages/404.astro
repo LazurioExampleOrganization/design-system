@@ -1,11 +1,34 @@
 ---
-import EmptyState from "../components/ui/EmptyState.astro";
-import Viewer from "../layouts/Viewer.astro";
+// One file for every unknown address: Czech by default, English under /en/.
+// A screen never mixes the two, so the script shows one block and sets the
+// page's language.
+import Button from "@design-system/astro/Button.astro";
+import EmptyState from "@design-system/astro/EmptyState.astro";
+import Shell from "../layouts/Shell.astro";
+import { href, LOCALES, word } from "../lib/site";
 ---
-
-<Viewer title="Not found">
-  <EmptyState title="This page doesn't exist" page>
-    The design system has no page at this address. It may have moved when a layer was reorganised.
-    <a slot="action" class="btn btn-primary" href="/">Go to the overview</a>
-  </EmptyState>
-</Viewer>
+<Shell locale="cs" slug="" title={word("notFound", "cs")} description={word("notFoundText", "cs")}>
+  <div class="page">
+    {
+      LOCALES.map((locale) => (
+        <div data-not-found={locale} lang={locale} hidden={locale !== "cs"}>
+          <EmptyState title={word("notFound", locale)} illustration="search">
+            <p>{word("notFoundText", locale)}</p>
+            <Fragment slot="actions">
+              <Button variant="primary" href={href(locale, "")}>
+                {word("backHome", locale)}
+              </Button>
+            </Fragment>
+          </EmptyState>
+        </div>
+      ))
+    }
+  </div>
+</Shell>
+<script is:inline>
+  if (location.pathname.startsWith("/en/")) {
+    document.documentElement.lang = "en";
+    document.querySelector('[data-not-found="cs"]').hidden = true;
+    document.querySelector('[data-not-found="en"]').hidden = false;
+  }
+</script>

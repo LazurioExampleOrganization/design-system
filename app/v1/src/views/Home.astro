@@ -1,0 +1,85 @@
+---
+import Badge from "@design-system/astro/Badge.astro";
+import Button from "@design-system/astro/Button.astro";
+import Card from "@design-system/astro/Card.astro";
+import Logo from "@design-system/astro/Logo.astro";
+import Switch from "@design-system/astro/Switch.astro";
+import TextField from "@design-system/astro/TextField.astro";
+import Demo from "../components/Demo.astro";
+import Markdown from "../components/Markdown.astro";
+import Section from "../components/Section.astro";
+import { href } from "../lib/site";
+import type { ViewProps } from "./types";
+
+type Props = ViewProps;
+const { locale, entry } = Astro.props;
+const t = {
+  cs: {
+    showcase: "Na první pohled",
+    sections: "Co tu najdete",
+    save: "Uložit nabídku",
+    preview: "Náhled",
+    paid: "Zaplaceno",
+    due: "Po splatnosti",
+    customer: "Zákazník",
+    customerHint: "Jak se firma jmenuje ve smlouvě.",
+    remind: "Připomenout splatnost",
+    cards: [
+      ["principles", "Principy", "Klid, jedna hlavní akce, stav vždy barvou, ikonou i slovem."],
+      ["foundations/colors", "Základy", "Barvy pro světlý i tmavý režim, typografie, rozestupy, pohyb, ikony."],
+      ["components", "Komponenty", "Tlačítka, formuláře, tabulky, dialogy a další, pro Astro i React."],
+      ["using", "Použití v modulech", "Jak si design system převezme web, aplikace nebo prezentace."],
+    ],
+  },
+  en: {
+    showcase: "At a glance",
+    sections: "What is here",
+    save: "Save the quote",
+    preview: "Preview",
+    paid: "Paid",
+    due: "Overdue",
+    customer: "Customer",
+    customerHint: "The company's name as in the contract.",
+    remind: "Remind of the due date",
+    cards: [
+      ["principles", "Principles", "Calm, one main action, a state always as colour, icon and word."],
+      ["foundations/colors", "Foundations", "Colour for light and dark, typography, space, motion, icons."],
+      ["components", "Components", "Buttons, forms, tables, dialogs and more, for Astro and React."],
+      ["using", "Using it in modules", "How a website, an App or presentations take the design system."],
+    ],
+  },
+}[locale];
+---
+<article class="page">
+  <header class="page__header">
+    <Logo size="lg" />
+    <h1 class="ds-type-display">{entry.data.title}</h1>
+    <p class="ds-type-lead">{entry.data.description}</p>
+  </header>
+  <Section title={t.showcase} id="showcase">
+    <Demo locale={locale} layout="stack">
+      {
+        (theme: string) => (
+          <>
+            <TextField id={`home-customer-${theme}`} label={t.customer} hint={t.customerHint} value="Example s.r.o." />
+            <div class="stage__row">
+              <Badge tone="success">{t.paid}</Badge>
+              <Badge tone="warning">{t.due}</Badge>
+            </div>
+            <Switch id={`home-remind-${theme}`} label={t.remind} checked />
+            <div class="stage__row">
+              <Button variant="primary">{t.save}</Button>
+              <Button icon="eye">{t.preview}</Button>
+            </div>
+          </>
+        )
+      }
+    </Demo>
+  </Section>
+  <Section title={t.sections} id="sections">
+    <div class="grid">
+      {t.cards.map(([slug = "", title = "", text = ""]) => <Card href={href(locale, slug)} title={title} description={text} />)}
+    </div>
+  </Section>
+  <Markdown entry={entry} />
+</article>

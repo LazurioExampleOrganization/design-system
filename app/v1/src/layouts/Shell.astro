@@ -1,0 +1,188 @@
+---
+// The frame of every page: the sidebar with the navigation, the language and
+// the theme, and the document. Paper behind, a white document, hairlines.
+import "../../kit/styles.css";
+import "../styles/viewer.css";
+import { brandName } from "../../kit/brand";
+import Logo from "../../kit/astro/Logo.astro";
+import Nav from "../../kit/astro/Nav.astro";
+import Icon from "../../kit/astro/Icon.astro";
+import ToastRegion from "../../kit/astro/ToastRegion.astro";
+import { LOCALE_STORAGE_KEY } from "../../kit/core/i18n";
+import { THEME_HEAD_SCRIPT } from "../../kit/core/theme";
+import { color } from "../../kit/tokens";
+import { GROUPS, href, type Locale, LOCALES, PAGES, word } from "../lib/site";
+
+interface Props {
+  locale: Locale;
+  slug: string;
+  title: string;
+  description: string;
+}
+
+const { locale, slug, title, description } = Astro.props;
+const other = locale === "cs" ? "en" : "cs";
+const pageTitle = slug === "" ? `${word("product", locale)} · ${brandName}` : `${title} · ${word("product", locale)} · ${brandName}`;
+const groups = GROUPS.map((group) => ({
+  ...group,
+  items: PAGES.filter((page) => page.group === group.id).map((page) => ({
+    href: href(locale, page.slug),
+    label: page.label[locale],
+    current: page.slug === slug,
+  })),
+}));
+const languages = LOCALES.map((code) => ({
+  code,
+  href: href(code, slug),
+  label: code === "cs" ? "Čeština" : "English",
+}));
+// Explicit choice first, then the language Lazurio gives, then Czech (kit/core/i18n.ts).
+const localeScript = `(function(){var k=${JSON.stringify(LOCALE_STORAGE_KEY)},here=${JSON.stringify(locale)},alt=${JSON.stringify(href(other, slug))},c=null;try{c=localStorage.getItem(k)}catch(e){}if(c===${JSON.stringify(other)}){location.replace(alt);return}if(c||here!=="cs")return;fetch("/.lazurio/shell.json",{credentials:"same-origin",headers:{accept:"application/json"}}).then(function(r){return r.ok?r.json():null}).then(function(d){if(d&&d.locale===${JSON.stringify(other)})location.replace(alt)}).catch(function(){})})();`;
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={color.light.bg} media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content={color.dark.bg} media="(prefers-color-scheme: dark)" />
+    {LOCALES.map((code) => <link rel="alternate" hreflang={code} href={href(code, slug)} />)}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline set:html={THEME_HEAD_SCRIPT} />
+    <script is:inline set:html={localeScript} />
+  </head>
+  <body>
+    <a class="ds-skip-link" href="#main">{word("skip", locale)}</a>
+    <div class="viewer" data-viewer>
+      <header class="viewer__topbar">
+        <Logo href={href(locale, "")} size="sm" />
+        <button
+          type="button"
+          class="ds-button ds-button--quiet ds-button--icon"
+          aria-label={word("menu", locale)}
+          aria-expanded="false"
+          aria-controls="viewer-sidebar"
+          data-viewer-menu
+        >
+          <Icon name="menu" />
+        </button>
+      </header>
+      <aside class="viewer__sidebar" id="viewer-sidebar" aria-label={word("navigation", locale)}>
+        <div class="viewer__brand">
+          <Logo href={href(locale, "")} />
+          <span class="viewer__product">{word("product", locale)}</span>
+        </div>
+        <div class="viewer__nav">
+          {groups.map((group) => <Nav id={`nav-${group.id}`} title={group.label[locale]} items={group.items} />)}
+        </div>
+        <div class="viewer__settings">
+          <div class="viewer__setting">
+            <span class="viewer__setting-label" id="language-label">{word("language", locale)}</span>
+            <div class="viewer__segmented" role="group" aria-labelledby="language-label">
+              {
+                languages.map((language) => (
+                  <a
+                    class="viewer__segment"
+                    href={language.href}
+                    hreflang={language.code}
+                    lang={language.code}
+                    aria-current={language.code === locale ? "true" : undefined}
+                    data-viewer-locale={language.code}
+                  >
+                    {language.label}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+          <div class="viewer__setting">
+            <span class="viewer__setting-label" id="theme-label">{word("theme", locale)}</span>
+            <div class="viewer__segmented" role="radiogroup" aria-labelledby="theme-label">
+              {
+                (
+                  [
+                    ["light", "sun-light"],
+                    ["dark", "half-moon"],
+                    ["system", "computer"],
+                  ] as const
+                ).map(([choice, icon]) => (
+                  <button
+                    type="button"
+                    class="viewer__segment viewer__segment--icon"
+                    role="radio"
+                    aria-checked="false"
+                    aria-label={word(choice, locale)}
+                    title={word(choice, locale)}
+                    data-viewer-theme={choice}
+                  >
+                    <Icon name={icon} size="sm" />
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="viewer__main" id="main" tabindex="-1">
+        <slot />
+      </main>
+    </div>
+    <ToastRegion locale={locale} />
+    <script>
+      import { LOCALE_STORAGE_KEY } from "../../kit/core/i18n";
+      import { applyTheme, isThemeChoice, storedTheme } from "../../kit/core/theme";
+
+      const viewer = document.querySelector<HTMLElement>("[data-viewer]");
+      const menu = document.querySelector<HTMLButtonElement>("[data-viewer-menu]");
+      const setMenu = (open: boolean) => {
+        if (!viewer || !menu) return;
+        viewer.toggleAttribute("data-menu-open", open);
+        menu.setAttribute("aria-expanded", String(open));
+      };
+      menu?.addEventListener("click", () => setMenu(!viewer?.hasAttribute("data-menu-open")));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && viewer?.hasAttribute("data-menu-open")) {
+          setMenu(false);
+          menu?.focus();
+        }
+      });
+
+      const themeButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-viewer-theme]")];
+      const showTheme = (choice: string) => {
+        for (const button of themeButtons) {
+          button.setAttribute("aria-checked", String(button.dataset.viewerTheme === choice));
+          button.tabIndex = button.dataset.viewerTheme === choice ? 0 : -1;
+        }
+      };
+      showTheme(storedTheme());
+      themeButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+          const choice = button.dataset.viewerTheme;
+          if (!isThemeChoice(choice)) return;
+          applyTheme(choice);
+          showTheme(choice);
+        });
+        button.addEventListener("keydown", (event) => {
+          const step = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 0;
+          if (!step) return;
+          event.preventDefault();
+          const next = themeButtons[(index + step + themeButtons.length) % themeButtons.length];
+          next?.click();
+          next?.focus();
+        });
+      });
+
+      for (const link of document.querySelectorAll<HTMLAnchorElement>("[data-viewer-locale]")) {
+        link.addEventListener("click", () => {
+          try {
+            localStorage.setItem(LOCALE_STORAGE_KEY, link.dataset.viewerLocale ?? "cs");
+          } catch {
+            // Without storage the choice holds through the link alone.
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

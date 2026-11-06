@@ -1,0 +1,44 @@
+---
+import Badge from "@design-system/astro/Badge.astro";
+import Tag from "@design-system/astro/Tag.astro";
+import Demo from "../../components/Demo.astro";
+import type { ViewProps } from "../types";
+import Layout from "./Layout.astro";
+
+type Props = ViewProps;
+const props = Astro.props;
+const { locale } = props;
+const t = {
+  cs: { neutral: "Koncept", accent: "Nové", success: "Zaplaceno", warning: "Po splatnosti", danger: "Zamítnuto", info: "Čeká na platbu", tags: ["FV-2026-0142", "web", "údržba"] },
+  en: { neutral: "Draft", accent: "New", success: "Paid", warning: "Overdue", danger: "Declined", info: "Awaiting payment", tags: ["INV-2026-0142", "web", "care"] },
+}[locale];
+const tones = ["neutral", "accent", "success", "warning", "danger", "info"] as const;
+const code = {
+  astro: `
+---
+import Badge from "@design-system/astro/Badge.astro";
+import Tag from "@design-system/astro/Tag.astro";
+---
+<Badge tone="success">${t.success}</Badge>
+<Badge tone="warning">${t.warning}</Badge>
+<Tag>${t.tags[0]}</Tag>`,
+  react: `
+import { Badge, Tag } from "@design-system/react";
+
+<Badge tone="success">${t.success}</Badge>
+<Badge tone="warning">${t.warning}</Badge>
+<Tag>${t.tags[0]}</Tag>`,
+};
+---
+<Layout {...props} code={code}>
+  <Demo slot="example" locale={locale} layout="stack">
+    {
+      () => (
+        <>
+          <div class="stage__row">{tones.map((tone) => <Badge tone={tone}>{t[tone]}</Badge>)}</div>
+          <div class="stage__row">{t.tags.map((tag) => <Tag>{tag}</Tag>)}</div>
+        </>
+      )
+    }
+  </Demo>
+</Layout>

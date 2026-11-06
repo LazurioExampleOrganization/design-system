@@ -1,0 +1,34 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { fieldIds } from "../core/classes";
+import type { Locale } from "../core/types";
+import FieldParts from "./FieldParts.astro";
+
+interface Props extends Omit<HTMLAttributes<"input">, "id"> {
+  id: string;
+  label: string;
+  /** Shown before the control: what to enter, in which format. */
+  hint?: string;
+  /** Shown after the control; marks it invalid. Say what to do, not what went wrong. */
+  error?: string;
+  /** Marks the field "(optional)"; required fields carry no mark. */
+  optional?: boolean;
+  locale?: Locale;
+}
+
+const { id, label, hint, error, optional, locale, type = "text", ...rest } = Astro.props;
+const ids = fieldIds(id, hint, error);
+---
+<div class="ds-field">
+  <FieldParts part="label" id={id} optional={optional} locale={locale}>{label}</FieldParts>
+  {ids.hintId && <FieldParts part="hint" id={ids.hintId}>{hint}</FieldParts>}
+  <input
+    class="ds-input"
+    id={id}
+    type={type}
+    aria-invalid={error ? "true" : undefined}
+    aria-describedby={ids.describedBy}
+    {...rest}
+  />
+  {ids.errorId && <FieldParts part="error" id={ids.errorId}>{error}</FieldParts>}
+</div>
