@@ -20,7 +20,7 @@ Like a colleague who knows the matter and is not in a hurry. Direct, natural, wi
 
 - **Buttons** say what happens: "Send invoice", "Delete draft". The main action has the same words in the form and in the confirmation.
 - **Field labels** are nouns without a colon. The hint under the label says what to enter and in which format.
-- **Errors** describe what to do: "Enter an e-mail like name@company.com."
+- **Errors** describe what to do: "Enter an e-mail like name@example.com."
 - **Empty states** explain why the place is empty and offer the next step.
 - **Confirmations** of an irreversible action say exactly what disappears, and the button repeats it.
 

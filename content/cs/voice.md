@@ -20,7 +20,7 @@ Jako kolega, který věci rozumí a nespěchá. Přímo, přirozeně, bez nadše
 
 - **Tlačítka** říkají, co se stane: „Odeslat fakturu“, „Smazat koncept“. Hlavní akce je stejná ve formuláři i v potvrzení.
 - **Popisky polí** jsou podstatná jména bez dvojtečky. Nápověda pod popiskem říká, co a v jakém tvaru zadat.
-- **Chyby** popisují, co udělat: „Doplňte e-mail ve tvaru jmeno@firma.cz.“
+- **Chyby** popisují, co udělat: „Doplňte e-mail ve tvaru jmeno@example.com.“
 - **Prázdné stavy** vysvětlí, proč je místo prázdné, a nabídnou další krok.
 - **Potvrzení** u nevratné akce řekne, co přesně zmizí, a tlačítko to zopakuje.
 
