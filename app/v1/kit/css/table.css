@@ -45,6 +45,10 @@
   white-space: nowrap;
 }
 
+.ds-table .ds-table__row--selected > * {
+  background: var(--ds-color-surface-selected);
+}
+
 .ds-table tbody tr:last-child > * {
   border-block-end: 0;
 }
@@ -54,14 +58,14 @@
   padding: var(--ds-space-8) var(--ds-space-12);
 }
 
+.ds-table .ds-table__nowrap {
+  white-space: nowrap;
+}
+
 .ds-table .ds-table__num {
   font-variant-numeric: tabular-nums;
   text-align: end;
   white-space: nowrap;
-}
-
-.ds-table .ds-table__row--selected > * {
-  background: var(--ds-color-surface-selected);
 }
 
 @media (hover: hover) and (pointer: fine) {

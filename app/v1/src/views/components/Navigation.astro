@@ -27,13 +27,13 @@ const t = {
 }[locale];
 const icons = ["home-simple", "page", "mail", "group", "settings"] as const;
 const items = t.items.map((label, index) => ({
-  href: `#nav-${index}`,
+  href: `#section-example`,
   label,
   icon: icons[index],
   current: index === 1,
   badge: index === 1 ? "3" : undefined,
 }));
-const crumbs = t.crumbs.map((label, index) => ({ label, href: index < 2 ? `#crumb-${index}` : undefined }));
+const crumbs = t.crumbs.map((label, index) => ({ label, href: index < 2 ? "#section-states" : undefined }));
 const code = {
   astro: `
 ---

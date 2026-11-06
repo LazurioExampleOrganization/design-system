@@ -7,6 +7,8 @@
       "!.astro",
       "!**/*.astro",
       "!kit/tokens.ts",
+      "!kit/tokens.css",
+      "!kit/fonts.css",
       "!kit/brand.ts",
       "!kit/core/icons.ts",
       "!kit/manifest.json",

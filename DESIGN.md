@@ -176,6 +176,12 @@ typography:
     fontWeight: 600
     lineHeight: 1.35
     letterSpacing: "-0.011em"
+  nav:
+    fontFamily: "Inter Variable, Inter, system-ui, sans-serif"
+    fontSize: "15px"
+    fontWeight: 500
+    lineHeight: 1.35
+    letterSpacing: "-0.011em"
   meta:
     fontFamily: "Inter Variable, Inter, system-ui, sans-serif"
     fontSize: "14px"

@@ -30,7 +30,7 @@ export function Nav({ items, title, id, label, orientation = "vertical", classNa
       ) : null}
       <ul className="ds-nav__list">
         {items.map((item) => (
-          <li key={item.href}>
+          <li key={`${item.href} ${item.label}`}>
             <a
               className="ds-nav__link"
               href={item.href}

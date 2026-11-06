@@ -67,16 +67,16 @@ const icons = ["home-simple", "page", "mail", "group"] as const;
 ---
 <article class="page">
   <PageHeader title={entry.data.title} description={entry.data.description} />
-  <div class="app-frame">
+  <div class="app-frame" id="section-app">
     <div class="app-frame__side">
       <Logo size="sm" />
       <Nav
         label={t.navLabel}
-        items={t.nav.map((label, index) => ({ href: `#app-${index}`, label, icon: icons[index], current: index === 1 }))}
+        items={t.nav.map((label, index) => ({ href: "#section-app", label, icon: icons[index], current: index === 1 }))}
       />
     </div>
     <div class="app-frame__main">
-      <Breadcrumbs items={[{ label: t.crumbs[0] ?? "", href: "#app-0" }, { label: t.crumbs[1] ?? "" }]} locale={locale} />
+      <Breadcrumbs items={[{ label: t.crumbs[0] ?? "", href: "#section-app" }, { label: t.crumbs[1] ?? "" }]} locale={locale} />
       <div class="app-frame__head">
         <h2 class="ds-type-display">{t.title}</h2>
         <div class="app-frame__tools">
@@ -117,9 +117,9 @@ const icons = ["home-simple", "page", "mail", "group"] as const;
             <tbody>
               {INVOICES.map((invoice) => (
                 <tr>
-                  <td><code>{invoice.number}</code></td>
+                  <td class="ds-table__nowrap"><code>{invoice.number}</code></td>
                   <td>{invoice.customer}</td>
-                  <td>{date(invoice.due, locale)}</td>
+                  <td class="ds-table__nowrap">{date(invoice.due, locale)}</td>
                   <td><Badge tone={STATE[invoice.state].tone}>{STATE[invoice.state].label[locale]}</Badge></td>
                   <td class="ds-table__num">{money(invoice.amount, locale)}</td>
                 </tr>

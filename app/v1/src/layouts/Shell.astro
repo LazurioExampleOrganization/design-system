@@ -3,7 +3,6 @@
 // the theme, and the document. Paper behind, a white document, hairlines.
 import "../../kit/styles.css";
 import "../styles/viewer.css";
-import { brandName } from "../../kit/brand";
 import Logo from "../../kit/astro/Logo.astro";
 import Nav from "../../kit/astro/Nav.astro";
 import Icon from "../../kit/astro/Icon.astro";
@@ -11,25 +10,33 @@ import ToastRegion from "../../kit/astro/ToastRegion.astro";
 import { LOCALE_STORAGE_KEY } from "../../kit/core/i18n";
 import { THEME_HEAD_SCRIPT } from "../../kit/core/theme";
 import { color } from "../../kit/tokens";
-import { GROUPS, href, type Locale, LOCALES, PAGES, word } from "../lib/site";
+import { brandName, repository } from "../../kit/brand";
+import { allPages, sourcePath } from "../lib/pages";
+import { GROUPS, href, type Locale, LOCALES, type Page, word } from "../lib/site";
 
 interface Props {
   locale: Locale;
-  slug: string;
+  /** The page; none for the 404 page. */
+  page?: Page;
   title: string;
   description: string;
 }
 
-const { locale, slug, title, description } = Astro.props;
+const { locale, page: current, title, description } = Astro.props;
+const slug = current?.slug ?? "";
+const pages = await allPages();
+const source = current ? `${repository}/blob/main/${sourcePath(current, locale)}` : undefined;
 const other = locale === "cs" ? "en" : "cs";
 const pageTitle = slug === "" ? `${word("product", locale)} · ${brandName}` : `${title} · ${word("product", locale)} · ${brandName}`;
 const groups = GROUPS.map((group) => ({
   ...group,
-  items: PAGES.filter((page) => page.group === group.id).map((page) => ({
-    href: href(locale, page.slug),
-    label: page.label[locale],
-    current: page.slug === slug,
-  })),
+  items: pages
+    .filter((page) => page.group === group.id)
+    .map((page) => ({
+      href: href(locale, page.slug),
+      label: page.label[locale],
+      current: current !== undefined && page.slug === slug,
+    })),
 }));
 const languages = LOCALES.map((code) => ({
   code,
@@ -127,6 +134,13 @@ const localeScript = `(function(){var k=${JSON.stringify(LOCALE_STORAGE_KEY)},he
       </aside>
       <main class="viewer__main" id="main" tabindex="-1">
         <slot />
+        {
+          source && (
+            <p class="viewer__source">
+              <a class="ds-link" href={source}>{word("source", locale)}</a>
+            </p>
+          )
+        }
       </main>
     </div>
     <ToastRegion locale={locale} />
@@ -142,6 +156,7 @@ const localeScript = `(function(){var k=${JSON.stringify(LOCALE_STORAGE_KEY)},he
         menu.setAttribute("aria-expanded", String(open));
       };
       menu?.addEventListener("click", () => setMenu(!viewer?.hasAttribute("data-menu-open")));
+      document.querySelector("#main")?.addEventListener("click", () => setMenu(false));
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && viewer?.hasAttribute("data-menu-open")) {
           setMenu(false);

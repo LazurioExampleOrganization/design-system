@@ -1,0 +1,48 @@
+---
+// A page built only for the parity test (DS_PARITY=1): every fixture of
+// tests/parity-fixtures.ts rendered by the Astro components. The normal build
+// has no such page.
+import * as Kit from "../../kit/astro";
+import { FIXTURES } from "../../tests/parity-fixtures";
+
+export function getStaticPaths() {
+  return process.env.DS_PARITY === "1" ? [{ params: { parity: "parity" } }] : [];
+}
+
+const components = Kit as unknown as Record<string, (props: Record<string, unknown>) => unknown>;
+const fixtures = FIXTURES.map((fixture) => ({
+  ...fixture,
+  Component: components[fixture.component],
+  all: { ...fixture.props, ...fixture.astro },
+  named: Object.entries(fixture.slots ?? {}),
+}));
+---
+<!doctype html>
+<html lang="cs">
+  <head><meta charset="utf-8" /><title>Parity</title></head>
+  <body>
+    {
+      fixtures.map(({ id, Component, all, text, named }) =>
+        Component ? (
+          <Fragment>
+            <div data-parity={id}>
+              {text === undefined && named.length === 0 ? (
+                <Component {...all} />
+              ) : (
+                <Component {...all}>
+                  {text}
+                  {named.map(([slot, content]) => (
+                    <Fragment slot={slot}>{content}</Fragment>
+                  ))}
+                </Component>
+              )}
+            </div>
+            <hr data-parity-end />
+          </Fragment>
+        ) : (
+          <p>missing {id}</p>
+        ),
+      )
+    }
+  </body>
+</html>

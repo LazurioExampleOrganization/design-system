@@ -65,9 +65,9 @@
 
 .ds-visually-hidden {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
+  width: var(--ds-size-border);
+  height: var(--ds-size-border);
+  margin: calc(var(--ds-size-border) * -1);
   padding: 0;
   overflow: hidden;
   clip-path: inset(50%);

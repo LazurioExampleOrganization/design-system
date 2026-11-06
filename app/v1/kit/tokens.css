@@ -103,6 +103,11 @@
   --ds-type-label-leading: 1.35;
   --ds-type-label-weight: 600;
   --ds-type-label-tracking: -0.011em;
+  --ds-type-nav-font: var(--ds-font-text);
+  --ds-type-nav-size: 15px;
+  --ds-type-nav-leading: 1.35;
+  --ds-type-nav-weight: 500;
+  --ds-type-nav-tracking: -0.011em;
   --ds-type-meta-font: var(--ds-font-text);
   --ds-type-meta-size: 14px;
   --ds-type-meta-leading: 1.5;

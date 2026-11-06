@@ -562,6 +562,13 @@ export const type = {
     "weight": "600",
     "tracking": "-0.011em"
   },
+  "nav": {
+    "font": "text",
+    "size": "15px",
+    "leading": "1.35",
+    "weight": "500",
+    "tracking": "-0.011em"
+  },
   "meta": {
     "font": "text",
     "size": "14px",

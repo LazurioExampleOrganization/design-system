@@ -1,0 +1,7 @@
+{
+  "source": "https://github.com/pbakaus/impeccable",
+  "tag": "skill-v4.7.0",
+  "commit": "aeeb3d8c30b5f95aeeb3e893b0f1a308af8fdb8f",
+  "license": "Apache-2.0",
+  "vendored_by": "app/v1/scripts/vendor-impeccable.sh"
+}

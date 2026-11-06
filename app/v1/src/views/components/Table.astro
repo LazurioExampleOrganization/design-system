@@ -101,9 +101,9 @@ import { Badge, Table } from "@design-system/react";
           <tbody>
             {rows.map((invoice) => (
               <tr>
-                <td><code>{invoice.number}</code></td>
+                <td class="ds-table__nowrap"><code>{invoice.number}</code></td>
                 <td>{invoice.customer}</td>
-                <td>{date(invoice.due, locale)}</td>
+                <td class="ds-table__nowrap">{date(invoice.due, locale)}</td>
                 <td><Badge tone={STATE[invoice.state].tone}>{STATE[invoice.state].label[locale]}</Badge></td>
                 <td class="ds-table__num">{money(invoice.amount, locale)}</td>
               </tr>

@@ -1,104 +1,72 @@
 # Design system architecture
 
-## Role
-
-The design system:
-
-- extracts reusable truths from the Organization's production sources;
-- holds the canonical tokens and brand rules;
-- gives agents a repeatable workflow;
-- makes visual outputs reviewable in Git;
-- offers a read-only viewer for a quick preview.
-
-## Authority model
-
-Default precedence:
-
-1. the website or another production presentation layer;
-2. the knowledgebase or another brand or strategy source of truth;
-3. the Organization voice guide for tone;
-4. this design system as the curated baseline.
-
-The design system never overrides production reality because a newer idea
-looks better.
-
 ## Layers
 
-### Foundations (brand baseline)
+The design system has four layers. Each has its own authority and never
+quietly takes over another's work.
 
-`content/brand/` holds `colors/tokens.json`, the one source of truth for every
-value: the primitive palette (`colors`), the colour roles of the light and
-dark themes (`themes`), the type scale, spacing and radius. Next to it,
-`brand.md`, `voice-and-tone.md`, `colors/palette.md`,
-`typography/typography.md`, `layout/spacing-and-radius.md` and
-`iconography/iconography.md` explain when to use which token, by name and
-without repeating values. Logos and assets go here when they exist and may
-live in Git.
+1. **The brand** (`brand/`): the values that make the design system an
+   Organization's own: name, palette, fonts, radius, logo, illustrations and
+   its own pages. The only place an Organization changes when it adopts the
+   template.
+2. **The system tokens** (`tokens/tokens.json`): what the values are for:
+   colour roles for the light and the dark theme pointing to steps of the
+   brand's palette, the type scale, space, shadow, motion, sizes, z-index and
+   breakpoints, and the role pairs that must reach WCAG contrast.
+3. **The kit** (`app/v1/kit/`): the library. `tokens.css`, `tokens.ts`,
+   `fonts.css`, `fonts/`, `brand.ts` and `manifest.json` are generated from
+   the two sources; `css/` holds every component's styles composed only of
+   tokens; `core/` the framework-free parts (class names, the components' own
+   words in Czech and English, icons, dialog, tabs, toast and theme
+   behaviour, contrast, the lock); `astro/` and `react/` the components with
+   the same props and the same HTML.
+4. **The viewer** (`app/v1/src/` with `content/`): a read-only Astro App that
+   renders the guidelines and a page per component in both languages from
+   the kit itself. It owns no value and no rule.
 
-### Components, patterns and writing
+`DESIGN.md` is generated from the sources and the prose in `tokens/design.md`
+and `brand/design.md`, for agents and DESIGN.md readers.
 
-`content/components/` describes the basic components, each page with the same
-sections (purpose, anatomy, variants, states, usage, content, accessibility,
-tokens). `content/patterns/` combines them for recurring problems, including
-Draft and Publish for irreversible actions. `content/writing/` holds the rules
-for interface text and documents and the terminology list. They use tokens by
-name only.
+## Flow of a change
 
-### Examples
+```text
+decision → brand/ or tokens/ → bun run tokens → kit → viewer page → modules (merge of a release)
+```
 
-`content/examples/` holds references across categories. Every serious asset
-has a sibling Markdown file with the metadata `title`, `source`, `date`,
-`category` and `notes`.
+A value starts in `brand/brand.json` or `tokens/tokens.json`. A component's
+relation or state starts in `kit/css/` and in both renderers, together with
+its page in `content/cs/` and `content/en/` and its view. Product data, copy
+and information architecture stay in the module that uses the kit.
 
-### Templates
+## Contracts
 
-`content/templates/` holds starters for repeated formats. A template generated
-from another module names its primary source.
-
-### Viewer App
-
-`app/v1/` is a read-only Astro viewer that follows the Lazurio Module
-Standard:
-
-- its only lease `main` lives in `lazurio.module.json`, inside the
-  Organization port pool; the App reads it from the listener environment
-  through `@lazurio/module-kit`, and the config reads it only when Astro
-  serves, never during `astro build`;
-- opened from `main`, it runs as its static build (`build_output: "dist"`,
-  Module Standard 4.5): the Launchpad runs `build` (`astro build`, without the
-  listener), serves `dist/` with its own small static server and builds again
-  after a pull; `dev` (one Astro server) is the preview from a worktree or an
-  explicit development start;
-- it has no authentication and no authoring UI;
-- it renders `content/`: every Markdown file is a page at its path (an Astro
-  content collection, `src/content.config.ts`), and relative links between
-  files are rewritten to those pages (`src/lib/md-links.ts`);
-- `src/tokens.ts` reads and validates `content/brand/colors/tokens.json` at
-  build time and turns its roles into CSS custom properties for both themes;
-- `src/components/ui/` is a reference implementation of the components for
-  the Gallery and the example screens, not a published package;
-- the tests check the token contract, WCAG AA contrast of every role pair the
-  components use, the content contract of every layer and that every page is
-  in the build.
+- Classes and custom properties carry the prefix `ds-`; nothing collides with
+  Lazurio's own `--lz-*` tokens, which its shell declares on an App's page.
+- The kit's CSS has no literal colour, length or duration; it reads only
+  `--ds-*` tokens (the tests enforce it, media queries repeat the breakpoints).
+- A state carries colour, icon and word; focus is a neutral ink ring.
+- Buttons, fields and the dialog are native HTML elements.
+- The Astro and the React component of the same name render the same HTML
+  from the same input; `tests/build.test.ts` compares them.
+- The kit imports nothing outside itself but React and Astro's types, so a
+  module that merged the design system uses it as it is.
+- Light is the default theme; `data-theme="dark"` switches every role, and
+  without a choice the page follows `prefers-color-scheme`.
 
 ## Place in the Organization
 
-The design system is a root-level module of the Organization (slot
-`design-system`, mounted at `design-system/` next to `workspace/`). Apps of
-other modules use its brand assets as a versioned dependency, never through a
-relative path into this repository.
+The design system is a module of the Organization (slot `design-system`).
+Other modules take it as a Git subtree of a release with a lock
+(`docs/adoption.md`), never as a path into this repository at run time.
 
-## Invariants
+## Verification
 
-- The design system is a standalone repository, never a submodule.
-- Another company's brand assets are never copied.
-- Secrets never belong here.
-- Production takes precedence over the curated mirror.
-- The viewer stays read-only.
-- Values live only in `tokens.json` (colours, type, spacing, radius, sizes,
-  strokes, widths, breakpoints, motion); Markdown names tokens and never
-  states a value in px or ms. The viewer's CSS reads them as custom
-  properties. It has px values in exactly two places: its media queries,
-  which repeat the breakpoints because CSS cannot read a custom property
-  there, and its own geometry, which is not part of the design system and is
-  declared once as `--viewer-*`. Tests enforce all of it.
+`bun run check` runs the type check (`astro check`), Biome and the tests:
+the token sources and the contrast of every role pair in both themes,
+generated files up to date, the kit's CSS made only of tokens, the kit whole
+and its icons unchanged, the components' words in both languages, the content
+in both languages, the static build (every page in both languages, one
+language per screen, one `h1`, unique ids, live links, named controls and
+dialogs), the parity of the Astro and React components, the start contract of
+the Module Standard, paths that check out on Windows and the template
+contract.

@@ -65,13 +65,16 @@ const ratio = (value: number) => value.toLocaleString(locale === "cs" ? "cs-CZ" 
   <Section title={t.palette} id="palette">
     {
       Object.entries(palette).map(([name, steps]) => (
-        <div class="ramp" role="img" aria-label={`${name}: ${Object.keys(steps).join(", ")}`}>
-          {Object.entries(steps).map(([step, hex]) => (
-            <div class="ramp__step" style={`background:${hex};color:${onStep(hex)}`}>
-              <span>{name} {step}</span>
-              <code>{hex}</code>
-            </div>
-          ))}
+        <div style="display:grid;gap:var(--ds-space-8)">
+          <p class="ramp__name">{name}</p>
+          <div class="ramp">
+            {Object.entries(steps).map(([step, hex]) => (
+              <div class="ramp__step" style={`background:${hex};color:${onStep(hex)}`}>
+                <span>{step}</span>
+                <code>{hex.slice(1)}</code>
+              </div>
+            ))}
+          </div>
         </div>
       ))
     }
@@ -85,9 +88,9 @@ const ratio = (value: number) => value.toLocaleString(locale === "cs" ? "cs-CZ" 
         {
           roles.map((role) => (
             <tr>
-              <th scope="row"><code>{role}</code></th>
-              <td><span class="chip" style={`background:${color.light[role]}`} /> <code>{colorSource.light[role]}</code></td>
-              <td><span class="chip" style={`background:${color.dark[role]}`} /> <code>{colorSource.dark[role]}</code></td>
+              <th scope="row" class="ds-table__nowrap"><code>{role}</code></th>
+              <td class="ds-table__nowrap"><span class="chip" style={`background:${color.light[role]}`} /> <code>{colorSource.light[role]}</code></td>
+              <td class="ds-table__nowrap"><span class="chip" style={`background:${color.dark[role]}`} /> <code>{colorSource.dark[role]}</code></td>
               <td>{colorUse[role][locale]}</td>
             </tr>
           ))

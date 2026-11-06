@@ -7,7 +7,7 @@ import EmptyState from "@design-system/astro/EmptyState.astro";
 import Shell from "../layouts/Shell.astro";
 import { href, LOCALES, word } from "../lib/site";
 ---
-<Shell locale="cs" slug="" title={word("notFound", "cs")} description={word("notFoundText", "cs")}>
+<Shell locale="cs" title={word("notFound", "cs")} description={word("notFoundText", "cs")}>
   <div class="page">
     {
       LOCALES.map((locale) => (
