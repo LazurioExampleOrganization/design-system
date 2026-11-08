@@ -24,7 +24,7 @@ Sizes `sm`, `md` (default) and `lg`. The icon button is a square with a 6 px rad
 
 ## Behaviour
 
-On hover the background changes by one step; when pressed the button briefly shrinks to 97 %. A disabled button is half transparent; when the action is only running, use `busy`, which keeps the button in the focus order and announces "Loading".
+On hover the background changes by one step; when pressed the button briefly shrinks to 97 %. A disabled button is half transparent; when the action is only running, use `busy`. The button then stays in the focus order, announces "Loading" and does not act again: not on a click, not on Enter or Space, not when its form is submitted. A link that is `busy` or `disabled` has no address.
 
 ## Accessibility
 

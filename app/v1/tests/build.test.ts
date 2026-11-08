@@ -1,5 +1,12 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
-import { existsSync, mkdtempSync, readFileSync, realpathSync, rmSync } from "node:fs";
+import {
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { createElement, type FunctionComponent } from "react";
@@ -8,6 +15,7 @@ import { brandName } from "../kit/brand";
 import { messages } from "../kit/core/i18n";
 import * as React from "../kit/react";
 import { href, LOCALES, type Locale, PAGES, WORDS } from "../src/lib/site";
+import { Browser, findChrome } from "./browser";
 import { canonical } from "./html";
 import { FIXTURES } from "./parity-fixtures";
 
@@ -36,7 +44,7 @@ beforeAll(() => {
   site = mkdtempSync(join(base, "ds-site-"));
   parity = mkdtempSync(join(base, "ds-parity-"));
   build(site);
-  build(parity, { DS_PARITY: "1" });
+  build(parity, { DS_TEST_PAGES: "1" });
 }, 240_000);
 
 afterAll(() => {
@@ -159,5 +167,110 @@ describe("Astro and React render the same markup", () => {
       );
       expect(await canonical(react)).toEqual(await canonical(astro));
     });
+  }
+});
+
+// Pablo's review of 2026-11-08: a busy button must not act again. A real
+// browser clicks it and presses Enter and Space on it, presses Enter in a
+// field of its form (implicit submission), and does the same to an idle button
+// to show that the page itself reacts. Chrome is on GitHub's Linux runners; a
+// local run without Chrome skips, CI never does.
+const chrome = findChrome();
+
+describe("a busy button does not act again, in a real browser", () => {
+  if (!chrome) {
+    test("Chrome is available", () => {
+      expect(process.env.CI, "CI must run the interaction test with Chrome").toBeUndefined();
+    });
+    return;
+  }
+  let browser: Browser | undefined;
+  let server: ReturnType<typeof Bun.serve> | undefined;
+  let reactDir = "";
+
+  beforeAll(async () => {
+    reactDir = mkdtempSync(join(base, "ds-react-"));
+    const result = await Bun.build({
+      entrypoints: [join(import.meta.dir, "interaction/react.tsx")],
+      outdir: reactDir,
+      target: "browser",
+      define: { "process.env.NODE_ENV": '"production"' },
+    });
+    if (!result.success) throw new Error(result.logs.join("\n"));
+    writeFileSync(
+      join(reactDir, "index.html"),
+      '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>React</title></head><body><div id="root"></div><script type="module" src="/react/react.js"></script></body></html>',
+    );
+    server = Bun.serve({
+      port: 0,
+      hostname: "127.0.0.1",
+      fetch(request) {
+        const path = decodeURIComponent(new URL(request.url).pathname);
+        const [dir, rest] = path.startsWith("/react/")
+          ? [reactDir, path.slice(7)]
+          : [parity, path.slice(1)];
+        const file = join(dir, rest.endsWith("/") || rest === "" ? `${rest}index.html` : rest);
+        return existsSync(file)
+          ? new Response(Bun.file(file))
+          : new Response("missing", { status: 404 });
+      },
+    });
+    browser = await Browser.open(chrome);
+  }, 120_000);
+
+  afterAll(() => {
+    browser?.close();
+    server?.stop(true);
+    if (reactDir) rmSync(reactDir, { recursive: true, force: true });
+  });
+
+  for (const [renderer, path] of [
+    ["Astro", "/interaction/"],
+    ["React", "/react/"],
+  ] as const) {
+    test(renderer, async () => {
+      if (!browser || !server) throw new Error("no browser");
+      await browser.goto(`http://127.0.0.1:${server.port}${path}`);
+      for (
+        let i = 0;
+        i < 100 && !(await browser.eval<boolean>("Boolean(document.getElementById('busy'))"));
+        i++
+      ) {
+        await Bun.sleep(20);
+      }
+      const counts = () =>
+        browser?.eval<Record<string, number>>("JSON.parse(JSON.stringify(window.counts))") ??
+        Promise.resolve({});
+
+      await browser.click("#busy");
+      await browser.focus("#busy");
+      expect(
+        await browser.eval<string>("document.activeElement.id"),
+        "a busy button keeps focus",
+      ).toBe("busy");
+      await browser.press("Enter");
+      await browser.press("Space");
+      await browser.focus("#busy-input");
+      await browser.press("Enter");
+      await browser.click("#busy-action");
+      await browser.focus("#busy-action");
+      await browser.press("Enter");
+      await browser.press("Space");
+      expect(await counts()).toMatchObject({ busy: 0, "busy-action": 0, submitBusy: 0 });
+
+      expect(
+        await browser.eval<boolean>("document.getElementById('busy-link').hasAttribute('href')"),
+      ).toBe(false);
+      await browser.click("#busy-link");
+      expect(await browser.eval<string>("location.pathname")).toBe(path);
+
+      await browser.click("#idle");
+      await browser.focus("#idle");
+      await browser.press("Enter");
+      await browser.press("Space");
+      await browser.focus("#idle-input");
+      await browser.press("Enter");
+      expect(await counts()).toMatchObject({ idle: 4, submitIdle: 4 });
+    }, 60_000);
   }
 });

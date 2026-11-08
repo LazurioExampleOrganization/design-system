@@ -1,6 +1,6 @@
 // Inputs that both renderers get in the parity test (tests/build.test.ts): the
 // Astro components render them on a page built only for the test
-// (src/pages/[parity].astro, DS_PARITY=1), the React components render them
+// (src/pages/[parity].astro, DS_TEST_PAGES=1), the React components render them
 // with react-dom/server, and the two outputs must be the same HTML.
 
 export type Fixture = {

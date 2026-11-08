@@ -1,7 +1,8 @@
 // Everything of the kit that runs anywhere (browser, Astro, React, tests).
-// lock.ts is for tests only and is imported directly.
+// The package exports it as `design-system` and `design-system/core`.
 export * from "../brand";
 export * from "../tokens";
+export * from "./button";
 export * from "./classes";
 export * from "./contrast";
 export * from "./dialog";

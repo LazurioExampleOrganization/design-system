@@ -24,7 +24,7 @@ Velikosti `sm`, `md` (výchozí) a `lg`. Ikonové tlačítko je čtverec se zaob
 
 ## Chování
 
-Při najetí myší se podklad o stupeň změní, při stisku se tlačítko na okamžik zmenší na 97 %. Zakázané tlačítko je poloprůhledné; když jde jen o to, že akce právě běží, použijte `busy`, které tlačítko nechá v pořadí fokusu a ohlásí „Načítá se“.
+Při najetí myší se podklad o stupeň změní, při stisku se tlačítko na okamžik zmenší na 97 %. Zakázané tlačítko je poloprůhledné; když jde jen o to, že akce právě běží, použijte `busy`. Tlačítko pak zůstane v pořadí fokusu, ohlásí „Načítá se“ a znovu se nespustí: ani kliknutím, ani klávesou Enter nebo mezerníkem, ani odesláním formuláře. Odkaz ve stavu `busy` nebo `disabled` nemá adresu.
 
 ## Přístupnost
 

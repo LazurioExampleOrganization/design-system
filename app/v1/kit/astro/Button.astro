@@ -20,7 +20,10 @@ interface Props extends Omit<HTMLAttributes<"button">, "type"> {
   /** Renders a link that looks like a button. */
   href?: string;
   type?: "button" | "submit" | "reset";
-  /** The action is running: a spinner replaces the icon, the button ignores presses. */
+  /**
+   * The action is running: a spinner replaces the icon and the button does not
+   * act again (click, Enter, Space, form submission), yet keeps focus.
+   */
   busy?: boolean;
   block?: boolean;
   locale?: Locale;
@@ -45,13 +48,15 @@ const {
 const classes = buttonClass({ variant, size, iconOnly, block, className: className ?? undefined });
 const iconSize = size === "sm" ? "sm" : "md";
 const loading = `, ${messagesFor(locale).loading}`;
+const inactive = disabled || busy;
 ---
 {
   href !== undefined ? (
     <a
       class={classes}
-      href={disabled ? undefined : href}
-      aria-disabled={disabled ? "true" : undefined}
+      href={inactive ? undefined : href}
+      aria-disabled={inactive ? "true" : undefined}
+      aria-busy={busy ? "true" : undefined}
       aria-label={iconOnly ? label : undefined}
       {...rest}
     >
@@ -85,3 +90,9 @@ const loading = `, ${messagesFor(locale).loading}`;
     </button>
   )
 }
+
+<script>
+  import { guardBusy } from "../core/button";
+
+  guardBusy();
+</script>

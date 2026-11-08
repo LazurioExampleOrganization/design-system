@@ -1,12 +1,12 @@
 ---
-// A page built only for the parity test (DS_PARITY=1): every fixture of
+// A page built only for the parity test (DS_TEST_PAGES=1): every fixture of
 // tests/parity-fixtures.ts rendered by the Astro components. The normal build
 // has no such page.
 import * as Kit from "../../kit/astro";
 import { FIXTURES } from "../../tests/parity-fixtures";
 
 export function getStaticPaths() {
-  return process.env.DS_PARITY === "1" ? [{ params: { parity: "parity" } }] : [];
+  return process.env.DS_TEST_PAGES === "1" ? [{ params: { parity: "parity" } }] : [];
 }
 
 const components = Kit as unknown as Record<string, (props: Record<string, unknown>) => unknown>;

@@ -1,4 +1,4 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
 import { buttonClass } from "../core/classes";
 import { messagesFor } from "../core/i18n";
 import type { IconName } from "../core/icons";
@@ -19,7 +19,10 @@ export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> 
   /** Renders a link that looks like a button. */
   href?: string;
   type?: "button" | "submit" | "reset";
-  /** The action is running: a spinner replaces the icon, the button ignores presses. */
+  /**
+   * The action is running: a spinner replaces the icon and the button does not
+   * act again (click, Enter, Space, form submission), yet keeps focus.
+   */
   busy?: boolean;
   block?: boolean;
   locale?: Locale;
@@ -41,6 +44,7 @@ export function Button({
   locale,
   className,
   children,
+  onClick,
   ...rest
 }: ButtonProps) {
   const classes = buttonClass({ variant, size, iconOnly, block, className });
@@ -59,12 +63,15 @@ export function Button({
     </span>
   );
   const end = iconEnd ? <Icon name={iconEnd} size={iconSize} /> : null;
+  const inactive = disabled || busy;
   if (href !== undefined) {
+    // A link that must not act has no address at all.
     return (
       <a
         className={classes}
-        href={disabled ? undefined : href}
-        aria-disabled={disabled ? "true" : undefined}
+        href={inactive ? undefined : href}
+        aria-disabled={inactive ? "true" : undefined}
+        aria-busy={busy ? "true" : undefined}
         aria-label={iconOnly ? label : undefined}
         {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
@@ -82,6 +89,7 @@ export function Button({
       aria-disabled={busy ? "true" : undefined}
       aria-busy={busy ? "true" : undefined}
       aria-label={iconOnly ? label : undefined}
+      onClick={busy ? stopActivation : onClick}
       {...rest}
     >
       {start}
@@ -89,4 +97,10 @@ export function Button({
       {end}
     </button>
   );
+}
+
+/** A busy button stays focusable, so its activation is cancelled here. */
+function stopActivation(event: MouseEvent<HTMLButtonElement>) {
+  event.preventDefault();
+  event.stopPropagation();
 }
