@@ -1,11 +1,17 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  MouseEvent,
+  MouseEventHandler,
+  ReactNode,
+} from "react";
 import { buttonClass } from "../core/classes";
 import { messagesFor } from "../core/i18n";
 import type { IconName } from "../core/icons";
 import type { ButtonVariant, Locale, Size } from "../core/types";
 import { Icon } from "./Icon";
 
-export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> & {
+export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type" | "onClick"> & {
   variant?: ButtonVariant;
   size?: Size;
   /** An icon before the label. */
@@ -19,6 +25,8 @@ export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> 
   /** Renders a link that looks like a button. */
   href?: string;
   type?: "button" | "submit" | "reset";
+  /** Runs on activation of the button, or of the link with `href`; never while busy or disabled. */
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
   /**
    * The action is running: a spinner replaces the icon and the button does not
    * act again (click, Enter, Space, form submission), yet keeps focus.
@@ -65,7 +73,7 @@ export function Button({
   const end = iconEnd ? <Icon name={iconEnd} size={iconSize} /> : null;
   const inactive = disabled || busy;
   if (href !== undefined) {
-    // A link that must not act has no address at all.
+    // A link that must not act has no address and runs no handler.
     return (
       <a
         className={classes}
@@ -73,6 +81,7 @@ export function Button({
         aria-disabled={inactive ? "true" : undefined}
         aria-busy={busy ? "true" : undefined}
         aria-label={iconOnly ? label : undefined}
+        onClick={inactive ? stopActivation : onClick}
         {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
         {start}
@@ -99,8 +108,8 @@ export function Button({
   );
 }
 
-/** A busy button stays focusable, so its activation is cancelled here. */
-function stopActivation(event: MouseEvent<HTMLButtonElement>) {
+/** A busy button stays focusable, so its activation is cancelled here; so is a click on an inactive link. */
+function stopActivation(event: MouseEvent<HTMLElement>) {
   event.preventDefault();
   event.stopPropagation();
 }

@@ -36,7 +36,9 @@ release: modules that took 1.0.0 change their own files
   an Organization's private design system. It is a library, not an App.
 - `app/v1/kit/`, the library the package exports: `styles.css`; components
   for Astro and React with the same props and HTML: Button (a busy button
-  keeps focus and does not act again: click, Enter, Space, form submission), TextField, TextArea, Select,
+  keeps focus and does not act again: click, Enter, Space, form submission;
+  a link with `href` runs its `onClick`, a busy or disabled one neither
+  navigates nor runs it), TextField, TextArea, Select,
   Checkbox, RadioGroup, Switch, Table, Card, Dialog (native modal), Nav,
   Breadcrumbs, Tabs, Badge, Tag, Alert, Toast with ToastRegion and
   `useToasts`, EmptyState, Icon and Logo; a framework-free core (class names,

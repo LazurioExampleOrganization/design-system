@@ -3,7 +3,16 @@
 import { createRoot } from "react-dom/client";
 import { Button } from "../../kit/react";
 
-const counts = { busy: 0, idle: 0, "busy-action": 0, submitBusy: 0, submitIdle: 0 };
+const counts = {
+  busy: 0,
+  idle: 0,
+  "busy-action": 0,
+  "busy-link": 0,
+  "disabled-link": 0,
+  link: 0,
+  submitBusy: 0,
+  submitIdle: 0,
+};
 (window as unknown as { counts: typeof counts }).counts = counts;
 
 function App() {
@@ -36,8 +45,19 @@ function App() {
       <Button id="busy-action" busy onClick={() => counts["busy-action"]++}>
         Running
       </Button>
-      <Button id="busy-link" href="/elsewhere/" busy>
+      <Button id="busy-link" href="#busy-link-target" busy onClick={() => counts["busy-link"]++}>
         Opening
+      </Button>
+      <Button
+        id="disabled-link"
+        href="#disabled-link-target"
+        disabled
+        onClick={() => counts["disabled-link"]++}
+      >
+        Closed
+      </Button>
+      <Button id="link" href="#link-target" onClick={() => counts.link++}>
+        Open
       </Button>
     </>
   );

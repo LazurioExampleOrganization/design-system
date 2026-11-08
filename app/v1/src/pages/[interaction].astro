@@ -14,10 +14,21 @@ export function getStaticPaths() {
     <form id="busy-form"><input id="busy-input" name="x" /><Button id="busy" type="submit" variant="primary" busy>Saving</Button></form>
     <form id="idle-form"><input id="idle-input" name="x" /><Button id="idle" type="submit">Save</Button></form>
     <Button id="busy-action" busy>Running</Button>
-    <Button id="busy-link" href="/elsewhere/" busy>Opening</Button>
+    <Button id="busy-link" href="#busy-link-target" busy>Opening</Button>
+    <Button id="disabled-link" href="#disabled-link-target" disabled>Closed</Button>
+    <Button id="link" href="#link-target">Open</Button>
     <script is:inline>
-      window.counts = { busy: 0, idle: 0, "busy-action": 0, submitBusy: 0, submitIdle: 0 };
-      for (const id of ["busy", "idle", "busy-action"]) {
+      window.counts = {
+        busy: 0,
+        idle: 0,
+        "busy-action": 0,
+        "busy-link": 0,
+        "disabled-link": 0,
+        link: 0,
+        submitBusy: 0,
+        submitIdle: 0,
+      };
+      for (const id of ["busy", "idle", "busy-action", "busy-link", "disabled-link", "link"]) {
         document.getElementById(id).addEventListener("click", () => window.counts[id]++);
       }
       document.getElementById("busy-form").addEventListener("submit", (event) => {

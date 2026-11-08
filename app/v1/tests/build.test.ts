@@ -170,14 +170,15 @@ describe("Astro and React render the same markup", () => {
   }
 });
 
-// The review of 2026-11-08: a busy button must not act again. A real
-// browser clicks it and presses Enter and Space on it, presses Enter in a
-// field of its form (implicit submission), and does the same to an idle button
-// to show that the page itself reacts. Chrome is on GitHub's Linux runners; a
+// The reviews of 2026-11-08: a busy button must not act again, a busy or
+// disabled link neither, and an active link must run its handler and
+// navigate. A real browser clicks them and presses Enter and Space, presses
+// Enter in a field of a form (implicit submission), and does the same to an
+// idle button and an active link to show that the page itself reacts. Chrome is on GitHub's Linux runners; a
 // local run without Chrome skips, CI never does.
 const chrome = findChrome();
 
-describe("a busy button does not act again, in a real browser", () => {
+describe("busy and disabled controls do not act, active ones do, in a real browser", () => {
   if (!chrome) {
     test("Chrome is available", () => {
       expect(process.env.CI, "CI must run the interaction test with Chrome").toBeUndefined();
@@ -258,11 +259,25 @@ describe("a busy button does not act again, in a real browser", () => {
       await browser.press("Space");
       expect(await counts()).toMatchObject({ busy: 0, "busy-action": 0, submitBusy: 0 });
 
-      expect(
-        await browser.eval<boolean>("document.getElementById('busy-link').hasAttribute('href')"),
-      ).toBe(false);
-      await browser.click("#busy-link");
-      expect(await browser.eval<string>("location.pathname")).toBe(path);
+      // A busy or disabled link has no address and runs no handler.
+      for (const id of ["busy-link", "disabled-link"]) {
+        expect(
+          await browser.eval<boolean>(`document.getElementById('${id}').hasAttribute('href')`),
+          id,
+        ).toBe(false);
+        await browser.click(`#${id}`);
+      }
+      expect(await browser.eval<string>("location.pathname + location.hash")).toBe(path);
+      expect(await counts()).toMatchObject({ "busy-link": 0, "disabled-link": 0 });
+
+      // An active link runs its handler and navigates, on a click and on Enter.
+      await browser.click("#link");
+      expect(await browser.eval<string>("location.hash")).toBe("#link-target");
+      await browser.eval("history.replaceState(null, '', location.pathname)");
+      await browser.focus("#link");
+      await browser.press("Enter");
+      expect(await browser.eval<string>("location.hash")).toBe("#link-target");
+      expect(await counts()).toMatchObject({ link: 2 });
 
       await browser.click("#idle");
       await browser.focus("#idle");
