@@ -170,7 +170,7 @@ describe("Astro and React render the same markup", () => {
   }
 });
 
-// Pablo's review of 2026-11-08: a busy button must not act again. A real
+// The review of 2026-11-08: a busy button must not act again. A real
 // browser clicks it and presses Enter and Space on it, presses Enter in a
 // field of its form (implicit submission), and does the same to an idle button
 // to show that the page itself reacts. Chrome is on GitHub's Linux runners; a
