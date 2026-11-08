@@ -1,7 +1,7 @@
 ---
-import Button from "@design-system/astro/Button.astro";
-import Dialog from "@design-system/astro/Dialog.astro";
-import TextField from "@design-system/astro/TextField.astro";
+import Button from "design-system/astro/Button.astro";
+import Dialog from "design-system/astro/Dialog.astro";
+import TextField from "design-system/astro/TextField.astro";
 import Demo from "../../components/Demo.astro";
 import type { ViewProps } from "../types";
 import Layout from "./Layout.astro";
@@ -40,8 +40,8 @@ const t = {
 const code = {
   astro: `
 ---
-import Button from "@design-system/astro/Button.astro";
-import Dialog from "@design-system/astro/Dialog.astro";
+import Button from "design-system/astro/Button.astro";
+import Dialog from "design-system/astro/Dialog.astro";
 ---
 <Button variant="danger" data-ds-dialog-open="delete-draft">${t.openDelete}</Button>
 <Dialog id="delete-draft" title="${t.deleteTitle}" size="sm">
@@ -52,7 +52,7 @@ import Dialog from "@design-system/astro/Dialog.astro";
   </Fragment>
 </Dialog>`,
   react: `
-import { Button, Dialog } from "@design-system/react";
+import { Button, Dialog } from "design-system/react";
 
 const [open, setOpen] = useState(false);
 

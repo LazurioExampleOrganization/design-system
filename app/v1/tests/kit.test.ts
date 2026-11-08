@@ -1,24 +1,14 @@
 import { describe, expect, test } from "bun:test";
-import {
-  cpSync,
-  mkdtempSync,
-  readdirSync,
-  readFileSync,
-  realpathSync,
-  rmSync,
-  writeFileSync,
-} from "node:fs";
-import { tmpdir } from "node:os";
+import { readdirSync, readFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { messages, readLazurioLocale, resolveLocale } from "../kit/core/i18n";
-import { type KitLock, verifyKit, verifyLock } from "../kit/core/lock";
 import { nextTab } from "../kit/core/tabs";
 import { dismissTimer, type Scheduler, toastHtml } from "../kit/core/toast";
 import { iconsModule, TARGET } from "../scripts/icons";
 
-// The kit is what other modules take: it must stay whole (its manifest and
-// the lock), carry its icons unchanged from Iconoir, speak both languages and
-// depend on nothing outside itself but React and Astro's types.
+// The kit is what the package gives modules: it carries its icons unchanged
+// from Iconoir, speaks both languages and depends on nothing outside itself
+// but React and Astro's types.
 const kit = resolve(import.meta.dir, "../kit");
 const files = (dir: string): string[] =>
   readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
@@ -26,72 +16,11 @@ const files = (dir: string): string[] =>
   );
 
 describe("the kit", () => {
-  test("is whole: every file matches its manifest", () => {
-    expect(verifyKit(kit)).toEqual([]);
-  });
-
-  test("the kit's manifest finds an edit in place, a missing file and an extra file", () => {
-    const dir = mkdtempSync(join(realpathSync.native(tmpdir()), "kit-"));
-    try {
-      cpSync(kit, dir, { recursive: true });
-      expect(verifyKit(dir)).toEqual([]);
-      writeFileSync(join(dir, "css/button.css"), "/* edited */\n", { flag: "a" });
-      rmSync(join(dir, "core/html.ts"));
-      writeFileSync(join(dir, "extra.css"), "");
-      const problems = verifyKit(dir).join("\n");
-      expect(problems).toContain("css/button.css: edited in place");
-      expect(problems).toContain("core/html.ts: missing");
-      expect(problems).toContain("extra.css: not part of the kit");
-    } finally {
-      rmSync(dir, { recursive: true, force: true });
-    }
-  });
-
-  test("the lock holds for the merged release and fails after an edit in the subtree", () => {
-    const dir = mkdtempSync(join(realpathSync.native(tmpdir()), "module-"));
-    const git = (...args: string[]) => {
-      const run = Bun.spawnSync(
-        ["git", "-c", "user.name=Test", "-c", "user.email=test@example.invalid", ...args],
-        {
-          cwd: dir,
-          stdout: "pipe",
-          stderr: "pipe",
-        },
-      );
-      if (run.exitCode !== 0) throw new Error(run.stderr.toString());
-      return run.stdout.toString().trim();
-    };
-    try {
-      git("init", "-q");
-      cpSync(kit, join(dir, "app/v3/design-system/app/v1/kit"), { recursive: true });
-      git("add", "-A");
-      git("commit", "-q", "-m", "take the design system");
-      const lock: KitLock = {
-        schema: "design-system.lock.v1",
-        repository: "LazurioTemplates/design-system",
-        tag: "v2.0.0",
-        commit: git("rev-parse", "HEAD"),
-        tree: git("rev-parse", "HEAD:app/v3/design-system"),
-        prefix: "app/v3/design-system",
-      };
-      expect(verifyLock(dir, lock)).toEqual([]);
-      writeFileSync(join(dir, "app/v3/design-system/app/v1/kit/css/button.css"), "/* edited */\n", {
-        flag: "a",
-      });
-      git("commit", "-q", "-am", "edit in place");
-      const problems = verifyLock(dir, lock).join("\n");
-      expect(problems).toContain("is not LazurioTemplates/design-system v2.0.0");
-      expect(problems).toContain("kit/css/button.css: edited in place");
-    } finally {
-      rmSync(dir, { recursive: true, force: true });
-    }
-  });
-
   test("the icons are Iconoir's, unchanged", () => {
     expect(readFileSync(TARGET, "utf8")).toBe(iconsModule());
   });
 
-  test("imports nothing outside itself but React, React DOM types and Astro's types", () => {
+  test("imports nothing outside itself but React and Astro's types", () => {
     const problems: string[] = [];
     for (const file of files(kit).filter((path) => /\.(ts|tsx|astro)$/.test(path))) {
       const name = relative(kit, file).split("\\").join("/");
@@ -113,9 +42,6 @@ describe("the kit", () => {
         if (from.startsWith("../") && relative(kit, resolve(file, "..", from)).startsWith("..")) {
           problems.push(`${name}: leaves the kit (${from})`);
         }
-      }
-      if (/from\s+["']node:/.test(text) && name !== "core/lock.ts") {
-        problems.push(`${name}: Node APIs belong only in core/lock.ts`);
       }
     }
     expect(problems).toEqual([]);

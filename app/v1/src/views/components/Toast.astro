@@ -1,6 +1,6 @@
 ---
-import Button from "@design-system/astro/Button.astro";
-import Toast from "@design-system/astro/Toast.astro";
+import Button from "design-system/astro/Button.astro";
+import Toast from "design-system/astro/Toast.astro";
 import Demo from "../../components/Demo.astro";
 import type { ViewProps } from "../types";
 import Layout from "./Layout.astro";
@@ -27,15 +27,15 @@ const t = ({
 const code = {
   astro: `
 ---
-import ToastRegion from "@design-system/astro/ToastRegion.astro";
+import ToastRegion from "design-system/astro/ToastRegion.astro";
 ---
 <ToastRegion />
 <script>
-  import { showToast } from "@design-system/core/toast";
+  import { showToast } from "design-system/core/toast";
   showToast({ tone: "success", title: "${t.saved[0]}", body: "${t.saved[1]}" }, { locale: "${locale}" });
 </script>`,
   react: `
-import { Toast, ToastRegion, useToasts } from "@design-system/react";
+import { Toast, ToastRegion, useToasts } from "design-system/react";
 
 const { toasts, show, dismiss } = useToasts();
 show({ tone: "success", title: "${t.saved[0]}", body: "${t.saved[1]}" });

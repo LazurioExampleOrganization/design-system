@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import manifest from "../kit/manifest.json";
 import packageJson from "../package.json";
 
 // The template contract of the Marketplace of Lazurio: what the repository
@@ -70,9 +69,45 @@ describe("template contract", () => {
     expect(workflow).toContain("run: bun run check");
   });
 
-  test("the changelog and the kit's manifest carry the App's version", () => {
+  test("the changelog has an entry for the App's version", () => {
     expect(read("CHANGELOG.md")).toContain(`## ${packageJson.version}`);
-    expect(manifest.version).toBe(packageJson.version);
+  });
+
+  test("the root package is the design system's library, not an App", () => {
+    const pkg = JSON.parse(read("package.json"));
+    expect(pkg.name).toBe("design-system");
+    expect(pkg.private).toBe(true);
+    // No scripts, no runtime, no dependencies: nothing here runs or installs.
+    for (const key of [
+      "scripts",
+      "lazurio",
+      "dependencies",
+      "devDependencies",
+      "packageManager",
+      "version",
+    ]) {
+      expect(pkg[key], key).toBeUndefined();
+    }
+    for (const [name, version] of Object.entries(pkg.peerDependencies as Record<string, string>)) {
+      expect(version, name).toMatch(/^\d+\.\d+\.\d+$/);
+    }
+    expect(pkg.peerDependencies.react).toBe(packageJson.devDependencies.react);
+    expect(pkg.peerDependencies.astro).toBe(packageJson.dependencies.astro);
+    // Every export leads to files of the kit that exist.
+    for (const [entry, value] of Object.entries(
+      pkg.exports as Record<string, string | Record<string, string>>,
+    )) {
+      const target = typeof value === "string" ? value : (value.default ?? "");
+      const path = target.replace(/^\.\//, "");
+      if (path.includes("*")) {
+        expect(existsSync(join(root, path.slice(0, path.indexOf("*")))), entry).toBe(true);
+      } else {
+        expect(existsSync(join(root, path)), entry).toBe(true);
+      }
+      expect(path === "package.json" || path.startsWith("app/v1/kit/"), entry).toBe(true);
+    }
+    const module = JSON.parse(read("lazurio.module.json"));
+    expect(module.apps).toEqual(["app/v1/package.json"]);
   });
 
   test("the Marketplace screens are the same WebP shots in Czech and English, 1600 px wide", () => {

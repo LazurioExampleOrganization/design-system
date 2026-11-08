@@ -11,7 +11,6 @@
       "!kit/fonts.css",
       "!kit/brand.ts",
       "!kit/core/icons.ts",
-      "!kit/manifest.json",
       "!public"
     ]
   },

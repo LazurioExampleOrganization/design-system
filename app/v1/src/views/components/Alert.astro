@@ -1,6 +1,6 @@
 ---
-import Alert from "@design-system/astro/Alert.astro";
-import Button from "@design-system/astro/Button.astro";
+import Alert from "design-system/astro/Alert.astro";
+import Button from "design-system/astro/Button.astro";
 import Demo from "../../components/Demo.astro";
 import type { ViewProps } from "../types";
 import Layout from "./Layout.astro";
@@ -29,15 +29,15 @@ const t = ({
 const code = {
   astro: `
 ---
-import Alert from "@design-system/astro/Alert.astro";
-import Button from "@design-system/astro/Button.astro";
+import Alert from "design-system/astro/Alert.astro";
+import Button from "design-system/astro/Button.astro";
 ---
 <Alert tone="warning" title="${t.warning[0]}">
   <p>${t.warning[1]}</p>
   <Button slot="actions" size="sm">${t.remind}</Button>
 </Alert>`,
   react: `
-import { Alert, Button } from "@design-system/react";
+import { Alert, Button } from "design-system/react";
 
 <Alert tone="warning" title="${t.warning[0]}" actions={<Button size="sm">${t.remind}</Button>}>
   <p>${t.warning[1]}</p>

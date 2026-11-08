@@ -17,9 +17,12 @@ a merge of a later template release keeps them (the ownership rule in
 After a change run, in `app/v1`:
 
 ```sh
-bun run tokens   # regenerates kit/tokens.css, tokens.ts, fonts, brand.ts, the manifest and DESIGN.md
+bun run tokens   # regenerates kit/tokens.css, tokens.ts, fonts, brand.ts, the favicon and DESIGN.md
 bun run check    # contrast of every role pair in both themes, and everything else
 ```
+
+Then release the design system (a tag, `docs/extending.md`); the modules of
+the Organization take the new brand by moving their pin to that tag.
 
 A palette whose roles fail WCAG contrast fails `bun run check`. Change a step
 of the palette, or point a role to another step in `roles.light` or

@@ -1,5 +1,5 @@
 ---
-import Button from "@design-system/astro/Button.astro";
+import Button from "design-system/astro/Button.astro";
 import Demo from "../../components/Demo.astro";
 import States from "../../components/States.astro";
 import type { ViewProps } from "../types";
@@ -35,14 +35,14 @@ const t = {
 const code = {
   astro: `
 ---
-import Button from "@design-system/astro/Button.astro";
+import Button from "design-system/astro/Button.astro";
 ---
 <Button variant="primary" type="submit">${t.save}</Button>
 <Button>${t.cancel}</Button>
 <Button variant="quiet" icon="edit-pencil" iconOnly label="${t.edit}" />
 <Button variant="primary" busy>${t.sending}</Button>`,
   react: `
-import { Button } from "@design-system/react";
+import { Button } from "design-system/react";
 
 <Button variant="primary" type="submit">${t.save}</Button>
 <Button onClick={close}>${t.cancel}</Button>

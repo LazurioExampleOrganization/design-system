@@ -1,6 +1,6 @@
 ---
-import Badge from "@design-system/astro/Badge.astro";
-import Tag from "@design-system/astro/Tag.astro";
+import Badge from "design-system/astro/Badge.astro";
+import Tag from "design-system/astro/Tag.astro";
 import Demo from "../../components/Demo.astro";
 import type { ViewProps } from "../types";
 import Layout from "./Layout.astro";
@@ -16,14 +16,14 @@ const tones = ["neutral", "accent", "success", "warning", "danger", "info"] as c
 const code = {
   astro: `
 ---
-import Badge from "@design-system/astro/Badge.astro";
-import Tag from "@design-system/astro/Tag.astro";
+import Badge from "design-system/astro/Badge.astro";
+import Tag from "design-system/astro/Tag.astro";
 ---
 <Badge tone="success">${t.success}</Badge>
 <Badge tone="warning">${t.warning}</Badge>
 <Tag>${t.tags[0]}</Tag>`,
   react: `
-import { Badge, Tag } from "@design-system/react";
+import { Badge, Tag } from "design-system/react";
 
 <Badge tone="success">${t.success}</Badge>
 <Badge tone="warning">${t.warning}</Badge>

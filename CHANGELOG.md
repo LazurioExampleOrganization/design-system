@@ -26,15 +26,22 @@ release: modules that took 1.0.0 change their own files
 - `bun run tokens` generates from these two sources the CSS custom
   properties (`app/v1/kit/tokens.css`, prefix `--ds-`, light, dark and the
   device's choice), the TypeScript tokens, `@font-face`, the logo and
-  illustrations as markup, the favicon, the kit's manifest and `DESIGN.md` in
-  the DESIGN.md format.
-- `app/v1/kit/`, the library modules use: `styles.css`; components for Astro
-  and React with the same props and HTML: Button, TextField, TextArea, Select,
+  illustrations as markup, the favicon and `DESIGN.md` in the DESIGN.md
+  format.
+- **The package `design-system`**: `package.json` at the root exports the kit
+  (`design-system/styles.css`, `design-system/astro`, `design-system/react`,
+  `design-system/tokens`, the core). Modules add it as a Git dependency on a
+  released tag: `github:LazurioTemplates/design-system#v2.0.0` for templates,
+  `git+ssh://git@github.com/<Organization>/design-system.git#v<version>` for
+  an Organization's private design system. It is a library, not an App.
+- `app/v1/kit/`, the library the package exports: `styles.css`; components
+  for Astro and React with the same props and HTML: Button (a busy button
+  keeps focus and does not act again: click, Enter, Space, form submission), TextField, TextArea, Select,
   Checkbox, RadioGroup, Switch, Table, Card, Dialog (native modal), Nav,
   Breadcrumbs, Tabs, Badge, Tag, Alert, Toast with ToastRegion and
   `useToasts`, EmptyState, Icon and Logo; a framework-free core (class names,
   the components' own words in Czech and English, Lazurio's language
-  resolution, dialog, tabs, toast and theme behaviour, contrast, the lock);
+  resolution, dialog, tabs, toast, theme and busy behaviour, contrast);
   48 Iconoir icons (MIT).
 - The viewer in Czech at `/` and in English at `/en/`: principles, voice and
   writing, accessibility, when to use what, colour (palette, roles, live
@@ -45,14 +52,17 @@ release: modules that took 1.0.0 change their own files
 - Skills for agents: `design-system` (how to use this design system) and the
   Impeccable design skill 4.7.0 (Apache-2.0), vendored from its upstream tag
   by `app/v1/scripts/vendor-impeccable.sh`.
-- One way for other modules: a Git subtree of a release with
-  `design-system.lock.json` and `verifyLock()`
-  ([adoption.md](docs/adoption.md#using-the-design-system-in-another-module)).
+- One way for other modules: the package at a released tag
+  ([adoption.md](docs/adoption.md#using-the-design-system-in-another-module)),
+  as the Module Standard asks ("a design system's assets come as a dependency
+  on its package, never by a relative path").
 - Tests: the token sources, contrast of every role pair in both themes,
-  generated files up to date, the kit's CSS made only of tokens, the kit
-  whole, the lock, the icons, both languages of every page and of the
-  components' words, one language per screen, the static build, the parity of
-  the Astro and React components, and the template contract.
+  generated files up to date, the kit's CSS made only of tokens, the icons,
+  the package installed from Git into clean Astro and React (Vite,
+  TypeScript 7) projects and built there, both languages of every page and of
+  the components' words, one language per screen, the static build, the
+  parity of the Astro and React components, a busy button that does not act
+  again in a real browser (Chrome), and the template contract.
 - Screens for the Marketplace in `docs/screenshots/cs/` and
   `docs/screenshots/en/`.
 
@@ -84,11 +94,14 @@ release: modules that took 1.0.0 change their own files
 - An adopted design system merges `v2.0.0`, takes the template's side outside
   `brand/` and puts its own palette, roles and texts into `brand/`
   ([From 1.0.0 to 2.0.0](docs/extending.md#from-100-to-200)).
-- A module that took 1.0.0 as a subtree merges `v2.0.0` with
-  `-X subtree=<prefix>`, updates its lock and imports `app/v1/kit/styles.css`
-  and the kit's components instead of `app/v1/src/tokens.ts` and
-  `global.css`.
-- A module that copied `tokens.json` with a sync script moves to the subtree
+- After that, the Organization releases its design system (a tag); its
+  modules depend on that release
+  ([adoption.md](docs/adoption.md#9-release-the-organizations-design-system)).
+- A module that took 1.0.0 as a subtree deletes the subtree and its lock and
+  adds the package
+  ([adoption.md](docs/adoption.md#moving-from-a-subtree)).
+- A module that copied `tokens.json` with a sync script deletes the copy, its
+  lock and the script and adds the package
   ([adoption.md](docs/adoption.md#moving-from-a-copy-with-a-lock-and-a-sync-script)).
 
 ## 1.0.0 — 2026-11-03

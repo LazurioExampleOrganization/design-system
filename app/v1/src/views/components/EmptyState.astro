@@ -1,6 +1,6 @@
 ---
-import Button from "@design-system/astro/Button.astro";
-import EmptyState from "@design-system/astro/EmptyState.astro";
+import Button from "design-system/astro/Button.astro";
+import EmptyState from "design-system/astro/EmptyState.astro";
 import Demo from "../../components/Demo.astro";
 import States from "../../components/States.astro";
 import type { ViewProps } from "../types";
@@ -30,15 +30,15 @@ const t = ({
 const code = {
   astro: `
 ---
-import EmptyState from "@design-system/astro/EmptyState.astro";
-import Button from "@design-system/astro/Button.astro";
+import EmptyState from "design-system/astro/EmptyState.astro";
+import Button from "design-system/astro/Button.astro";
 ---
 <EmptyState title="${t.first[0]}" illustration="empty">
   <p>${t.first[1]}</p>
   <Button slot="actions" variant="primary" icon="plus">${t.create}</Button>
 </EmptyState>`,
   react: `
-import { Button, EmptyState } from "@design-system/react";
+import { Button, EmptyState } from "design-system/react";
 
 <EmptyState title="${t.first[0]}" illustration="empty"
   actions={<Button variant="primary" icon="plus">${t.create}</Button>}>

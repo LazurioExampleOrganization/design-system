@@ -12,19 +12,24 @@ description: Use whenever you build, change or review anything people see for th
 2. The page of each component you use: `content/en/components/<name>.md`
    (Czech beside it in `content/cs/`), or the viewer App.
 
-## Build with the kit, never around it
+## Build with the package, never around it
 
-- Styles: import `app/v1/kit/styles.css` once. It brings the tokens, the
+- The module depends on the package `design-system` at a released tag
+  (`docs/adoption.md` of the design system): in a template
+  `"design-system": "github:LazurioTemplates/design-system#v<version>"`, in an
+  Organization `"design-system": "git+ssh://git@github.com/<Organization>/design-system.git#v<version>"`.
+  Never a copy, a subtree, a relative path or a branch.
+- Styles: import `design-system/styles.css` once. It brings the tokens, the
   brand's fonts, base styles and every component.
-- Astro: `app/v1/kit/astro/<Component>.astro`. React: the named exports of
-  `app/v1/kit/react`. Both take the same props and render the same HTML.
+- Astro: `import { Button } from "design-system/astro";`. React:
+  `import { Button } from "design-system/react";`. Both take the same props
+  and render the same HTML.
 - Values in your own CSS only as tokens: `var(--ds-color-ink)`,
   `var(--ds-space-16)`, `var(--ds-radius-md)`, `var(--ds-duration-base)`. In
-  TypeScript (charts, canvas, e-mail) from `app/v1/kit/tokens.ts`.
+  TypeScript (charts, canvas, e-mail) from `design-system/tokens`.
 - A component you need is missing, or one needs a new variant: propose it in
-  the design system (its `docs/extending.md`), do not style your own copy.
-- In a module that merged the design system, never edit its files in place;
-  the lock test fails, and the next merge would lose the edit.
+  the design system (its `docs/extending.md`), release it, then move the pin;
+  do not style your own copy.
 
 ## Decide
 
@@ -41,14 +46,14 @@ description: Use whenever you build, change or review anything people see for th
 
 Pages and components speak Czech or English (`locale` on components that say
 words of their own). Resolve the page's language with `resolveLocale()` from
-`app/v1/kit/core/i18n.ts`: the person's explicit choice, then Lazurio's
+`design-system`: the person's explicit choice, then Lazurio's
 language (`readLazurioLocale()`), then Czech. One screen, one language. Format
 numbers and dates with `Intl` in that language.
 
 ## Check before handing over
 
-- `bun run check` in the module (its lock test included).
+- `bun run check` in the module.
 - In a browser: both themes, both languages, 390 px and 1280 px wide, the
   keyboard alone (Tab, Enter, Space, Escape, arrows), reduced motion.
 - Contrast comes from the tokens; a colour you computed yourself must reach
-  4.5:1 for text and 3:1 for graphics (`contrast()` in `app/v1/kit/core/contrast.ts`).
+  4.5:1 for text and 3:1 for graphics (`contrast()` from `design-system`).

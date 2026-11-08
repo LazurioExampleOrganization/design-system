@@ -2,9 +2,10 @@
 
 How to keep developing the design system after it was adopted, how to replace
 the brand and add a component, how to take a newer release of the template
-(including the move from 1.0.0 to 2.0.0), and how the template itself is
-released. For the first adoption and for modules that use the design system
-see [adoption.md](adoption.md).
+(including the move from 1.0.0 to 2.0.0), and how the template and an
+Organization's design system are released as a package. For the first
+adoption and for modules that use the design system see
+[adoption.md](adoption.md).
 
 ## Generation and stack profile
 
@@ -28,6 +29,13 @@ test, and `iconoir` 7.12.2, the source of the icons. The viewer renders no
 React island. Every version is exact, `bun.lock` is committed, and Biome keeps
 its Markdown and YAML formatters off and leaves `.astro` files out.
 
+Beside the App, `package.json` at the root of the repository is the design
+system's **package** (`design-system`): it exports `app/v1/kit` to the modules
+that depend on it at a released tag ([adoption.md](adoption.md#using-the-design-system-in-another-module)).
+It is a library, not an App: no scripts, no `lazurio.runtime`, no
+dependencies of its own, only optional peer dependencies on the profile's
+Astro and React. The App's `bun install` in `app/v1` does not see it.
+
 ## Who owns which file
 
 > When a merge of a release conflicts, the template's side wins for code and
@@ -45,8 +53,8 @@ its Markdown and YAML formatters off and leaves `.astro` files out.
 | `brand/**` (brand.json, logo, fonts, illustrations, content, design.md, README.md) | The Organization | Keep the Organization's side |
 | `lazurio.module.json` | The Organization (identity) | Keep the Organization's side; a release that changes `apps` says so in its changelog |
 | `app/v1/package.json` | Mixed: `lazurio.runtime` `id`, `title`, `company`, `module` are the Organization's, the rest the template's | Resolve deliberately with the person |
-| `tokens/`, `content/`, `app/v1/kit/` (hand-written parts), `app/v1/src/`, `app/v1/scripts/`, `app/v1/tests/`, configuration, `bun.lock`, `.github/`, `.agents/`, `.claude/`, `.impeccable/`, `docs/`, `README.md`, `AGENTS.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `LICENSE`, `NOTICE` | The template | Take the template's side |
-| Generated: `DESIGN.md`, `app/v1/kit/tokens.css`, `tokens.ts`, `fonts.css`, `fonts/`, `brand.ts`, `manifest.json`, `app/v1/public/favicon.svg` | Generated from `brand/` and `tokens/` | Take either side, then `bun run tokens` |
+| `package.json` (the package), `tokens/`, `content/`, `app/v1/kit/` (hand-written parts), `app/v1/src/`, `app/v1/scripts/`, `app/v1/tests/`, configuration, `bun.lock`, `.github/`, `.agents/`, `.claude/`, `.impeccable/`, `docs/`, `README.md`, `AGENTS.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `LICENSE`, `NOTICE` | The template | Take the template's side |
+| Generated: `DESIGN.md`, `app/v1/kit/tokens.css`, `tokens.ts`, `fonts.css`, `fonts/`, `brand.ts`, `app/v1/public/favicon.svg` | Generated from `brand/` and `tokens/` | Take either side, then `bun run tokens` |
 
 The files are split so that this rule rarely meets a real conflict: an
 Organization changes only `brand/`, a release changes everything else. An
@@ -86,6 +94,8 @@ Everything happens in `brand/` (see [`brand/README.md`](../brand/README.md)):
    (`{ "accent": "accent.600" }`).
 7. Look at the viewer in both themes and languages and refresh the
    screenshots if the module shows them.
+8. Release it ([Releasing the Organization's design system](#releasing-the-organizations-design-system));
+   the modules take the new brand by moving their pin to the new tag.
 
 ### Adding a token
 
@@ -103,14 +113,14 @@ step and its use in Czech and English; add the pairs it must pass to
    `core/i18n.ts` for both languages, behaviour without a framework).
 3. `app/v1/kit/astro/<Name>.astro` and `app/v1/kit/react/<Name>.tsx` with the
    same props and the same HTML; export them in `astro/index.ts` and
-   `react/index.ts`.
+   `react/index.ts` (the package's `exports` already cover both directories).
 4. Fixtures in `app/v1/tests/parity-fixtures.ts` for each variant: the test
    renders both and compares the HTML.
 5. The page: `content/cs/components/<name>.md` and `content/en/…` (front
    matter with `do` and `dont`), a view in `app/v1/src/views/components/`,
    its entry in `app/v1/src/lib/site.ts` and in `[...path].astro`.
-6. `bun run tokens` (the kit's manifest changes), `bun run check`, a look in
-   the browser, the changelog under a minor release.
+6. `bun run check`, a look in the browser, the changelog under a minor
+   release.
 
 ### Adding an icon
 
@@ -133,8 +143,8 @@ Read the release's `CHANGELOG.md` entry first, resolve by the rule in
 `bun install --frozen-lockfile`, `bun run tokens` and `bun run check`, and open
 a pull request that names the release and its commit. Declining the pull
 request keeps the module as it was; an undo is a reviewed revert, never a
-reset. Modules that use the design system take the module's new state the
-same way ([adoption.md](adoption.md#taking-a-newer-release)).
+reset. Once merged, release the Organization's design system; its modules take
+the new state by moving their pin ([adoption.md](adoption.md#taking-a-newer-release)).
 
 ### From 1.0.0 to 2.0.0
 
@@ -171,13 +181,19 @@ an adopted design system module:
    (both languages), and `REPOSITORY` into `brand.json` `repository`.
 5. `bun run tokens`, `bun run check`, a look at the viewer, a pull request.
 
-A module that took 1.0.0 as a subtree merges `v2.0.0` the same way
-(`git merge -X subtree=<prefix> 'v2.0.0^{commit}'`), updates its lock to the
-2.0.0 shape (`tag`, `commit`, `tree`, `prefix`) and replaces imports of
-`app/v1/src/tokens.ts` and `app/v1/src/styles/global.css` with
-`app/v1/kit/styles.css`, `app/v1/kit/tokens.ts` and the kit's components. A
-module that took a copy of `tokens.json` with a sync script moves to the
-subtree ([adoption.md](adoption.md#moving-from-a-copy-with-a-lock-and-a-sync-script)).
+Modules that took 1.0.0 into their own repository move to the package: from a
+subtree ([adoption.md](adoption.md#moving-from-a-subtree)) or from a copy of
+`tokens.json` with a sync script
+([adoption.md](adoption.md#moving-from-a-copy-with-a-lock-and-a-sync-script)).
+Their imports map like this:
+
+| 1.0.0 | 2.0.0 |
+| --- | --- |
+| `<prefix>/app/v1/src/styles/global.css`, a copied stylesheet | `design-system/styles.css` |
+| `<prefix>/app/v1/src/tokens.ts`, a copied `tokens.json` turned into CSS | `design-system/tokens` (TypeScript) and the `--ds-*` custom properties of `design-system/styles.css` |
+| `<prefix>/app/v1/src/components/ui/*.astro` | `design-system/astro` |
+| own copies of the components in React | `design-system/react` |
+| CSS variables of 1.0.0 (`--color-text`, …) | the roles above as `--ds-color-<role>` |
 
 ## When the module would change generation
 
@@ -186,8 +202,8 @@ people to edit tokens in a form with a draft that someone reviews and
 publishes. Then the data moves to repository-db and the App becomes `app/v3`
 beside `app/v1`, on the profile for Apps with data; `default_app` switches
 only on the decision of the Organization's Steward or the person; the module
-keeps at most two generations. A move to `app/v2` brings nothing. The kit's
-path would change with the generation, so such a release is major.
+keeps at most two generations. A move to `app/v2` brings nothing. The package's
+`exports` keep the import paths of modules when the kit moves.
 
 ## Releasing the template
 
@@ -200,9 +216,8 @@ instruction.
 The version is semantic and independent of the generation:
 
 - **major**: a module must change its own files to take it: the shape of
-  `brand/brand.json` or of the lock, a renamed or removed token, class, prop
-  or file of the kit, a new generation, a stack profile release that breaks
-  code;
+  `brand/brand.json`, a renamed or removed export, token, class or prop of
+  the package, a stack profile release that breaks code;
 - **minor**: new components, variants, tokens, pages or tests, or a stack
   profile release that needs no change in modules;
 - **patch**: fixes, and patch versions of tools for a security fix.
@@ -214,8 +229,8 @@ fix. The template names the profile release in `README.md` and
 
 Before a release:
 
-1. Update `CHANGELOG.md` and `version` in `app/v1/package.json`, then
-   `bun run tokens` (the kit's manifest carries the version).
+1. Update `CHANGELOG.md` and `version` in `app/v1/package.json` (the package
+   has no version field: its version is the tag).
 2. Refresh the screens in `docs/screenshots/cs/` and `docs/screenshots/en/`
    when the App looks different: the same shots in both languages, WebP,
    1600 px wide, taken from the static build at twice the pixel density of a
@@ -224,4 +239,27 @@ Before a release:
 3. Run `bun run check` and wait for green CI on `main`.
 4. On the instruction: `git tag -a v<version> -m "v<version>"`, push the tag,
    `gh release create v<version> --verify-tag`, then a pull request to the
-   registry (`Lazurio/marketplace`) with the tag's full commit.
+   registry (`Lazurio/marketplace`) with the tag's full commit. The tag is the
+   package's version: modules depend on `github:LazurioTemplates/design-system#v<version>`,
+   and the tag never moves (a ruleset protects `refs/tags/v*` and releases are
+   immutable).
+
+## Releasing the Organization's design system
+
+An Organization's design system is its own package with its own versions.
+The Organization tags releases on `main` of its repository the same way
+(`v<semver>`, a GitHub Release, tags protected), always on the person's
+instruction. Its version line is its own and starts wherever the Organization
+likes; its `CHANGELOG.md` and `brand/README.md` say which template release it
+carries.
+
+- **major**: modules must change their own files: it takes a major template
+  release, or the Organization renames or removes something of its own;
+- **minor**: a new brand or a change of it (palette, fonts, logo), a template
+  minor release, new pages;
+- **patch**: fixes.
+
+Each module of the Organization then moves its pin
+(`git+ssh://git@github.com/<Organization>/design-system.git#v<version>`) in
+a pull request of its own, runs its check and looks at its pages; nothing
+changes in a module until it does.

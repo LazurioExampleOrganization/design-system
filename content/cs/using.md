@@ -1,31 +1,43 @@
 ---
 title: "Použití v modulech"
-description: "Jak si design system převezme web, aplikace nebo prezentace jako kontrolovanou kopii se zámkem a jak z něj berou nové verze."
+description: "Web, aplikace nebo prezentace přidají design system jako balíček: závislost na vydané verzi, kterou posunou, když přijde nová."
 do:
-  - "Převezměte design system sloučením jeho vydání (merge tagu) do vlastního adresáře modulu."
-  - "Importujte jen ze složky `app/v1/kit`, nikdy z prohlížeče design systému."
-  - "Změnu komponenty navrhněte v design systému a do modulu ji vezměte dalším sloučením."
+  - "Přidejte balíček `design-system` jako závislost na vydaném tagu."
+  - "Styly načtěte jednou (`design-system/styles.css`), komponenty importujte z `design-system/astro` nebo `design-system/react`."
+  - "Novou verzi nebo novou značku převezměte posunem tagu v závislosti."
 dont:
-  - "Neupravujte soubory převzaté knihovny na místě; kontrola zámku to odhalí."
+  - "Nekopírujte soubory design systému do modulu ani je neimportujte relativní cestou."
+  - "Nezávisejte na větvi; vždy na vydaném tagu."
   - "Nekopírujte hodnoty barev nebo rozestupů do vlastního CSS; použijte proměnné `--ds-*`."
-  - "Nečtěte soubory design systému za běhu z jiného repozitáře."
 ---
 
-## Kontrolovaná kopie se zámkem
+## Balíček na vydané verzi
 
-Modul, který chce vypadat jako Example, si design system nevkládá ručně. Sloučí jeho vydání jako podstrom (`git merge -X subtree=…`) do vlastní složky, třeba `design-system/`. Vydání tím zůstane v historii modulu a další verze přijde jako běžné sloučení.
+Design system je balíček `design-system`. Modul ho přidá do `package.json` své aplikace jako závislost na vydaném tagu, stejně jako každý sdílený balíček v Lazuriu. `bun.lock` zapíše přesný commit tagu, takže `bun install --frozen-lockfile` nainstaluje vždy totéž.
 
-Vedle leží soubor `design-system.lock.json` s repozitářem, vydáním, commitem a otiskem manifestu knihovny. Test modulu zavolá `verifyKit()` z `app/v1/kit/core/lock.ts` a selže, když někdo soubor knihovny upravil na místě nebo když knihovna neodpovídá zámku.
+```json
+"design-system": "github:LazurioTemplates/design-system#v2.0.0"
+```
+
+Moduly Organizace závisí na jejím vlastním design systému, který nese její značku:
+
+```json
+"design-system": "git+ssh://git@github.com/<Organizace>/design-system.git#v<verze>"
+```
+
+Importy jsou v obou případech stejné, takže přechod ze šablony na design system Organizace změní jen jeden řádek.
 
 ## Co importovat
 
-Celá knihovna je ve složce `app/v1/kit`. Doporučujeme pro ni alias `@design-system` v `tsconfig.json` (a ve Vite v `resolve.alias`).
+- **Styly:** jednou `design-system/styles.css`. Obsahují tokeny, písma, základní styly a všechny komponenty.
+- **Astro:** `import { Button } from "design-system/astro";`
+- **React:** `import { Button } from "design-system/react";`
+- **Tokeny v kódu:** `design-system/tokens` (barvy pro grafy, rozestupy pro výpočty).
 
-- **Styly:** jednou `@design-system/styles.css`. Obsahuje tokeny, písma, základní styly a všechny komponenty.
-- **Astro:** `@design-system/astro/Button.astro` a další.
-- **React:** `@design-system/react` exportuje všechny komponenty.
-- **Tokeny v kódu:** `@design-system/tokens` (barvy pro grafy, rozestupy pro výpočty).
+## Nová verze a nová značka
+
+Novou verzi design systému i novou značku Organizace převezme modul stejně: posune tag v závislosti, spustí `bun install` a kontrolu a projde své stránky v obou režimech.
 
 ## Jazyk
 
-Komponenty mluví česky nebo anglicky podle vlastnosti `locale`. Jazyk stránky určete jako Lazurio: nejdřív výslovná volba člověka, pak jazyk, který předá Lazurio, jinak čeština. Pomůže `resolveLocale()` a `readLazurioLocale()` z `@design-system/core/i18n`.
+Komponenty mluví česky nebo anglicky podle vlastnosti `locale`. Jazyk stránky určete jako Lazurio: nejdřív výslovná volba člověka, pak jazyk, který předá Lazurio, jinak čeština. Pomůže `resolveLocale()` a `readLazurioLocale()` z `design-system`.

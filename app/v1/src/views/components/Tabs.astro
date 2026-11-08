@@ -1,5 +1,5 @@
 ---
-import Tabs from "@design-system/astro/Tabs.astro";
+import Tabs from "design-system/astro/Tabs.astro";
 import Demo from "../../components/Demo.astro";
 import type { ViewProps } from "../types";
 import Layout from "./Layout.astro";
@@ -31,7 +31,7 @@ const ids = ["overview", "invoices", "notes"];
 const code = {
   astro: `
 ---
-import Tabs from "@design-system/astro/Tabs.astro";
+import Tabs from "design-system/astro/Tabs.astro";
 ---
 <Tabs label="${t.label}" items={[
   { id: "overview", label: "${t.tabs[0]}" },
@@ -41,7 +41,7 @@ import Tabs from "@design-system/astro/Tabs.astro";
   <p slot="invoices">${t.panels[1]}</p>
 </Tabs>`,
   react: `
-import { Tabs } from "@design-system/react";
+import { Tabs } from "design-system/react";
 
 <Tabs label="${t.label}"
   items={[{ id: "overview", label: "${t.tabs[0]}" }, { id: "invoices", label: "${t.tabs[1]}", badge: "3" }]}

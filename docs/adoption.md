@@ -6,9 +6,9 @@ This guide is for the agent that works for a person. It has two parts:
   the Organization gets its own design system module, usually after
   "Přidat do Organizace" in the Marketplace of Lazurio.
 - [Using the design system in another module](#using-the-design-system-in-another-module):
-  a website, a knowledge base, an App or presentations take the
+  a website, a knowledge base, an App or presentations add the
   Organization's design system (or, for a Marketplace template, this
-  template) as a locked subtree.
+  template) as a **package**: a Git dependency on a released tag.
 
 Adoption is an agent's reviewed work in pull requests, not an installer. The
 person decides; the agent prepares. Nothing is merged, tagged, published or
@@ -16,7 +16,8 @@ granted without the person's explicit instruction.
 
 ## Who keeps which side
 
-Both parts take later releases by merge, and every merge follows one rule:
+The Organization's design system takes later template releases by merge, and
+every merge follows one rule:
 
 > When a merge of a release conflicts, the template's side wins for code and
 > components and the Organization's side wins for its brand, brand tokens and
@@ -173,7 +174,27 @@ module's pull request with what you did, what you verified, the merged release
 and commit, and what is left. After both pull requests are merged and the
 module is on `main`, `lazurio module setup` must report it `current`.
 
-### 9. Access for Teams, last
+### 9. Release the Organization's design system
+
+Once the module is merged with the Organization's brand, it is the
+Organization's package: its modules depend on it, not on this template. On
+the person's instruction, tag a release on `main` of the module's repository
+and create its GitHub Release (both Publication):
+
+```sh
+git tag -a v<version> -m "v<version>"
+git push origin v<version>
+gh release create v<version> --verify-tag
+```
+
+The version is the Organization's own (semantic, see
+[Releasing](extending.md#releasing-the-organizations-design-system));
+`brand/README.md` and `CHANGELOG.md` say which template release it carries.
+Protect the tags (a ruleset on `refs/tags/v*` against deletion and update) so
+a released version never moves; the modules' `bun.lock` pins the commit
+anyway.
+
+### 10. Access for Teams, last
 
 Who may open the module follows the Organization's manifest and live GitHub
 grants. The Marketplace grants nothing. Change access only as the last step
@@ -181,133 +202,149 @@ and only on the person's instruction.
 
 ## Using the design system in another module
 
-### The one way: a subtree of a release, with a lock
+### The one way: a package on a released tag
 
-A module that wants the Organization's look merges a release of the design
-system as a **Git subtree** into a directory of its App (for example
-`app/v3/design-system/`), records it in **`design-system.lock.json`** and
-imports only from `<prefix>/app/v1/kit`. This is the only way from 2.0.0 on,
-for three reasons:
+The design system is a package named `design-system`: `package.json` at the
+root of its repository exports the kit (styles, tokens, fonts, icons and the
+components for Astro and React). A module adds it to its App's
+`package.json` as a Git dependency on a released tag, like every shared
+package in Lazurio (`@lazurio/module-kit`, repository-db), and imports from
+`design-system/...`. This is the only way from 2.0.0 on:
 
-- **Updates are merges of a tag.** The release stays an ancestor of the
-  module, so the next one arrives with `git merge -X subtree=<prefix>` and Git
-  resolves what changed on both sides. A copy refreshed by a script loses
-  that: every refresh overwrites, and nothing tells an update from a local
-  edit.
-- **The brand stays the Organization's.** Inside an Organization the module
-  merges the Organization's own design system module, whose `brand/` holds its
-  brand; that module itself took the template by merge, so the template's
-  later releases reach every module through it, with the brand intact.
-- **One kit for Astro and React.** The subtree carries the whole kit: the
-  styles, the tokens as CSS and TypeScript, the fonts and both renderers. An
-  Astro site imports `kit/astro/*.astro`, a React App `kit/react`; no module
-  needs its own sync script or its own conversion of the tokens.
+- **The Module Standard asks for it**: a design system's assets come as a
+  dependency on its package, never by a relative path, and shared contracts of
+  an Organization are a versioned package it owns, a dependency on a released
+  tag. A copy or a subtree puts a second, undeclared package into the module.
+- **An update is moving the pin.** `bun.lock` records the exact commit of the
+  tag (and for `github:` the tarball's `sha512`); `bun install
+  --frozen-lockfile` installs exactly that. A newer release, or the
+  Organization's new brand, is a new tag and a one-line change of the
+  dependency.
+- **The brand stays the Organization's.** Its modules depend on its own design
+  system, which carries its brand in `brand/`; the template reaches them
+  through it.
+- **One package for Astro and React.** The same dependency gives an Astro site
+  `design-system/astro` and a React App `design-system/react`, with the same
+  styles and tokens; no module converts tokens or syncs files of its own.
 
-The lock makes the copy controlled: the module's test fails when the subtree
-is not the locked release (an edit in place) or a file of the kit differs from
-its manifest.
+Why these specifiers, measured with Bun 1.4.4: `github:<owner>/<repo>#<tag>`
+records the commit and a `sha512` in `bun.lock`, but Bun downloads it from
+GitHub's API without credentials, so it works only for public repositories
+(a private one answers 404, also with `GITHUB_TOKEN`); `git+https://github.com/…`
+takes the same unauthenticated path. `git+ssh://` clones with the
+Environment's SSH key and works for private repositories; `bun.lock` pins the
+full commit SHA. A tarball attached to a GitHub Release would need
+authentication Bun cannot send for a private repository. Bun cannot install a
+subdirectory of a repository, so the package's root is the repository's root,
+and it installs the whole tree of the tag (about 6.5 MB, most of it the
+vendored Impeccable skill), ignoring `files`.
 
-### Where the design system comes from
+### Adding it to a module
 
-- A module of an Organization: the Organization's design system module, at a
-  commit of its `main` (tag `main` in the lock) or a tag it made.
-- A template of the Marketplace (`LazurioTemplates/*`): this template, at a
-  release tag. When an Organization adopts such a template, it then merges its
-  own design system into the same prefix (below, "Switching to the
-  Organization's design system").
+In the App's `package.json`, under `dependencies`:
 
-### Taking it the first time
+- a template of the Marketplace (public): `"design-system": "github:LazurioTemplates/design-system#v2.0.0"`;
+- a module of an Organization (its design system is private):
+  `"design-system": "git+ssh://git@github.com/<Organization>/design-system.git#v<version>"`.
 
-In a task worktree of the module, with `<prefix>` the directory inside the
-App (so the App's `node_modules` resolves React for the kit):
+Then `bun install` (it updates `bun.lock`; commit both). Never a branch, a
+bare commit without a tag, `file:` or a path.
 
-```sh
-git remote add design-system https://github.com/<owner>/design-system.git
-git fetch design-system tag v<version>            # or: git fetch design-system main
-commit=$(git rev-parse 'v<version>^{commit}')     # check it against the registry or the brief
-git merge -s ours --no-commit --allow-unrelated-histories "$commit"
-git read-tree --prefix=<prefix>/ -u "$commit"
-git commit -m "Design system: take <owner>/design-system v<version> as <prefix>"
+Import in the App:
+
+```astro
+---
+// An Astro layout or page.
+import "design-system/styles.css";
+import { Button, TextField } from "design-system/astro";
+---
+<Button variant="primary">Uložit</Button>
 ```
 
-Then write `<App>/design-system.lock.json`:
+```tsx
+// The React App's entry (main.tsx) imports the styles once…
+import "design-system/styles.css";
+// …and any component imports what it uses.
+import { Button, TextField } from "design-system/react";
 
-```json
-{
-  "schema": "design-system.lock.v1",
-  "repository": "<owner>/design-system",
-  "tag": "v<version>",
-  "commit": "<full commit>",
-  "tree": "<git rev-parse '<commit>^{tree}'>",
-  "prefix": "<prefix>"
-}
+<Button variant="primary">Uložit</Button>;
 ```
 
-and a test of the App (Bun):
+What the package exports:
 
-```ts
-import { test, expect } from "bun:test";
-import { resolve } from "node:path";
-import lock from "../design-system.lock.json";
-import { verifyLock } from "../design-system/app/v1/kit/core/lock";
+| Import | Gives |
+| --- | --- |
+| `design-system/styles.css` | Tokens, fonts, base styles, every component's CSS (import once) |
+| `design-system/astro`, `design-system/astro/<Component>.astro` | The Astro components |
+| `design-system/react` | The React components and everything of `design-system` |
+| `design-system` (or `design-system/core`) | The framework-free core: class names, `resolveLocale()`, `readLazurioLocale()`, `showToast()`, `applyTheme()`, `contrast()`, the icons, the tokens and the brand |
+| `design-system/tokens`, `design-system/brand` | The tokens and the brand as TypeScript |
+| `design-system/tokens.css`, `design-system/fonts.css`, `design-system/css/<name>.css` | Parts of the styles, for a module that takes only some |
 
-test("the design system is the locked release, untouched", () => {
-  expect(verifyLock(resolve(import.meta.dir, "../../.."), lock)).toEqual([]);
-});
-```
+Nothing else is needed: Astro compiles the package's `.astro` files (the
+package carries the `astro-component` keyword), Vite and Bun compile its
+TypeScript and TSX, and its stylesheets declare their types, so
+`import "design-system/styles.css"` type-checks without `vite/client`. The
+package's tests install it this way into clean Astro and React (Vite,
+TypeScript 7) projects and build them.
 
-### Wiring it into the App
+Pass the page's language to components that speak (`locale`), resolved with
+`resolveLocale()` and `readLazurioLocale()` from `design-system`.
 
-- **Styles**: import `<prefix>/app/v1/kit/styles.css` once (the layout of an
-  Astro site, the entry of a React App).
-- **Components**: Astro `import Button from "<prefix>/app/v1/kit/astro/Button.astro"`;
-  React `import { Button } from "<prefix>/app/v1/kit/react"`. An alias
-  `@design-system/*` → `<prefix>/app/v1/kit/*` in `tsconfig.json` (and
-  `resolve.alias` in Vite) shortens it.
-- **Your own tooling stays yours**: exclude `<prefix>` from Biome
-  (`"!design-system"` in `files.includes`), keep the App's tests to its own
-  directory (`bunfig.toml`: `[test] root = "./tests"`), and keep `<prefix>` out
-  of the App's `tsconfig.json` `include` (and out of `astro check`); the files
-  you import are still type-checked.
-- **Language**: pass the page's language to components that speak
-  (`locale`), resolved with `resolveLocale()` and `readLazurioLocale()` from
-  `kit/core/i18n.ts`.
+**Continuous integration.** A public design system installs in any CI. A
+private one is installed with `git+ssh`: on an Environment with the person's
+SSH key it works as it is; a module's GitHub Actions need read access to the
+Organization's design system repository (for example a read-only deploy key
+of that repository as a secret of the module and an SSH agent step). Setting
+that up is the Organization's Admin's work; ask for it with the person
+(skill `admin-request`) and do not create keys or secrets yourself.
 
 ### Taking a newer release
 
-```sh
-git fetch design-system tag v<version>
-git merge -X subtree=<prefix> --no-ff -m "Design system: take v<version>" 'v<version>^{commit}'
-```
+Change the tag in the dependency, run `bun install` and the App's check, read
+the release's `CHANGELOG.md` entry for what the module must change, and open a
+pull request that names the release. An Organization's new brand arrives the
+same way: a new release of its design system, a new pin in each module.
 
-Update `tag`, `commit` and `tree` in the lock, read the release's
-`CHANGELOG.md` entry for what the module must change, run the App's check and
-open a pull request. Inside `<prefix>` there is nothing of the module's own,
-so there is nothing to keep; the module's own files follow the changelog.
+### Switching from the template to the Organization's design system
 
-### Switching to the Organization's design system
-
-A module that came from a Marketplace template carries this template's
-release. Once the Organization has adopted the design system (part one), merge
-the Organization's module into the same prefix with
-`git merge -X subtree=<prefix>` and update the lock. Because the
-Organization's design system contains the template's release as an ancestor,
-the merge brings exactly the Organization's brand and anything it added.
+A module that came from a Marketplace template depends on
+`github:LazurioTemplates/design-system#v<version>`. Once the Organization has
+adopted the design system and released it (part one), change the dependency
+to `git+ssh://git@github.com/<Organization>/design-system.git#v<version>`;
+the imports stay the same, because both packages are named `design-system`.
 
 ### Moving from a copy with a lock and a sync script
 
 Some modules took design system 1.0.0 as a copy of `tokens.json` with their
 own `lock.json` and a script (`design-system:sync`, `design-system:refresh`).
-They move to the subtree in one pull request:
+In one pull request:
 
-1. Remove the copy, its lock and the script, and the code that turned the
-   copied tokens into CSS custom properties.
-2. Take the design system as a subtree (above) and write
-   `design-system.lock.json` in the new shape.
-3. Import `kit/styles.css`; replace the module's own variables with the
-   `--ds-*` tokens (the mapping from 1.0.0 is in
+1. Remove the copy, its lock, the script and its entry in `package.json`, and
+   the code that turned the copied tokens into CSS custom properties.
+2. Add the dependency and run `bun install`.
+3. Import `design-system/styles.css`; replace the module's own variables with
+   the `--ds-*` tokens (the mapping from 1.0.0 is in
    [`extending.md`](extending.md#from-100-to-200)) and its own copies of
-   components with the kit's.
+   components with the package's.
+4. Run the App's check and look at its pages in both themes.
+
+### Moving from a subtree
+
+Some modules merged design system 1.0.0 as a Git subtree (for example
+`app/v3/design-system/`) with a `design-system.lock.json`. In one pull request:
+
+1. Delete the subtree directory and `design-system.lock.json`, the test that
+   checked the lock, and the exclusions made for the subtree (Biome
+   `files.includes`, `bunfig.toml` `[test] root`, `tsconfig.json`), unless the
+   module needs them for itself. The merged history stays in Git; nothing of
+   it is imported any more.
+2. Add the dependency and run `bun install`.
+3. Replace imports of `<prefix>/app/v1/src/tokens.ts`,
+   `<prefix>/app/v1/src/styles/global.css` and
+   `<prefix>/app/v1/kit/...` with `design-system/...`: the styles, the
+   tokens and the components (mapping in
+   [`extending.md`](extending.md#from-100-to-200)).
 4. Run the App's check and look at its pages in both themes.
 
 ## What you never do
@@ -317,5 +354,5 @@ They move to the subtree in one pull request:
 - force-push, delete a branch, repository or data, or reset a protected
   branch; a failed or partial adoption keeps its worktree and tells the
   person exactly where to resume;
-- edit files inside a merged design system in place, or read this
-  repository's files at run time: a module takes it by merge.
+- import the design system by a relative path, copy its files into a module
+  or depend on a branch: a module depends on the package at a released tag.

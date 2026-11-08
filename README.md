@@ -38,7 +38,8 @@ is installed or published without the person's instruction.
 | --- | --- | --- |
 | `brand/` | The brand: name, palette, fonts, radius, logo, illustrations, its own pages ([`brand/README.md`](brand/README.md)) | The Organization |
 | `tokens/tokens.json` | The system tokens: colour roles for light and dark, type, space, shadow, motion, sizes; `tokens/design.md` is the prose of `DESIGN.md` | The template |
-| `app/v1/kit/` | The library other modules use: `styles.css`, the tokens as CSS and TypeScript, the fonts, the components for Astro (`astro/`) and React (`react/`), the shared core (`core/`) | The template (generated parts from `brand/`) |
+| `package.json` | The package `design-system`: exports `app/v1/kit` to modules; a library, not an App | The template |
+| `app/v1/kit/` | The library the package exports: `styles.css`, the tokens as CSS and TypeScript, the fonts, the components for Astro (`astro/`) and React (`react/`), the shared core (`core/`) | The template (generated parts from `brand/`) |
 | `content/cs/`, `content/en/` | The pages of the viewer: principles, voice, accessibility, when to use what, foundations, every component | The template |
 | `DESIGN.md` | The design system for agents, in the [DESIGN.md format](https://github.com/google-labs-code/design.md); generated | Generated |
 | `app/v1/src/` | The viewer App (Astro), read-only | The template |
@@ -51,10 +52,22 @@ stated in [`docs/extending.md`](docs/extending.md#who-owns-which-file).
 
 ## Using it in another module
 
-A website, a knowledge base, an App or presentations take the design system
-as a Git subtree of a release with a lock, and import from `app/v1/kit`:
-`styles.css` once, then the components (`kit/astro/Button.astro` or
-`Button` from `kit/react`). See
+The design system is also a **package**, `design-system`, at the root of this
+repository. A website, a knowledge base, an App or presentations add it as a
+Git dependency on a released tag and import from it:
+
+```json
+"design-system": "github:LazurioTemplates/design-system#v2.0.0"
+```
+
+```ts
+import "design-system/styles.css";
+import { Button } from "design-system/react";      // React
+import { Button } from "design-system/astro";      // Astro
+```
+
+An Organization's modules depend on the Organization's own design system
+(`git+ssh://git@github.com/<Organization>/design-system.git#v<version>`). See
 [Using the design system in another module](docs/adoption.md#using-the-design-system-in-another-module).
 
 ## Run the viewer

@@ -1,11 +1,11 @@
 ---
-import Button from "@design-system/astro/Button.astro";
-import Checkbox from "@design-system/astro/Checkbox.astro";
-import RadioGroup from "@design-system/astro/RadioGroup.astro";
-import Select from "@design-system/astro/Select.astro";
-import Switch from "@design-system/astro/Switch.astro";
-import TextArea from "@design-system/astro/TextArea.astro";
-import TextField from "@design-system/astro/TextField.astro";
+import Button from "design-system/astro/Button.astro";
+import Checkbox from "design-system/astro/Checkbox.astro";
+import RadioGroup from "design-system/astro/RadioGroup.astro";
+import Select from "design-system/astro/Select.astro";
+import Switch from "design-system/astro/Switch.astro";
+import TextArea from "design-system/astro/TextArea.astro";
+import TextField from "design-system/astro/TextField.astro";
 import Demo from "../../components/Demo.astro";
 import States from "../../components/States.astro";
 import type { ViewProps } from "../types";
@@ -62,15 +62,15 @@ const payments = [
 const code = {
   astro: `
 ---
-import TextField from "@design-system/astro/TextField.astro";
-import Checkbox from "@design-system/astro/Checkbox.astro";
+import TextField from "design-system/astro/TextField.astro";
+import Checkbox from "design-system/astro/Checkbox.astro";
 ---
 <TextField id="company" name="company" label="${t.company}" hint="${t.companyHint}" required />
 <TextField id="email" name="email" type="email" autocomplete="email" label="${t.email}"
   error="${t.emailError}" />
 <Checkbox id="terms" name="terms" label="${t.terms}" required />`,
   react: `
-import { Checkbox, TextField } from "@design-system/react";
+import { Checkbox, TextField } from "design-system/react";
 
 <TextField id="company" name="company" label="${t.company}" hint="${t.companyHint}" required />
 <TextField id="email" name="email" type="email" autoComplete="email" label="${t.email}"

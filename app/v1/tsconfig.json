@@ -8,7 +8,15 @@
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@design-system/*": ["./kit/*"]
+      "design-system": ["./kit/core/index.ts"],
+      "design-system/core": ["./kit/core/index.ts"],
+      "design-system/core/*": ["./kit/core/*"],
+      "design-system/react": ["./kit/react/index.ts"],
+      "design-system/astro": ["./kit/astro/index.ts"],
+      "design-system/astro/*": ["./kit/astro/*"],
+      "design-system/tokens": ["./kit/tokens.ts"],
+      "design-system/brand": ["./kit/brand.ts"],
+      "design-system/*": ["./kit/*"]
     }
   },
   "include": [".astro/types.d.ts", "**/*"],

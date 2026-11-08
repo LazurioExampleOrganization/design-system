@@ -24,7 +24,7 @@ In order of authority:
    brief).
 2. The brand in `brand/` and the system tokens in `tokens/tokens.json`.
 3. Everything generated from them: `app/v1/kit/tokens.*`, `fonts.css`,
-   `brand.ts`, `manifest.json`, `app/v1/public/favicon.svg`, `DESIGN.md`.
+   `fonts/`, `brand.ts`, `app/v1/public/favicon.svg`, `DESIGN.md`.
    Never edit these by hand; change a source and run `bun run tokens`.
 
 When the design system disagrees with production, production is right and
@@ -34,14 +34,15 @@ the design system is updated.
 
 | You are producing | Read and use |
 | --- | --- |
-| A screen of an App (React) | `DESIGN.md`, the component pages, `app/v1/kit/react` and `app/v1/kit/styles.css` |
-| A website or knowledge base page (Astro) | `DESIGN.md`, the component pages, `app/v1/kit/astro/*.astro` and `app/v1/kit/styles.css` |
-| A document, presentation or e-mail | `DESIGN.md` (colour roles, type roles, voice); values from `app/v1/kit/tokens.ts` |
+| A screen of an App (React) | `DESIGN.md`, the component pages; in the module `design-system/react` and `design-system/styles.css` |
+| A website or knowledge base page (Astro) | `DESIGN.md`, the component pages; in the module `design-system/astro` and `design-system/styles.css` |
+| A document, presentation or e-mail | `DESIGN.md` (colour roles, type roles, voice); values from `design-system/tokens` |
 | Interface text | `content/en/voice.md` (and `content/cs/voice.md`) |
 | Anything that sends, publishes, pays or deletes | `content/en/when-to-use.md`: prepare a draft, confirm in a dialog, act only after the confirmation |
 | A change of the brand | `brand/README.md`, then `docs/extending.md#replacing-the-brand` |
 | A new component or token | `docs/extending.md#adding-a-component` |
-| An adoption, or another module taking the design system | `docs/adoption.md` |
+| An adoption, or another module adding the design system as a package | `docs/adoption.md` |
+| A release of the package (template or Organization) | `docs/extending.md#releasing-the-template`, `#releasing-the-organizations-design-system` |
 | A merge of a newer template release | `docs/extending.md#taking-an-update-of-the-template` and the rule below |
 
 Use tokens by name (`--ds-color-ink`, `--ds-space-16`, `--ds-type-body-size`);
@@ -63,6 +64,15 @@ propose it here in a pull request instead of improvising it in the output.
 The table of every path is in
 [`docs/extending.md`](docs/extending.md#who-owns-which-file). Notes of the
 Organization for agents belong in `brand/README.md`, not here.
+
+## The package
+
+`package.json` at the root is the design system's package, `design-system`,
+which other modules add as a Git dependency on a released tag and import from
+`design-system/...` (`docs/adoption.md`). It is a library, not an App: keep it
+without scripts, `lazurio.runtime` or dependencies, and keep its `exports`
+pointing into `app/v1/kit`. Never tell a module to copy, merge or import the
+design system's files by a path; never point a module at a branch.
 
 ## Languages
 

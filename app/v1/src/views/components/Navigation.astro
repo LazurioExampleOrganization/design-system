@@ -1,6 +1,6 @@
 ---
-import Breadcrumbs from "@design-system/astro/Breadcrumbs.astro";
-import Nav from "@design-system/astro/Nav.astro";
+import Breadcrumbs from "design-system/astro/Breadcrumbs.astro";
+import Nav from "design-system/astro/Nav.astro";
 import Demo from "../../components/Demo.astro";
 import States from "../../components/States.astro";
 import type { ViewProps } from "../types";
@@ -37,8 +37,8 @@ const crumbs = t.crumbs.map((label, index) => ({ label, href: index < 2 ? "#sect
 const code = {
   astro: `
 ---
-import Nav from "@design-system/astro/Nav.astro";
-import Breadcrumbs from "@design-system/astro/Breadcrumbs.astro";
+import Nav from "design-system/astro/Nav.astro";
+import Breadcrumbs from "design-system/astro/Breadcrumbs.astro";
 ---
 <Nav label="${t.label}" items={[
   { href: "/", label: "${t.items[0]}", icon: "home-simple" },
@@ -46,7 +46,7 @@ import Breadcrumbs from "@design-system/astro/Breadcrumbs.astro";
 ]} />
 <Breadcrumbs items={[{ label: "${t.crumbs[1]}", href: "/invoices/" }, { label: "${t.crumbs[2]}" }]} />`,
   react: `
-import { Breadcrumbs, Nav } from "@design-system/react";
+import { Breadcrumbs, Nav } from "design-system/react";
 
 <Nav label="${t.label}" items={[
   { href: "/", label: "${t.items[0]}", icon: "home-simple" },

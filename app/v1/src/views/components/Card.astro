@@ -1,7 +1,7 @@
 ---
-import Badge from "@design-system/astro/Badge.astro";
-import Button from "@design-system/astro/Button.astro";
-import Card from "@design-system/astro/Card.astro";
+import Badge from "design-system/astro/Badge.astro";
+import Button from "design-system/astro/Button.astro";
+import Card from "design-system/astro/Card.astro";
 import Demo from "../../components/Demo.astro";
 import States from "../../components/States.astro";
 import type { ViewProps } from "../types";
@@ -41,8 +41,8 @@ const t = {
 const code = {
   astro: `
 ---
-import Card from "@design-system/astro/Card.astro";
-import Button from "@design-system/astro/Button.astro";
+import Card from "design-system/astro/Card.astro";
+import Button from "design-system/astro/Button.astro";
 ---
 <Card title="${t.title}" description="${t.description}">
   <p>${t.body}</p>
@@ -52,7 +52,7 @@ import Button from "@design-system/astro/Button.astro";
 </Card>
 <Card href="/pricebook/" title="${t.link}" description="${t.linkText}" />`,
   react: `
-import { Button, Card } from "@design-system/react";
+import { Button, Card } from "design-system/react";
 
 <Card title="${t.title}" description="${t.description}" footer={<Button size="sm">${t.open}</Button>}>
   <p>${t.body}</p>

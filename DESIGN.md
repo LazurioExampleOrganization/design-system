@@ -331,7 +331,7 @@ The design system is calm, trustworthy and quiet. Restraint is the style: expres
 4. **Less text, more of the thing.** A section stands on a piece of the product, a table or a picture; the text names it.
 5. **Values only from tokens.** A colour, size, space, radius or duration written straight into a page is a bug.
 
-The sources are `brand/brand.json` (the brand: palette, fonts, radius, logo), `tokens/tokens.json` (the system: colour roles for light and dark, type, space, shadow, motion, sizes) and the components in `app/v1/kit/`. This file is generated from them; when it disagrees with them, they win. The viewer App shows every page in Czech and English.
+The sources are `brand/brand.json` (the brand: palette, fonts, radius, logo), `tokens/tokens.json` (the system: colour roles for light and dark, type, space, shadow, motion, sizes) and the components in `app/v1/kit/`. This file is generated from them; when it disagrees with them, they win. The viewer App shows every page in Czech and English. Modules use the design system as the package `design-system` at a released tag: `import "design-system/styles.css"`, components from `design-system/astro` or `design-system/react`, tokens from `design-system/tokens`.
 
 ## Colors
 
@@ -366,9 +366,9 @@ The sources are `brand/brand.json` (the brand: palette, fonts, radius, logo), `t
 
 ## Components
 
-The components exist for Astro (`app/v1/kit/astro/`) and React (`app/v1/kit/react/`) with the same properties and the same HTML; a test compares them. Styles load once from `app/v1/kit/styles.css`; every class has the prefix `ds-`.
+The components exist for Astro (`design-system/astro`) and React (`design-system/react`) with the same properties and the same HTML; a test compares them. Styles load once from `design-system/styles.css`; every class has the prefix `ds-`.
 
-- **Button**: primary (one per screen), secondary (default), soft, quiet, danger; sizes sm, md, lg; icon-only buttons need `label`; `busy` while an action runs.
+- **Button**: primary (one per screen), secondary (default), soft, quiet, danger; sizes sm, md, lg; icon-only buttons need `label`; `busy` while an action runs (the button keeps focus and does not act again).
 - **Form fields**: TextField, TextArea, Select, Checkbox, RadioGroup, Switch. Label above, hint before the control, error after it, connected by `aria-describedby`; optional fields are marked, required ones are not; field text is at least 16 px.
 - **Table**: a wrapper that scrolls sideways and takes focus, a caption, a quiet head, numbers right-aligned with `ds-table__num`, states as badges.
 - **Card**: a white object with a hairline; title, description, body, footer; or a whole-card link.

@@ -8,13 +8,10 @@
 //   app/v1/kit/fonts.css    @font-face for the brand's fonts
 //   app/v1/kit/fonts/       the brand's font files and their licences, copied
 //   app/v1/kit/brand.ts     the brand's name, summary, logo and illustrations
-//   app/v1/kit/manifest.json  SHA-256 of every file of the kit (the lock's anchor)
 //   app/v1/public/favicon.svg  the viewer's favicon, from the logo
 //   DESIGN.md               the design system for agents (DESIGN.md format)
-import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
-import packageJson from "../package.json";
 import { designMd } from "./design-md";
 import { type Brand, loadTokens, type Resolved, ROOT, THEMES, type Theme } from "./token-source";
 
@@ -271,26 +268,6 @@ function list(dir: string): string[] {
   });
 }
 
-const sha256 = (content: string | Uint8Array) => createHash("sha256").update(content).digest("hex");
-
-function manifest(outputs: Output[]): Output {
-  const generated = new Map(outputs.map((output) => [output.path, output.content]));
-  const files: Record<string, string> = {};
-  const paths = new Set([
-    ...list(KIT).map((path) => relative(ROOT, path).split("\\").join("/")),
-    ...generated.keys(),
-  ]);
-  for (const path of [...paths].sort()) {
-    if (!path.startsWith("app/v1/kit/") || path === "app/v1/kit/manifest.json") continue;
-    const content = generated.get(path) ?? readFileSync(join(ROOT, path));
-    files[path.slice("app/v1/kit/".length)] = sha256(content);
-  }
-  return {
-    path: "app/v1/kit/manifest.json",
-    content: `${JSON.stringify({ schema: "design-system.kit-manifest.v1", version: packageJson.version, files }, null, 2)}\n`,
-  };
-}
-
 export function generate(): Output[] {
   const tokens = loadTokens();
   const outputs: Output[] = [
@@ -301,7 +278,6 @@ export function generate(): Output[] {
     ...fonts(tokens.brand),
   ];
   outputs.push({ path: "DESIGN.md", content: designMd(tokens) });
-  outputs.push(manifest(outputs));
   return outputs;
 }
 
@@ -339,9 +315,6 @@ if (import.meta.main) {
       mkdirSync(dirname(join(ROOT, output.path)), { recursive: true });
       writeFileSync(join(ROOT, output.path), output.content);
     }
-    // The manifest hashes the kit as it is now on disk, so write it once more.
-    const last = generate().at(-1);
-    if (last) writeFileSync(join(ROOT, last.path), last.content);
     console.log("wrote the generated files");
   }
 }
