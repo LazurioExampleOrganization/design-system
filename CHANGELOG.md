@@ -4,7 +4,7 @@ From 1.0.0 a release is an annotated tag `v<semver>` with a GitHub Release,
 and the version is independent of the App generation (`docs/extending.md`).
 The dated entries below (`YYYYMMDD`) come from before the template.
 
-## 2.0.0 (proposed)
+## 2.0.0 — 2026-11-09
 
 The design system becomes a full design system in the look of Lazurio, with
 the brand of the invented company Example in one place. The App stays
