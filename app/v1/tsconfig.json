@@ -1,7 +1,23 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "types": ["bun"]
+    "types": ["bun"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "verbatimModuleSyntax": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "design-system": ["./kit/core/index.ts"],
+      "design-system/core": ["./kit/core/index.ts"],
+      "design-system/core/*": ["./kit/core/*"],
+      "design-system/react": ["./kit/react/index.ts"],
+      "design-system/astro": ["./kit/astro/index.ts"],
+      "design-system/astro/*": ["./kit/astro/*"],
+      "design-system/tokens": ["./kit/tokens.ts"],
+      "design-system/brand": ["./kit/brand.ts"],
+      "design-system/*": ["./kit/*"]
+    }
   },
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist", "node_modules"]

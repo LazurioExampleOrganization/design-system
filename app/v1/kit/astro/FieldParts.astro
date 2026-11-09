@@ -1,0 +1,33 @@
+---
+// The label, hint and error of a field; the control goes into the slot.
+// Internal to the field components.
+import { messagesFor } from "../core/i18n";
+import type { Locale } from "../core/types";
+import Icon from "./Icon.astro";
+
+interface Props {
+  part: "label" | "hint" | "error";
+  id: string;
+  optional?: boolean;
+  locale?: Locale;
+}
+
+const { part, id, optional, locale } = Astro.props;
+---
+{
+  part === "label" ? (
+    <label class="ds-field__label" for={id}>
+      <slot />
+      {optional && <span class="ds-field__optional">{`(${messagesFor(locale).optional})`}</span>}
+    </label>
+  ) : part === "hint" ? (
+    <p class="ds-field__hint" id={id}>
+      <slot />
+    </p>
+  ) : (
+    <p class="ds-field__error" id={id}>
+      <Icon name="warning-circle" size="sm" />
+      <slot />
+    </p>
+  )
+}

@@ -1,0 +1,7 @@
+# Keep every text file LF on every platform. The generated files are checked
+# byte for byte, so a Windows checkout with core.autocrlf=true must not turn
+# them into CRLF.
+* text=auto eol=lf
+*.woff2 binary
+*.webp binary
+*.png binary

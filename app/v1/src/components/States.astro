@@ -1,0 +1,21 @@
+---
+// Every state of a component, each with its name. `items` are the names; the
+// slot is a function of the index that renders the example.
+interface Props {
+  items: readonly string[];
+  wide?: boolean;
+}
+
+const { items, wide = false } = Astro.props;
+const examples = await Promise.all(items.map((_, index) => Astro.slots.render("default", [index])));
+---
+<div class:list={["states", wide && "states--wide"]}>
+  {
+    items.map((name, index) => (
+      <figure class="state">
+        <Fragment set:html={examples[index]} />
+        <figcaption>{name}</figcaption>
+      </figure>
+    ))
+  }
+</div>

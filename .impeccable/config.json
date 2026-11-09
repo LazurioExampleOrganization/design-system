@@ -1,0 +1,9 @@
+{
+  "telemetry": false,
+  "projectRoots": ["app/v1"],
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": []
+  }
+}

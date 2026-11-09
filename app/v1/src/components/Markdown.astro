@@ -1,0 +1,11 @@
+---
+import { render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"docs"> | CollectionEntry<"brand">;
+}
+
+const { Content } = await render(Astro.props.entry);
+---
+<div class="ds-prose"><Content /></div>

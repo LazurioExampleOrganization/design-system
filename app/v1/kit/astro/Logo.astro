@@ -1,0 +1,29 @@
+---
+import { brandName, logoSymbol } from "../brand";
+import { cx } from "../core/classes";
+import type { Size } from "../core/types";
+
+interface Props {
+  size?: Size;
+  /** Shows the name beside the symbol (default); without it the symbol carries the name. */
+  wordmark?: boolean;
+  href?: string;
+  class?: string;
+}
+
+const { size = "md", wordmark = true, href, class: className } = Astro.props;
+const classes = cx("ds-logo", size !== "md" && `ds-logo--${size}`, className);
+const Root = href ? "a" : "span";
+---
+<Root class={classes} href={href}>
+  <svg
+    class="ds-logo__symbol"
+    viewBox={logoSymbol.viewBox}
+    focusable="false"
+    role={wordmark ? undefined : "img"}
+    aria-label={wordmark ? undefined : brandName}
+    aria-hidden={wordmark ? "true" : undefined}
+    set:html={logoSymbol.markup}
+  />
+  {wordmark && <span class="ds-logo__wordmark">{brandName}</span>}
+</Root>

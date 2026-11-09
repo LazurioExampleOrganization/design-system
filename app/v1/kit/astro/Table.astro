@@ -1,0 +1,21 @@
+---
+import { cx } from "../core/classes";
+
+interface Props {
+  id: string;
+  /** Names the table; hide it only when a heading right above says the same. */
+  caption: string;
+  hideCaption?: boolean;
+  density?: "default" | "compact";
+  /** Rows react to the pointer, for tables whose rows open something. */
+  interactive?: boolean;
+}
+
+const { id, caption, hideCaption, density = "default", interactive } = Astro.props;
+---
+<section class="ds-table-wrap" aria-labelledby={`${id}-caption`} tabindex="0">
+  <table class={cx("ds-table", density === "compact" && "ds-table--compact", interactive && "ds-table--interactive")}>
+    <caption id={`${id}-caption`} class={cx("ds-table__caption", hideCaption && "ds-visually-hidden")}>{caption}</caption>
+    <slot />
+  </table>
+</section>

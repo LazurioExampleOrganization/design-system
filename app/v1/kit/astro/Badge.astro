@@ -1,0 +1,20 @@
+---
+import { cx, TONE_ICON } from "../core/classes";
+import type { IconName } from "../core/icons";
+import type { Tone } from "../core/types";
+import Icon from "./Icon.astro";
+
+interface Props {
+  tone?: Tone;
+  /** The tone's icon by default; another icon, or false for none. */
+  icon?: IconName | false;
+  class?: string;
+}
+
+const { tone = "neutral", icon, class: className } = Astro.props;
+const name = icon === false ? null : (icon ?? TONE_ICON[tone]);
+---
+<span class={cx("ds-badge", tone !== "neutral" && `ds-badge--${tone}`, className)}>
+  {name && <Icon name={name} size="sm" />}
+  <slot />
+</span>

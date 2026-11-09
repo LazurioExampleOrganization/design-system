@@ -1,0 +1,22 @@
+---
+// The live region toasts appear in; put it once at the end of the page.
+// `showToast()` from core/toast.ts, or a button with
+// `data-ds-toast-show='{"tone":"success","title":"…"}'`, adds a toast.
+import { messagesFor } from "../core/i18n";
+import type { Locale } from "../core/types";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale } = Astro.props;
+---
+<ol class="ds-toast-region" aria-live="polite" aria-label={messagesFor(locale).notifications} data-ds-toast-region>
+  <slot />
+</ol>
+
+<script>
+  import { bindToasts } from "../core/toast";
+
+  bindToasts();
+</script>

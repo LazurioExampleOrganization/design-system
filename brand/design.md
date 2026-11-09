@@ -1,0 +1,1 @@
+Example is an invented company; its brand stands in for an Organization's own. Example feels calm and matter-of-fact: white and paper surfaces, hairlines, black pill buttons and one ultramarine accent used sparingly. Its logo is three bars and one accent dot beside the name in the heading face, always whole and unchanged, drawn in the text colour.

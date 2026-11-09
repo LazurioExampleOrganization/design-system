@@ -1,0 +1,29 @@
+---
+import { ICON_PX, iconClass } from "../core/classes";
+import { type IconName, icons } from "../core/icons";
+import type { Size } from "../core/types";
+
+interface Props {
+  name: IconName;
+  size?: Size;
+  /** Names the icon for screen readers; without it the icon is decoration. */
+  label?: string;
+  class?: string;
+}
+
+const { name, size = "md", label, class: className } = Astro.props;
+const px = ICON_PX[size];
+---
+<svg
+  class={iconClass(size, className)}
+  viewBox="0 0 24 24"
+  width={px}
+  height={px}
+  fill="none"
+  stroke-width="1.5"
+  focusable="false"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  set:html={icons[name]}
+/>

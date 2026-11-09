@@ -1,0 +1,41 @@
+---
+import { cx, TONE_ICON } from "../core/classes";
+import { messagesFor } from "../core/i18n";
+import type { AlertTone, Locale } from "../core/types";
+import Icon from "./Icon.astro";
+
+interface Props {
+  tone?: AlertTone;
+  title?: string;
+  /** Announce it when it appears after the page loaded. */
+  live?: "polite" | "assertive";
+  locale?: Locale;
+}
+
+const { tone = "info", title, live, locale } = Astro.props;
+const toneWord = `${messagesFor(locale).tone[tone]}: `;
+const role = live === "assertive" ? "alert" : live === "polite" ? "status" : undefined;
+const hasBody = Astro.slots.has("default");
+---
+<div class={cx("ds-alert", tone !== "info" && `ds-alert--${tone}`)} role={role}>
+  <Icon name={TONE_ICON[tone] ?? "info-circle"} class="ds-alert__icon" />
+  <div class="ds-alert__content">
+    {
+      title && (
+        <p class="ds-alert__title">
+          <span class="ds-visually-hidden">{toneWord}</span>
+          {title}
+        </p>
+      )
+    }
+    {
+      (hasBody || !title) && (
+        <div class="ds-alert__body">
+          {!title && <span class="ds-visually-hidden">{toneWord}</span>}
+          <slot />
+        </div>
+      )
+    }
+    {Astro.slots.has("actions") && <div class="ds-alert__actions"><slot name="actions" /></div>}
+  </div>
+</div>

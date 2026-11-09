@@ -1,0 +1,54 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { fieldIds } from "../core/classes";
+import type { Locale, Option } from "../core/types";
+import FieldParts from "./FieldParts.astro";
+import Icon from "./Icon.astro";
+
+interface Props extends Omit<HTMLAttributes<"select">, "id"> {
+  id: string;
+  label: string;
+  hint?: string;
+  error?: string;
+  optional?: boolean;
+  options: Option[];
+  /** The selected value. */
+  value?: string;
+  /** A first, empty choice that asks for a selection. */
+  placeholder?: string;
+  locale?: Locale;
+}
+
+const { id, label, hint, error, optional, locale, options, value, placeholder, ...rest } = Astro.props;
+const ids = fieldIds(id, hint, error);
+---
+<div class="ds-field">
+  <FieldParts part="label" id={id} optional={optional} locale={locale}>{label}</FieldParts>
+  {ids.hintId && <FieldParts part="hint" id={ids.hintId}>{hint}</FieldParts>}
+  <div class="ds-select-wrap">
+    <select
+      class="ds-select"
+      id={id}
+      aria-invalid={error ? "true" : undefined}
+      aria-describedby={ids.describedBy}
+      {...rest}
+    >
+      {
+        placeholder !== undefined && (
+          <option value="" disabled selected={value === undefined}>
+            {placeholder}
+          </option>
+        )
+      }
+      {
+        options.map((option) => (
+          <option value={option.value} disabled={option.disabled} selected={option.value === value}>
+            {option.label}
+          </option>
+        ))
+      }
+    </select>
+    <Icon name="nav-arrow-down" class="ds-select__chevron" />
+  </div>
+  {ids.errorId && <FieldParts part="error" id={ids.errorId}>{error}</FieldParts>}
+</div>

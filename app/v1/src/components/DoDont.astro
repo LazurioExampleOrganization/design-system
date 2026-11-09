@@ -1,0 +1,35 @@
+---
+import Icon from "../../kit/astro/Icon.astro";
+import { type Locale, word } from "../lib/site";
+
+interface Props {
+  locale: Locale;
+  items: { do?: string[] | undefined; dont?: string[] | undefined };
+}
+
+const { locale, items } = Astro.props;
+---
+{
+  (items.do?.length || items.dont?.length) && (
+    <div class="dodont">
+      <div class="dodont__column">
+        <p class="dodont__title">
+          <Icon name="check-circle" />
+          {word("do", locale)}
+        </p>
+        <ul class="dodont__list">
+          {items.do?.map((text) => <li>{text}</li>)}
+        </ul>
+      </div>
+      <div class="dodont__column dodont__column--dont">
+        <p class="dodont__title">
+          <Icon name="xmark-circle" />
+          {word("dont", locale)}
+        </p>
+        <ul class="dodont__list">
+          {items.dont?.map((text) => <li>{text}</li>)}
+        </ul>
+      </div>
+    </div>
+  )
+}

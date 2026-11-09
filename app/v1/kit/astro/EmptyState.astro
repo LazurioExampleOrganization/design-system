@@ -1,0 +1,32 @@
+---
+import { type IllustrationName, illustrations } from "../brand";
+import type { IconName } from "../core/icons";
+import type { HeadingLevel } from "../core/types";
+import Icon from "./Icon.astro";
+
+interface Props {
+  title: string;
+  /** One of the brand's illustrations, for a first empty start. */
+  illustration?: IllustrationName;
+  /** An icon instead, for empty results inside a page. */
+  icon?: IconName;
+  headingLevel?: HeadingLevel;
+}
+
+const { title, illustration, icon, headingLevel = 2 } = Astro.props;
+const Heading = `h${headingLevel}` as const;
+const art = illustration ? illustrations[illustration] : null;
+---
+<div class="ds-empty">
+  {art && <svg class="ds-empty__art" viewBox={art.viewBox} aria-hidden="true" focusable="false" set:html={art.markup} />}
+  {
+    !art && icon && (
+      <span class="ds-empty__icon">
+        <Icon name={icon} size="lg" />
+      </span>
+    )
+  }
+  <Heading class="ds-empty__title">{title}</Heading>
+  {Astro.slots.has("default") && <div class="ds-empty__body"><slot /></div>}
+  {Astro.slots.has("actions") && <div class="ds-empty__actions"><slot name="actions" /></div>}
+</div>

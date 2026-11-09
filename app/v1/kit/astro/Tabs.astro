@@ -1,0 +1,54 @@
+---
+import type { TabItem } from "../core/types";
+
+interface Props {
+  /** Names the tab list for screen readers. */
+  label: string;
+  /** Each item's content goes into the slot named by its id. */
+  items: TabItem[];
+  selected?: string;
+}
+
+const { label, items, selected = items[0]?.id } = Astro.props;
+const panels = await Promise.all(items.map((item) => Astro.slots.render(item.id)));
+---
+<div class="ds-tabs" data-ds-tabs>
+  <div class="ds-tabs__list" role="tablist" aria-label={label}>
+    {
+      items.map((item) => (
+        <button
+          type="button"
+          class="ds-tabs__tab"
+          role="tab"
+          id={`${item.id}-tab`}
+          aria-controls={`${item.id}-panel`}
+          aria-selected={item.id === selected ? "true" : "false"}
+          tabindex={item.id === selected ? 0 : -1}
+        >
+          {item.label}
+          {item.badge && <span class="ds-badge">{item.badge}</span>}
+        </button>
+      ))
+    }
+  </div>
+  {
+    items.map((item, index) => (
+      <div
+        class="ds-tabs__panel"
+        role="tabpanel"
+        id={`${item.id}-panel`}
+        aria-labelledby={`${item.id}-tab`}
+        tabindex="0"
+        hidden={item.id !== selected}
+      >
+        <Fragment set:html={panels[index]} />
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  import { bindTabs } from "../core/tabs";
+
+  bindTabs();
+</script>
