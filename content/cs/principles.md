@@ -1,6 +1,6 @@
 ---
 title: "Principy"
-description: "Pět pravidel, podle kterých se v Example rozhoduje o každé obrazovce, dokumentu i prezentaci."
+description: "Pět pravidel, podle kterých se v Lazurio Example Organization rozhoduje o každé obrazovce, dokumentu i prezentaci."
 do:
   - "Na obrazovce nechte jednu hlavní akci; ostatní jsou vedlejší nebo tiché."
   - "Stav vyjádřete barvou, ikonou i slovem zároveň."

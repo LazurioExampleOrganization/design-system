@@ -1,6 +1,6 @@
 ---
 title: "Voice and writing"
-description: "How Example speaks in interfaces, documents and e-mails, in Czech and English."
+description: "How Lazurio Example Organization speaks in interfaces, documents and e-mails, in Czech and English."
 do:
   - "Write with a verb what will happen: \"Save draft\", not \"OK\"."
   - "In an error, say what the person should do."

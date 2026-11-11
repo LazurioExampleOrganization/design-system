@@ -4,8 +4,8 @@
 export const brandName = "Lazurio Example Organization";
 
 export const brandSummary = {
-  "cs": "Lazurio Example Organization je veřejná ukázková Organizace Lazuria; její značka je vymyšlená. Vypadá jako klidný přístrojový panel: grafitové plochy a jedna signální modrá pro akci, která posouvá práci.",
-  "en": "Lazurio Example Organization is the public reference Organization of Lazurio; its brand is invented. It looks like a calm instrument panel: graphite surfaces and one signal blue for the action that moves work forward."
+  "cs": "Lazurio Example Organization je veřejná ukázková Organizace v Lazuriu a nepopisuje žádnou skutečnou firmu. Její design system nosí vymyšlenou značku Example ze šablony.",
+  "en": "Lazurio Example Organization is a public reference Organization in Lazurio and describes no real company. Its design system wears the template's invented Example brand."
 } as const;
 
 /** The design system's repository; the viewer links each page to its source there. */

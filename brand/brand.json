@@ -2,197 +2,115 @@
   "schema": "design-system.brand.v1",
   "name": "Lazurio Example Organization",
   "summary": {
-    "cs": "Lazurio Example Organization je veřejná ukázková Organizace Lazuria; její značka je vymyšlená. Vypadá jako klidný přístrojový panel: grafitové plochy a jedna signální modrá pro akci, která posouvá práci.",
-    "en": "Lazurio Example Organization is the public reference Organization of Lazurio; its brand is invented. It looks like a calm instrument panel: graphite surfaces and one signal blue for the action that moves work forward."
+    "cs": "Lazurio Example Organization je veřejná ukázková Organizace v Lazuriu a nepopisuje žádnou skutečnou firmu. Její design system nosí vymyšlenou značku Example ze šablony.",
+    "en": "Lazurio Example Organization is a public reference Organization in Lazurio and describes no real company. Its design system wears the template's invented Example brand."
   },
   "repository": "https://github.com/LazurioExampleOrganization/design-system",
   "palette": {
     "neutral": {
       "0": "#ffffff",
-      "25": "#fafbfd",
-      "50": "#f5f7fa",
-      "100": "#e9ecf2",
-      "200": "#d6dbe4",
-      "300": "#b4bbc9",
-      "400": "#7b8497",
-      "500": "#5b6477",
-      "600": "#4a5466",
-      "700": "#343c4b",
-      "800": "#232935",
-      "850": "#1c212b",
-      "900": "#161a22",
-      "950": "#0e1117",
-      "975": "#0a0c11",
+      "25": "#fbfaf9",
+      "50": "#f5f4f3",
+      "100": "#ecebea",
+      "200": "#dddcdb",
+      "300": "#c3c2c1",
+      "400": "#8c8c8c",
+      "500": "#707070",
+      "600": "#515151",
+      "700": "#3d3d3d",
+      "800": "#262626",
+      "900": "#171717",
+      "950": "#090909",
       "1000": "#000000"
     },
     "accent": {
-      "50": "#f1f4fe",
-      "100": "#e3e9fd",
-      "200": "#bac9fa",
-      "300": "#92a8f5",
-      "400": "#6a88ee",
-      "500": "#4466e6",
-      "600": "#2d4fd1",
-      "700": "#233fae",
-      "800": "#1c2f7d",
-      "900": "#141f4f",
-      "950": "#060c28"
+      "50": "#ebf1fe",
+      "100": "#d2ddfd",
+      "200": "#a8b9fb",
+      "300": "#7083f7",
+      "400": "#3a48ef",
+      "500": "#0d12db",
+      "600": "#0b0eb4",
+      "700": "#0b0e91",
+      "800": "#0c0d72",
+      "900": "#0c0c53",
+      "950": "#080935"
     },
     "red": {
-      "50": "#fef1f0",
-      "100": "#fde4e1",
-      "200": "#ffbfb8",
-      "300": "#fe998f",
-      "400": "#f97066",
-      "500": "#e2584d",
-      "600": "#cb3f34",
-      "700": "#b42318",
-      "800": "#7a1c15",
-      "900": "#45130f",
-      "950": "#220604"
+      "50": "#fff0f2",
+      "100": "#ffdde1",
+      "200": "#febdc5",
+      "300": "#f68d9e",
+      "400": "#e2617b",
+      "500": "#c64060",
+      "600": "#a72a4b",
+      "700": "#891c3b",
+      "800": "#6a142c",
+      "900": "#4c0d1e",
+      "950": "#300611"
     },
     "amber": {
-      "50": "#fef8ea",
-      "100": "#fdf0d5",
-      "200": "#fadca9",
-      "300": "#f6c879",
-      "400": "#f2b33d",
-      "500": "#d0922a",
-      "600": "#af7217",
-      "700": "#8f5400",
-      "800": "#623c05",
-      "900": "#382505",
-      "950": "#1b1001"
+      "50": "#fcf4ea",
+      "100": "#f6e5d1",
+      "200": "#eacba8",
+      "300": "#d9a66a",
+      "400": "#c2832f",
+      "500": "#a76700",
+      "600": "#8c5100",
+      "700": "#723f00",
+      "800": "#583000",
+      "900": "#3f2100",
+      "950": "#271300"
     },
     "green": {
-      "50": "#eefaf4",
-      "100": "#dcf5ea",
-      "200": "#b0e9cd",
-      "300": "#80dcb0",
-      "400": "#3fcf94",
-      "500": "#2fb27e",
-      "600": "#1f9569",
-      "700": "#0c7a55",
-      "800": "#0e553d",
-      "900": "#0b3326",
-      "950": "#031810"
+      "50": "#edf9f1",
+      "100": "#d6efe0",
+      "200": "#b1ddc4",
+      "300": "#77c49c",
+      "400": "#3ea978",
+      "500": "#008e5c",
+      "600": "#007547",
+      "700": "#005e37",
+      "800": "#004829",
+      "900": "#00331c",
+      "950": "#001f10"
     }
   },
   "fonts": {
     "text": {
       "family": "Inter Variable",
-      "fallback": [
-        "Inter",
-        "system-ui",
-        "sans-serif"
-      ],
+      "fallback": ["Inter", "system-ui", "sans-serif"],
       "weight": "100 900",
       "files": [
-        {
-          "file": "fonts/inter-latin-wght-normal.woff2",
-          "subset": "latin"
-        },
-        {
-          "file": "fonts/inter-latin-ext-wght-normal.woff2",
-          "subset": "latin-ext"
-        }
+        { "file": "fonts/inter-latin-wght-normal.woff2", "subset": "latin" },
+        { "file": "fonts/inter-latin-ext-wght-normal.woff2", "subset": "latin-ext" }
       ]
     },
     "heading": {
       "family": "Inter Tight Variable",
-      "fallback": [
-        "Inter Tight",
-        "Inter",
-        "system-ui",
-        "sans-serif"
-      ],
+      "fallback": ["Inter Tight", "Inter", "system-ui", "sans-serif"],
       "weight": "100 900",
       "files": [
-        {
-          "file": "fonts/inter-tight-latin-wght-normal.woff2",
-          "subset": "latin"
-        },
-        {
-          "file": "fonts/inter-tight-latin-ext-wght-normal.woff2",
-          "subset": "latin-ext"
-        }
+        { "file": "fonts/inter-tight-latin-wght-normal.woff2", "subset": "latin" },
+        { "file": "fonts/inter-tight-latin-ext-wght-normal.woff2", "subset": "latin-ext" }
       ]
     },
     "mono": {
       "family": "Geist Mono Variable",
-      "fallback": [
-        "ui-monospace",
-        "SFMono-Regular",
-        "Menlo",
-        "monospace"
-      ],
+      "fallback": ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       "weight": "100 900",
       "files": [
-        {
-          "file": "fonts/geist-mono-latin-wght-normal.woff2",
-          "subset": "latin"
-        },
-        {
-          "file": "fonts/geist-mono-latin-ext-wght-normal.woff2",
-          "subset": "latin-ext"
-        }
+        { "file": "fonts/geist-mono-latin-wght-normal.woff2", "subset": "latin" },
+        { "file": "fonts/geist-mono-latin-ext-wght-normal.woff2", "subset": "latin-ext" }
       ]
     }
   },
-  "radius": {
-    "xs": "3px",
-    "sm": "4px",
-    "md": "8px",
-    "lg": "12px",
-    "pill": "999px"
-  },
-  "logo": {
-    "symbol": "logo/symbol.svg"
-  },
+  "radius": { "xs": "3px", "sm": "6px", "md": "10px", "lg": "16px", "pill": "999px" },
+  "logo": { "symbol": "logo/symbol.svg" },
   "illustrations": {
     "empty": "illustrations/empty.svg",
     "search": "illustrations/search.svg",
     "done": "illustrations/done.svg"
   },
-  "roles": {
-    "light": {
-      "bg": "neutral.50",
-      "surface-muted": "neutral.100",
-      "ink-muted": "neutral.600",
-      "accent": "accent.600",
-      "accent-strong": "accent.700",
-      "accent-soft": "accent.100",
-      "action": "accent.600",
-      "action-hover": "accent.700",
-      "on-action": "neutral.0",
-      "danger": "red.700",
-      "danger-soft": "red.100",
-      "danger-solid": "red.700",
-      "warning": "amber.700",
-      "warning-soft": "amber.100",
-      "success": "green.700",
-      "success-soft": "green.100",
-      "info-soft": "accent.100"
-    },
-    "dark": {
-      "surface": "neutral.850",
-      "surface-muted": "neutral.975",
-      "ink": "neutral.50",
-      "ink-muted": "neutral.200",
-      "line": "neutral.800",
-      "line-strong": "neutral.400",
-      "accent-soft": "accent.900",
-      "action": "accent.500",
-      "action-hover": "accent.600",
-      "on-action": "neutral.0",
-      "danger": "red.400",
-      "danger-soft": "red.900",
-      "danger-solid": "red.400",
-      "warning": "amber.400",
-      "warning-soft": "amber.900",
-      "success": "green.400",
-      "success-soft": "green.900",
-      "info-soft": "accent.900"
-    }
-  }
+  "roles": { "light": {}, "dark": {} }
 }

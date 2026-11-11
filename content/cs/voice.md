@@ -1,6 +1,6 @@
 ---
 title: "Hlas a texty"
-description: "Jak Example mluví v rozhraní, dokumentech a e-mailech, česky i anglicky."
+description: "Jak Lazurio Example Organization mluví v rozhraní, dokumentech a e-mailech, česky i anglicky."
 do:
   - "Pište slovesem, co se stane: „Uložit koncept“, ne „OK“."
   - "V chybě řekněte, co má člověk udělat."

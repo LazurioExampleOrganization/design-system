@@ -1,6 +1,6 @@
 ---
 title: "Principles"
-description: "Five rules by which Example decides about every screen, document and presentation."
+description: "Five rules by which Lazurio Example Organization decides about every screen, document and presentation."
 do:
   - "Keep one main action per screen; the rest are secondary or quiet."
   - "Express a state with colour, icon and word together."

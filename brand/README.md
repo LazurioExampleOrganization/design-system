@@ -28,8 +28,7 @@ A palette whose roles fail WCAG contrast fails `bun run check`. Change a step
 of the palette, or point a role to another step in `roles.light` or
 `roles.dark`, for example `{ "accent": "accent.600" }`.
 
-The brand of Lazurio Example Organization is invented: the Organization is
-Lazurio's public reference Organization, and its name, logo, illustrations and
+The Example brand is invented: the name, the logo, the illustrations and the
 sample content describe no real company. The fonts are Inter, Inter Tight and
 Geist Mono under the SIL Open Font License 1.1 (see `fonts/LICENSE-*.txt` and
 the repository's `NOTICE`).
@@ -41,21 +40,30 @@ over the adoption of `v1.0.0` (`fc64dc06b563587b215481c9d54b41f0d045aba8`).
 ## This Organization's copy
 
 Notes for agents. This repository is the design system of Lazurio Example
-Organization. The template grew out of it and was published with a fresh
-history; the Organization took `v1.0.0` by one merge with
-`--allow-unrelated-histories` and `v2.0.0` by a merge of its tag, so both
-releases are ancestors and later ones arrive as ordinary merges
+Organization, Lazurio's public reference Organization. The template grew out
+of it and was published with a fresh history; the Organization took `v1.0.0`
+by one merge with `--allow-unrelated-histories` and `v2.0.0` by a merge of its
+tag, so both releases are ancestors and later ones arrive as ordinary merges
 ([Taking an update](../docs/extending.md#taking-an-update-of-the-template)).
 
+- **The brand is the template's Example brand**, by the Owner's decision of
+  2026-11-11. Everything in this directory is the template's `v2.0.0` word
+  for word (palette, roles, fonts, radius, logo, illustrations, the brand
+  page and `design.md`) except the identity: `name`, `summary` and
+  `repository` in `brand.json`, and in this file the line "Adopted from" and
+  this section. The brand page and `design.md` keep the name Example, the
+  name of the invented brand and logo the Organization wears. Lazurio's
+  product name and logo never go into the brand; the word Lazurio appears
+  only as part of the Organization's name. The `v1.0.0` brand (graphite and
+  signal blue) is not carried over.
 - **What is the Organization's.** Everything in `brand/`; the identity
   (`lazurio.module.json`: `company` and the port lease; `lazurio.runtime` in
   `app/v1/package.json`: `id`, `title`, `company`, `module`); and
   `.github/CODEOWNERS`, which the template does not have. Everything else is
   the template's, word for word, including `AGENTS.md`, `README.md` and
-  `docs/`, except the two tests below. Where those files speak of the
-  template itself (the invented brand Example, the maintainer's releases and
-  the registry), read them for this copy as the Organization: its brand is
-  the one in this directory, and its tags and GitHub Releases are its own,
+  `docs/`, except the local edits below. Where those files speak of the
+  template itself (the maintainer's releases and the registry), read them for
+  this copy as the Organization: its tags and GitHub Releases are its own,
   made only on an Owner's instruction.
 - **On every merge of a release**, the one rule in `AGENTS.md`,
   `docs/adoption.md` and `docs/extending.md` decides: keep `brand/` and the
@@ -63,28 +71,24 @@ releases are ancestors and later ones arrive as ordinary merges
   generated files with `bun run tokens`, and resolve a file that mixes both
   with the person. Never move the Organization's brand out of `brand/` or
   edit a template file to carry it; propose such a change to the template.
-- **Two local edits of template tests**, until a release fixes them
-  ([LazurioTemplates/design-system#7](https://github.com/LazurioTemplates/design-system/issues/7)):
-  `app/v1/tests/template.test.ts` checks this copy's own identity instead of
-  the template's placeholders, and `app/v1/tests/build.test.ts` exempts every
-  word of the brand name from the language check. They are files that mix
-  both: on a merge keep these two edits and take the template's side for the
-  rest, and once a release carries the fix, take the template's side whole.
-- **The brand of 1.0.0, carried over.** The palette is the Organization's
-  1.0.0 palette (`content/brand/colors/tokens.json` before `v2.0.0`):
-  graphite is `neutral`, signal is `accent`, and `red`, `amber` and `green`
-  keep their 1.0.0 steps 100, 400, 700 and 900. The steps 1.0.0 did not name
-  are interpolated in OKLab between their neighbours. `roles` points the
-  2.0.0 roles to the steps their 1.0.0 counterparts used (mapping in
-  [From 1.0.0 to 2.0.0](../docs/extending.md#from-100-to-200)), and the
-  primary action (`action`) stays signal blue instead of the template's
-  black. In the dark theme `accent-strong` keeps the template's step, because
-  the 1.0.0 hover blue fails text contrast there, and the floating
-  `surface-raised` keeps the template's lighter step above the surface.
-  The 1.0.0 radius (4, 8 and 12 px) stays. Without a 2.0.0 counterpart: the
-  lumen highlight (its uses now take `accent-soft`), the lumen focus ring of
-  the dark theme (focus is neutral ink, as in the template) and JetBrains
-  Mono, which 1.0.0 named but never shipped.
+- **Local edits of template files**, until a release makes them unnecessary.
+  They make these files mix both: on a merge keep the edits and take the
+  template's side for the rest, and once a release carries the fix, take the
+  template's side whole.
+  - The Organization's name in the viewer's texts
+    ([LazurioTemplates/design-system#8](https://github.com/LazurioTemplates/design-system/issues/8)).
+    The template writes the name Example into `content/<locale>/index.md`
+    (title, description, text) and into the descriptions of `voice.md` and
+    `principles.md`, outside `brand/`. In both languages these lines name
+    Lazurio Example Organization instead, and the overview says what follows
+    a replaced brand (the tokens, the components and the viewer's header)
+    instead of "everything else". The invented App on `examples/app` stays
+    the template's Example App.
+  - Two template tests
+    ([LazurioTemplates/design-system#7](https://github.com/LazurioTemplates/design-system/issues/7)):
+    `app/v1/tests/template.test.ts` checks this copy's own identity instead of
+    the template's placeholders, and `app/v1/tests/build.test.ts` exempts
+    every word of the brand name from the language check.
 - **Releases.** None yet. The Organization's modules depend on a released
   tag of this repository ([Release the Organization's design system](../docs/adoption.md#9-release-the-organizations-design-system));
   the repository is public, so `github:LazurioExampleOrganization/design-system#v<version>`
