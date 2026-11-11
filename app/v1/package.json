@@ -1,9 +1,9 @@
 {
   "name": "design-system-app-v1",
   "private": true,
-  "version": "0.3.0",
+  "version": "2.0.0",
   "type": "module",
-  "packageManager": "bun@1.4.2",
+  "packageManager": "bun@1.4.4",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -12,18 +12,25 @@
     "typecheck": "astro check",
     "lint": "biome check .",
     "format": "biome check --write .",
-    "check": "astro check && biome check .",
+    "tokens": "bun scripts/tokens.ts",
+    "icons": "bun scripts/icons.ts",
+    "check": "bun run typecheck && bun run lint && bun run test",
     "test": "bun test"
   },
   "dependencies": {
     "@lazurio/module-kit": "github:Lazurio/module-kit#v0.2.0",
-    "astro": "5.18.2"
+    "astro": "7.4.5"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.9",
-    "@biomejs/biome": "2.4.15",
-    "@types/bun": "1.4.2",
-    "typescript": "5.9.3"
+    "@astrojs/check": "0.9.12",
+    "@biomejs/biome": "2.6.4",
+    "@types/bun": "1.4.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "iconoir": "7.12.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "6.0.3"
   },
   "lazurio": {
     "runtime": {
@@ -39,7 +46,8 @@
       "static_fallback": "404",
       "tags": [
         "design-system",
-        "brand"
+        "brand",
+        "components"
       ],
       "listeners": [
         {

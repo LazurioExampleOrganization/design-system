@@ -1,0 +1,77 @@
+---
+// Every page of the viewer in both languages: Czech at /, English at /en/.
+import { getEntry } from "astro:content";
+import Shell from "../layouts/Shell.astro";
+import { allPages } from "../lib/pages";
+import { href, type Locale, LOCALES, type Page } from "../lib/site";
+import Alert from "../views/components/Alert.astro";
+import Badge from "../views/components/Badge.astro";
+import Button from "../views/components/Button.astro";
+import Card from "../views/components/Card.astro";
+import Dialog from "../views/components/Dialog.astro";
+import EmptyState from "../views/components/EmptyState.astro";
+import Form from "../views/components/Form.astro";
+import Navigation from "../views/components/Navigation.astro";
+import Table from "../views/components/Table.astro";
+import Tabs from "../views/components/Tabs.astro";
+import Toast from "../views/components/Toast.astro";
+import ComponentsIndex from "../views/ComponentsIndex.astro";
+import ExampleApp from "../views/ExampleApp.astro";
+import Brand from "../views/foundations/Brand.astro";
+import Colors from "../views/foundations/Colors.astro";
+import Icons from "../views/foundations/Icons.astro";
+import Illustrations from "../views/foundations/Illustrations.astro";
+import Motion from "../views/foundations/Motion.astro";
+import Spacing from "../views/foundations/Spacing.astro";
+import Typography from "../views/foundations/Typography.astro";
+import Home from "../views/Home.astro";
+import Text from "../views/Text.astro";
+
+export async function getStaticPaths() {
+  const pages = await allPages();
+  return LOCALES.flatMap((locale) =>
+    pages.map((page) => ({
+      params: { path: href(locale, page.slug).slice(1, -1) || undefined },
+      props: { locale, page },
+    })),
+  );
+}
+
+interface Props {
+  locale: Locale;
+  page: Page;
+}
+
+const VIEWS = {
+  "": Home,
+  brand: Brand,
+  "foundations/colors": Colors,
+  "foundations/typography": Typography,
+  "foundations/spacing": Spacing,
+  "foundations/motion": Motion,
+  "foundations/icons": Icons,
+  "foundations/illustrations": Illustrations,
+  components: ComponentsIndex,
+  "components/button": Button,
+  "components/form": Form,
+  "components/table": Table,
+  "components/card": Card,
+  "components/dialog": Dialog,
+  "components/navigation": Navigation,
+  "components/tabs": Tabs,
+  "components/badge": Badge,
+  "components/alert": Alert,
+  "components/toast": Toast,
+  "components/empty-state": EmptyState,
+  "examples/app": ExampleApp,
+} as const;
+
+const { locale, page } = Astro.props;
+const id = `${locale}/${page.text === "brand" ? page.slug.replace(/^brand\/?/, "") || "brand" : page.slug || "index"}`;
+const entry = page.text === "brand" ? await getEntry("brand", id) : await getEntry("docs", id);
+if (!entry) throw new Error(`no text for ${page.text}/${id}`);
+const View = (VIEWS as Record<string, typeof Text>)[page.slug] ?? Text;
+---
+<Shell locale={locale} page={page} title={entry.data.title} description={entry.data.description}>
+  <View locale={locale} slug={page.slug} entry={entry} />
+</Shell>

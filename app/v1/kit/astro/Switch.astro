@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends Omit<HTMLAttributes<"input">, "id" | "type" | "role"> {
+  id: string;
+  label: string;
+}
+
+const { id, label, ...rest } = Astro.props;
+---
+<div class="ds-switch">
+  <input class="ds-switch__input" type="checkbox" role="switch" id={id} {...rest} />
+  <label class="ds-switch__label" for={id}>{label}</label>
+</div>

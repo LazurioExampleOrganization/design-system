@@ -1,0 +1,24 @@
+---
+// The same example for Astro and for React, in tabs.
+import Tabs from "../../kit/astro/Tabs.astro";
+import { type Locale, word } from "../lib/site";
+
+interface Props {
+  id: string;
+  locale: Locale;
+  astro: string;
+  react: string;
+}
+
+const { id, locale, astro, react } = Astro.props;
+---
+<Tabs
+  label={word("codeLabel", locale)}
+  items={[
+    { id: `${id}-astro`, label: "Astro" },
+    { id: `${id}-react`, label: "React" },
+  ]}
+>
+  <pre class="code" slot={`${id}-astro`}><code>{astro.trim()}</code></pre>
+  <pre class="code" slot={`${id}-react`}><code>{react.trim()}</code></pre>
+</Tabs>

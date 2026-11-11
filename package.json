@@ -1,0 +1,61 @@
+{
+  "name": "design-system",
+  "private": true,
+  "description": "The design system of an Organization in Lazurio: tokens, styles, fonts, icons and components for Astro and React. A library package, not an App: modules depend on it at a released tag.",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "astro-component",
+    "design-system",
+    "lazurio"
+  ],
+  "exports": {
+    ".": "./app/v1/kit/core/index.ts",
+    "./core": "./app/v1/kit/core/index.ts",
+    "./core/*": "./app/v1/kit/core/*.ts",
+    "./react": "./app/v1/kit/react/index.ts",
+    "./astro": "./app/v1/kit/astro/index.ts",
+    "./astro/*": "./app/v1/kit/astro/*",
+    "./tokens": "./app/v1/kit/tokens.ts",
+    "./brand": "./app/v1/kit/brand.ts",
+    "./styles.css": {
+      "types": "./app/v1/kit/css.d.ts",
+      "default": "./app/v1/kit/styles.css"
+    },
+    "./tokens.css": {
+      "types": "./app/v1/kit/css.d.ts",
+      "default": "./app/v1/kit/tokens.css"
+    },
+    "./fonts.css": {
+      "types": "./app/v1/kit/css.d.ts",
+      "default": "./app/v1/kit/fonts.css"
+    },
+    "./css/*": {
+      "types": "./app/v1/kit/css.d.ts",
+      "default": "./app/v1/kit/css/*"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "app/v1/kit",
+    "DESIGN.md",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "peerDependencies": {
+    "astro": "7.4.5",
+    "react": "19.3.1"
+  },
+  "peerDependenciesMeta": {
+    "astro": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  }
+}

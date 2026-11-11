@@ -1,0 +1,136 @@
+---
+// One screen of an invented App of Example, built only from the kit: it shows
+// how the components sit together.
+import Alert from "design-system/astro/Alert.astro";
+import Badge from "design-system/astro/Badge.astro";
+import Breadcrumbs from "design-system/astro/Breadcrumbs.astro";
+import Button from "design-system/astro/Button.astro";
+import Logo from "design-system/astro/Logo.astro";
+import Nav from "design-system/astro/Nav.astro";
+import Table from "design-system/astro/Table.astro";
+import Tabs from "design-system/astro/Tabs.astro";
+import TextField from "design-system/astro/TextField.astro";
+import Markdown from "../components/Markdown.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { date, INVOICES, money, STATE } from "../lib/sample";
+import type { ViewProps } from "./types";
+
+type Props = ViewProps;
+const { locale, entry } = Astro.props;
+const t = {
+  cs: {
+    nav: ["Přehled", "Faktury", "Nabídky", "Zákazníci"],
+    navLabel: "Aplikace Example",
+    crumbs: ["Example", "Faktury"],
+    title: "Faktury",
+    create: "Nová faktura",
+    export: "Export",
+    stats: [
+      ["K úhradě", money(167900, locale)],
+      ["Po splatnosti", money(18450, locale)],
+      ["Zaplaceno v listopadu", money(7260, locale)],
+    ],
+    alert: ["Jedna faktura je po splatnosti", "Pekárna U Mlýna měla zaplatit 2. listopadu."],
+    remind: "Připomenout",
+    tabs: ["Všechny", "K úhradě", "Koncepty"],
+    tabsLabel: "Filtr faktur",
+    search: "Hledat fakturu",
+    caption: "Faktury za listopad",
+    cols: ["Číslo", "Zákazník", "Splatnost", "Stav", "Částka"],
+    due: "K úhradě: faktury, které čekají na platbu.",
+    drafts: "Koncepty: jedna faktura čeká na kontrolu.",
+  },
+  en: {
+    nav: ["Overview", "Invoices", "Quotes", "Customers"],
+    navLabel: "The Example App",
+    crumbs: ["Example", "Invoices"],
+    title: "Invoices",
+    create: "New invoice",
+    export: "Export",
+    stats: [
+      ["To be paid", money(167900, locale)],
+      ["Overdue", money(18450, locale)],
+      ["Paid in November", money(7260, locale)],
+    ],
+    alert: ["One invoice is overdue", "Pekárna U Mlýna was due to pay on 2 November."],
+    remind: "Remind",
+    tabs: ["All", "To be paid", "Drafts"],
+    tabsLabel: "Filter the invoices",
+    search: "Search an invoice",
+    caption: "Invoices for November",
+    cols: ["Number", "Customer", "Due", "Status", "Amount"],
+    due: "To be paid: invoices waiting for payment.",
+    drafts: "Drafts: one invoice is waiting for a check.",
+  },
+}[locale];
+const icons = ["home-simple", "page", "mail", "group"] as const;
+---
+<article class="page">
+  <PageHeader title={entry.data.title} description={entry.data.description} />
+  <div class="app-frame" id="section-app">
+    <div class="app-frame__side">
+      <Logo size="sm" />
+      <Nav
+        label={t.navLabel}
+        items={t.nav.map((label, index) => ({ href: "#section-app", label, icon: icons[index], current: index === 1 }))}
+      />
+    </div>
+    <div class="app-frame__main">
+      <Breadcrumbs items={[{ label: t.crumbs[0] ?? "", href: "#section-app" }, { label: t.crumbs[1] ?? "" }]} locale={locale} />
+      <div class="app-frame__head">
+        <h2 class="ds-type-display">{t.title}</h2>
+        <div class="app-frame__tools">
+          <Button icon="download">{t.export}</Button>
+          <Button variant="primary" icon="plus" data-ds-toast-show={JSON.stringify({ tone: "success", title: locale === "cs" ? "Koncept faktury založen" : "Invoice draft created" })}>{t.create}</Button>
+        </div>
+      </div>
+      <div class="app-frame__stats">
+        {t.stats.map(([label, value]) => (
+          <div class="ds-card stat">
+            <span class="ds-type-meta">{label}</span>
+            <span class="stat__value">{value}</span>
+          </div>
+        ))}
+      </div>
+      <Alert tone="warning" title={t.alert[0]} locale={locale}>
+        <p>{t.alert[1]}</p>
+        <Button slot="actions" size="sm">{t.remind}</Button>
+      </Alert>
+      <Tabs
+        label={t.tabsLabel}
+        items={[
+          { id: "app-all", label: t.tabs[0] ?? "", badge: String(INVOICES.length) },
+          { id: "app-due", label: t.tabs[1] ?? "" },
+          { id: "app-drafts", label: t.tabs[2] ?? "" },
+        ]}
+      >
+        <div slot="app-all" style="display:grid;gap:var(--ds-space-16)">
+          <div style="max-width:calc(var(--ds-size-dialog-sm) - var(--ds-space-64))">
+            <TextField id="app-search" type="search" label={t.search} placeholder="2026-01…" />
+          </div>
+          <Table id="app-invoices" caption={t.caption} hideCaption interactive>
+            <thead>
+              <tr>
+                {t.cols.map((col, index) => <th scope="col" class={index === 4 ? "ds-table__num" : undefined}>{col}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {INVOICES.map((invoice) => (
+                <tr>
+                  <td class="ds-table__nowrap"><code>{invoice.number}</code></td>
+                  <td>{invoice.customer}</td>
+                  <td class="ds-table__nowrap">{date(invoice.due, locale)}</td>
+                  <td><Badge tone={STATE[invoice.state].tone}>{STATE[invoice.state].label[locale]}</Badge></td>
+                  <td class="ds-table__num">{money(invoice.amount, locale)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+        <p slot="app-due" class="ds-type-body-sm">{t.due}</p>
+        <p slot="app-drafts" class="ds-type-body-sm">{t.drafts}</p>
+      </Tabs>
+    </div>
+  </div>
+  <Markdown entry={entry} />
+</article>

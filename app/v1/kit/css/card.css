@@ -1,0 +1,76 @@
+/* A card is a white object on paper with a hairline and no shadow. */
+
+.ds-card {
+  display: grid;
+  gap: var(--ds-space-8);
+  align-content: start;
+  min-width: 0;
+  padding: var(--ds-space-24);
+  border: var(--ds-size-border) solid var(--ds-color-line);
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-color-surface);
+  color: var(--ds-color-ink);
+}
+
+.ds-card--muted {
+  border-color: var(--ds-color-surface-muted);
+  background: var(--ds-color-surface-muted);
+}
+
+.ds-card__title {
+  margin: 0;
+  font-family: var(--ds-type-title-font);
+  font-size: var(--ds-type-title-size);
+  font-weight: var(--ds-type-title-weight);
+  line-height: var(--ds-type-title-leading);
+  letter-spacing: var(--ds-type-title-tracking);
+}
+
+.ds-card__description {
+  margin: 0;
+  color: var(--ds-color-ink-muted);
+  font-size: var(--ds-type-body-sm-size);
+  line-height: var(--ds-type-body-sm-leading);
+}
+
+.ds-card__body {
+  min-width: 0;
+}
+
+.ds-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-8);
+  margin-block-start: var(--ds-space-8);
+}
+
+.ds-card--link {
+  position: relative;
+  padding-inline-end: calc(var(--ds-space-24) + var(--ds-size-icon-md) + var(--ds-space-8));
+  text-decoration: none;
+  transition: border-color var(--ds-duration-fast) var(--ds-ease-standard);
+}
+
+.ds-card__arrow {
+  position: absolute;
+  inset-block-start: var(--ds-space-24);
+  inset-inline-end: var(--ds-space-24);
+  color: var(--ds-color-ink-muted);
+  transition: transform var(--ds-duration-fast) var(--ds-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-card--link:hover {
+    border-color: var(--ds-color-line-strong);
+  }
+
+  .ds-card--link:hover .ds-card__arrow {
+    color: var(--ds-color-ink);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .ds-card--link:hover .ds-card__arrow {
+    transform: translateX(var(--ds-space-2));
+  }
+}

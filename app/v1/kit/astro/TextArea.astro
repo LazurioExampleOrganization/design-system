@@ -1,0 +1,32 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { fieldIds } from "../core/classes";
+import type { Locale } from "../core/types";
+import FieldParts from "./FieldParts.astro";
+
+interface Props extends Omit<HTMLAttributes<"textarea">, "id"> {
+  id: string;
+  label: string;
+  hint?: string;
+  error?: string;
+  optional?: boolean;
+  /** The text in the field. */
+  value?: string;
+  locale?: Locale;
+}
+
+const { id, label, hint, error, optional, locale, value, rows = 4, ...rest } = Astro.props;
+const ids = fieldIds(id, hint, error);
+---
+<div class="ds-field">
+  <FieldParts part="label" id={id} optional={optional} locale={locale}>{label}</FieldParts>
+  {ids.hintId && <FieldParts part="hint" id={ids.hintId}>{hint}</FieldParts>}
+  <textarea
+    class="ds-textarea"
+    id={id}
+    rows={rows}
+    aria-invalid={error ? "true" : undefined}
+    aria-describedby={ids.describedBy}
+    {...rest}>{value}</textarea>
+  {ids.errorId && <FieldParts part="error" id={ids.errorId}>{error}</FieldParts>}
+</div>

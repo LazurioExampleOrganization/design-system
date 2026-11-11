@@ -1,0 +1,40 @@
+---
+import { cx } from "../core/classes";
+import type { NavItem } from "../core/types";
+import Icon from "./Icon.astro";
+
+interface Props {
+  items: NavItem[];
+  /** A visible title of the group; needs `id`. Without it give `label`. */
+  title?: string;
+  id?: string;
+  /** The accessible name when there is no visible title. */
+  label?: string;
+  orientation?: "vertical" | "horizontal";
+  class?: string;
+}
+
+const { items, title, id, label, orientation = "vertical", class: className } = Astro.props;
+const titleId = title && id ? `${id}-title` : undefined;
+---
+<nav
+  class={cx("ds-nav", `ds-nav--${orientation}`, className)}
+  id={id}
+  aria-labelledby={titleId}
+  aria-label={titleId ? undefined : label}
+>
+  {titleId && <p class="ds-nav__title" id={titleId}>{title}</p>}
+  <ul class="ds-nav__list">
+    {
+      items.map((item) => (
+        <li>
+          <a class="ds-nav__link" href={item.href} aria-current={item.current ? "page" : undefined}>
+            {item.icon && <Icon name={item.icon} />}
+            <span class="ds-nav__label">{item.label}</span>
+            {item.badge && <span class="ds-nav__badge">{item.badge}</span>}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

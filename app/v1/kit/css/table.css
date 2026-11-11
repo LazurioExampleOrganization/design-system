@@ -1,0 +1,92 @@
+/* Tables: hairlines between rows, a quiet head, numbers right-aligned in
+ * tabular figures. The wrapper scrolls on a narrow screen and takes focus so
+ * the keyboard can scroll it too. */
+
+.ds-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  border: var(--ds-size-border) solid var(--ds-color-line);
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-color-surface);
+  overscroll-behavior-x: contain;
+}
+
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--ds-color-ink);
+  font-size: var(--ds-type-body-sm-size);
+  line-height: var(--ds-type-body-sm-leading);
+  letter-spacing: var(--ds-type-body-sm-tracking);
+}
+
+.ds-table__caption {
+  padding: var(--ds-space-16) var(--ds-space-16) var(--ds-space-8);
+  color: var(--ds-color-ink);
+  font-family: var(--ds-type-title-font);
+  font-size: var(--ds-type-label-size);
+  font-weight: var(--ds-type-label-weight);
+  text-align: start;
+}
+
+.ds-table th,
+.ds-table td {
+  padding: var(--ds-space-12) var(--ds-space-16);
+  border-block-end: var(--ds-size-border) solid var(--ds-color-line);
+  text-align: start;
+  vertical-align: middle;
+}
+
+.ds-table thead th {
+  background: var(--ds-color-surface-muted);
+  color: var(--ds-color-ink-muted);
+  font-size: var(--ds-type-meta-size);
+  font-weight: var(--ds-type-label-weight);
+  white-space: nowrap;
+}
+
+.ds-table .ds-table__row--selected > * {
+  background: var(--ds-color-surface-selected);
+}
+
+.ds-table tbody tr:last-child > * {
+  border-block-end: 0;
+}
+
+.ds-table.ds-table--compact th,
+.ds-table.ds-table--compact td {
+  padding: var(--ds-space-8) var(--ds-space-12);
+}
+
+.ds-table .ds-table__nowrap {
+  white-space: nowrap;
+}
+
+.ds-table .ds-table__num {
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-table--interactive tbody tr:hover > * {
+    background: var(--ds-color-surface-hover);
+  }
+}
+
+.ds-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-4);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.ds-table th[aria-sort] {
+  color: var(--ds-color-ink);
+}

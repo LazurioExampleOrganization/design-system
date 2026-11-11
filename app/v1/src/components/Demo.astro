@@ -1,0 +1,28 @@
+---
+// A live example in both themes side by side. The slot is a function of the
+// theme, so ids inside the example stay unique: {(theme) => <X id={`x-${theme}`} />}.
+import { type Locale, word } from "../lib/site";
+
+interface Props {
+  locale: Locale;
+  /** One panel in the page's own theme instead of both. */
+  single?: boolean;
+  layout?: "row" | "stack";
+}
+
+const { locale, single = false, layout = "row" } = Astro.props;
+const themes = single ? ([null] as const) : (["light", "dark"] as const);
+const panels = await Promise.all(themes.map((theme) => Astro.slots.render("default", [theme ?? "page"])));
+---
+<div class:list={["stage", !single && "stage--split"]}>
+  {
+    themes.map((theme, index) => (
+      <div class="stage__panel" data-theme={theme ?? undefined}>
+        {theme && <p class="stage__label">{word(theme === "light" ? "inLight" : "inDark", locale)}</p>}
+        <div class={layout === "row" ? "stage__row" : "stage__stack"}>
+          <Fragment set:html={panels[index]} />
+        </div>
+      </div>
+    ))
+  }
+</div>

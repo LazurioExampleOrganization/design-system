@@ -5,9 +5,13 @@ on:
     branches: [main]
 permissions:
   contents: read
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: app/v1
@@ -15,8 +19,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: 1.4.2
-      - run: test "$(bun --version)" = "1.4.2"
+          bun-version: 1.4.4
+      - run: test "$(bun --version)" = "1.4.4"
       - run: bun install --frozen-lockfile
+      # Types (astro check), Biome and the tests: tokens and contrast,
+      # generated files, the kit and its lock, content in both languages, the
+      # build and the parity of Astro and React, start, paths, the template.
       - run: bun run check
-      - run: bun test
