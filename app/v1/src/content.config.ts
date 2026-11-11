@@ -1,27 +1,29 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { routeOf } from "./lib/routes";
 
-// Every Markdown file of content/ is a page of the viewer. Its id is its route
-// (see lib/routes.ts); the front matter is shared by every layer, and examples
-// add `source`, `date`, `notes` and the route of their rendered `screen`.
-const docs = defineCollection({
-  loader: glob({
-    pattern: "**/*.md",
-    base: "../../content",
-    generateId: ({ entry }) => routeOf(entry),
-  }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    order: z.number().optional(),
-    category: z.string().optional(),
-    source: z.string().optional(),
-    date: z.coerce.date().optional(),
-    notes: z.string().optional(),
-    screen: z.string().optional(),
-  }),
+// The text of the viewer's pages, in Czech and English: `content/<locale>/`
+// (the template's: guidelines, foundations, components) and
+// `brand/content/<locale>/` (the Organization's own brand pages). An entry's
+// id is `<locale>/<page slug>`.
+const page = z.object({
+  title: z.string(),
+  description: z.string(),
+  do: z.array(z.string()).optional(),
+  dont: z.array(z.string()).optional(),
 });
 
-export const collections = { docs };
+// The id is the file's path without `.md`, so `cs/index.md` is `cs/index`.
+const id = ({ entry }: { entry: string }) => entry.replace(/\.md$/, "");
+
+const docs = defineCollection({
+  loader: glob({ pattern: "{cs,en}/**/*.md", base: "../../content", generateId: id }),
+  schema: page,
+});
+
+const brand = defineCollection({
+  loader: glob({ pattern: "{cs,en}/**/*.md", base: "../../brand/content", generateId: id }),
+  schema: page,
+});
+
+export const collections = { docs, brand };

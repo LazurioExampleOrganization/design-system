@@ -1,0 +1,123 @@
+/* Buttons are pills. One primary action per screen: black in light, white in
+ * dark. The icon button is a square, so it is never mistaken for a status. */
+
+.ds-button {
+  --_bg: var(--ds-color-surface);
+  --_fg: var(--ds-color-ink);
+  --_border: var(--ds-color-line-strong);
+  --_bg-hover: var(--ds-color-surface-hover);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-8);
+  min-height: var(--ds-size-control-md);
+  margin: 0;
+  padding: 0 var(--ds-space-20);
+  border: var(--ds-size-border) solid var(--_border);
+  border-radius: var(--ds-radius-pill);
+  background: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--ds-type-label-font);
+  font-size: var(--ds-type-label-size);
+  font-weight: var(--ds-type-label-weight);
+  line-height: var(--ds-type-label-leading);
+  letter-spacing: var(--ds-type-label-tracking);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--ds-duration-fast) var(--ds-ease-standard),
+    border-color var(--ds-duration-fast) var(--ds-ease-standard),
+    color var(--ds-duration-fast) var(--ds-ease-standard),
+    transform var(--ds-duration-press) var(--ds-ease-out);
+}
+
+.ds-button--primary {
+  --_bg: var(--ds-color-action);
+  --_fg: var(--ds-color-on-action);
+  --_border: var(--ds-color-action);
+  --_bg-hover: var(--ds-color-action-hover);
+}
+
+.ds-button--soft {
+  --_bg: var(--ds-color-surface-muted);
+  --_border: var(--ds-color-surface-muted);
+  --_bg-hover: var(--ds-color-surface-selected);
+}
+
+.ds-button--quiet {
+  --_bg: transparent;
+  --_border: transparent;
+  --_bg-hover: var(--ds-color-surface-hover);
+}
+
+.ds-button--danger {
+  --_bg: var(--ds-color-danger-solid);
+  --_fg: var(--ds-color-on-danger);
+  --_border: var(--ds-color-danger-solid);
+  --_bg-hover: var(--ds-color-danger-solid);
+}
+
+.ds-button--sm {
+  gap: var(--ds-space-4);
+  min-height: var(--ds-size-control-sm);
+  padding: 0 var(--ds-space-12);
+  font-size: var(--ds-type-meta-size);
+}
+
+.ds-button--lg {
+  min-height: var(--ds-size-control-lg);
+  padding: 0 var(--ds-space-24);
+  font-size: var(--ds-type-body-size);
+}
+
+.ds-button--icon {
+  width: var(--ds-size-control-md);
+  padding: 0;
+  border-radius: var(--ds-radius-sm);
+}
+
+.ds-button--icon.ds-button--sm {
+  width: var(--ds-size-control-sm);
+}
+
+.ds-button--icon.ds-button--lg {
+  width: var(--ds-size-control-lg);
+}
+
+.ds-button--block {
+  width: 100%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ds-button:hover:not(:disabled, [aria-disabled="true"]) {
+    background: var(--_bg-hover);
+  }
+
+  .ds-button--danger:hover:not(:disabled, [aria-disabled="true"]) {
+    filter: brightness(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ds-button:active:not(:disabled, [aria-disabled="true"]) {
+    transform: scale(0.97);
+  }
+}
+
+.ds-button:disabled,
+.ds-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.ds-button[aria-busy="true"] {
+  cursor: progress;
+  opacity: 1;
+}
+
+.ds-button__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

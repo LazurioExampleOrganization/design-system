@@ -4,6 +4,108 @@ From 1.0.0 a release is an annotated tag `v<semver>` with a GitHub Release,
 and the version is independent of the App generation (`docs/extending.md`).
 The dated entries below (`YYYYMMDD`) come from before the template.
 
+## 2.0.0 — 2026-11-09
+
+The design system becomes a full design system in the look of Lazurio, with
+the brand of the invented company Example in one place. The App stays
+generation `app/v1` on the stack profile `content@2026.11`. This is a major
+release: modules that took 1.0.0 change their own files
+([From 1.0.0 to 2.0.0](docs/extending.md#from-100-to-200)).
+
+### Added
+
+- `brand/`: the whole brand in one place: `brand.json` (name, summary in
+  Czech and English, repository, palette ramps, fonts, radius, logo,
+  illustrations, role overrides), the logo symbol, three own illustrations,
+  Inter, Inter Tight and Geist Mono as self-hosted variable WOFF2 files with
+  their OFL licences, and the brand pages.
+- `tokens/tokens.json`: 33 colour roles for the light and the dark theme,
+  the role pairs that must reach WCAG contrast, 12 type roles, space, shadow,
+  motion (durations and curves), sizes, z-index and breakpoints;
+  `tokens/design.md`, the prose of `DESIGN.md`.
+- `bun run tokens` generates from these two sources the CSS custom
+  properties (`app/v1/kit/tokens.css`, prefix `--ds-`, light, dark and the
+  device's choice), the TypeScript tokens, `@font-face`, the logo and
+  illustrations as markup, the favicon and `DESIGN.md` in the DESIGN.md
+  format.
+- **The package `design-system`**: `package.json` at the root exports the kit
+  (`design-system/styles.css`, `design-system/astro`, `design-system/react`,
+  `design-system/tokens`, the core). Modules add it as a Git dependency on a
+  released tag: `github:LazurioTemplates/design-system#v2.0.0` for templates,
+  `git+ssh://git@github.com/<Organization>/design-system.git#v<version>` for
+  an Organization's private design system. It is a library, not an App.
+- `app/v1/kit/`, the library the package exports: `styles.css`; components
+  for Astro and React with the same props and HTML: Button (a busy button
+  keeps focus and does not act again: click, Enter, Space, form submission;
+  a link with `href` runs its `onClick`, a busy or disabled one neither
+  navigates nor runs it), TextField, TextArea, Select,
+  Checkbox, RadioGroup, Switch, Table, Card, Dialog (native modal), Nav,
+  Breadcrumbs, Tabs, Badge, Tag, Alert, Toast with ToastRegion and
+  `useToasts`, EmptyState, Icon and Logo; a framework-free core (class names,
+  the components' own words in Czech and English, Lazurio's language
+  resolution, dialog, tabs, toast, theme and busy behaviour, contrast);
+  48 Iconoir icons (MIT).
+- The viewer in Czech at `/` and in English at `/en/`: principles, voice and
+  writing, accessibility, when to use what, colour (palette, roles, live
+  contrast table), typography, space and shape, motion, icons,
+  illustrations, the brand, every component with an example in both themes,
+  its states, use, do and don't and code for Astro and React, and one App
+  screen built only from the kit. A language and a theme switch.
+- Skills for agents: `design-system` (how to use this design system) and the
+  Impeccable design skill 4.7.0 (Apache-2.0), vendored from its upstream tag
+  by `app/v1/scripts/vendor-impeccable.sh`.
+- One way for other modules: the package at a released tag
+  ([adoption.md](docs/adoption.md#using-the-design-system-in-another-module)),
+  as the Module Standard asks ("a design system's assets come as a dependency
+  on its package, never by a relative path").
+- Tests: the token sources, contrast of every role pair in both themes,
+  generated files up to date, the kit's CSS made only of tokens, the icons,
+  the package installed from Git into clean Astro and React (Vite,
+  TypeScript 7) projects and built there, both languages of every page and of
+  the components' words, one language per screen, the static build, the
+  parity of the Astro and React components, a busy button that does not act
+  again in a real browser (Chrome), and the template contract.
+- Screens for the Marketplace in `docs/screenshots/cs/` and
+  `docs/screenshots/en/`.
+
+### Changed
+
+- `docs/adoption.md`: an Organization whose design system has an unrelated
+  history (the one this template grew out of) merges the release once with
+  `--allow-unrelated-histories` and keeps its repository (issue #3); the
+  identity now lives in `brand/brand.json` and `brand/README.md`.
+- One rule for merging a release, the same in `AGENTS.md`,
+  `docs/adoption.md` and `docs/extending.md`: the template's side for code
+  and components, the Organization's for its brand, brand tokens and content,
+  generated files regenerated, a file that mixes both resolved with the
+  person.
+- The colour of focus is neutral ink; the primary button is black in light
+  and white in dark.
+
+### Removed
+
+- `BASELINE.md`, `INITIALIZATION.md`, `content/brand/colors/tokens.json` and
+  the 1.0.0 content (`content/brand`, `components`, `patterns`, `writing`,
+  `templates`, `examples`): their guidance is in `DESIGN.md` and the new
+  pages; the tokens are in `brand/brand.json` and `tokens/tokens.json`.
+- The 1.0.0 viewer, `app/v1/src/tokens.ts` and `app/v1/src/styles/global.css`;
+  `@astrojs/markdown-remark` (the viewer no longer rewrites links).
+
+### For adopted modules
+
+- An adopted design system merges `v2.0.0`, takes the template's side outside
+  `brand/` and puts its own palette, roles and texts into `brand/`
+  ([From 1.0.0 to 2.0.0](docs/extending.md#from-100-to-200)).
+- After that, the Organization releases its design system (a tag); its
+  modules depend on that release
+  ([adoption.md](docs/adoption.md#9-release-the-organizations-design-system)).
+- A module that took 1.0.0 as a subtree deletes the subtree and its lock and
+  adds the package
+  ([adoption.md](docs/adoption.md#moving-from-a-subtree)).
+- A module that copied `tokens.json` with a sync script deletes the copy, its
+  lock and the script and adds the package
+  ([adoption.md](docs/adoption.md#moving-from-a-copy-with-a-lock-and-a-sync-script)).
+
 ## 1.0.0 — 2026-11-03
 
 The first release as a public template of the Marketplace of Lazurio. The App

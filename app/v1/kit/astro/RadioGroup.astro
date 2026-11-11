@@ -1,0 +1,47 @@
+---
+import { fieldIds } from "../core/classes";
+import type { Option } from "../core/types";
+import FieldParts from "./FieldParts.astro";
+
+interface Props {
+  name: string;
+  legend: string;
+  options: Option[];
+  /** The selected value. */
+  value?: string;
+  hint?: string;
+  error?: string;
+  required?: boolean;
+  disabled?: boolean;
+}
+
+const { name, legend, options, value, hint, error, required, disabled } = Astro.props;
+const ids = fieldIds(name, hint, error);
+---
+<fieldset class="ds-fieldset" aria-describedby={ids.describedBy} disabled={disabled}>
+  <legend class="ds-field__label">{legend}</legend>
+  {ids.hintId && <FieldParts part="hint" id={ids.hintId}>{hint}</FieldParts>}
+  <div class="ds-fieldset__options">
+    {
+      options.map((option) => (
+        <div class="ds-check">
+          <input
+            class="ds-check__input"
+            type="radio"
+            id={`${name}-${option.value}`}
+            name={name}
+            value={option.value}
+            checked={option.value === value}
+            disabled={option.disabled}
+            required={required}
+            aria-invalid={error ? "true" : undefined}
+          />
+          <label class="ds-check__label" for={`${name}-${option.value}`}>
+            {option.label}
+          </label>
+        </div>
+      ))
+    }
+  </div>
+  {ids.errorId && <FieldParts part="error" id={ids.errorId}>{error}</FieldParts>}
+</fieldset>

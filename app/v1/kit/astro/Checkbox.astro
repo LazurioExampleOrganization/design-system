@@ -1,0 +1,28 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { fieldIds } from "../core/classes";
+import FieldParts from "./FieldParts.astro";
+
+interface Props extends Omit<HTMLAttributes<"input">, "id" | "type"> {
+  id: string;
+  label: string;
+  hint?: string;
+  error?: string;
+}
+
+const { id, label, hint, error, ...rest } = Astro.props;
+const ids = fieldIds(id, hint, error);
+---
+<div class="ds-check">
+  <input
+    class="ds-check__input"
+    type="checkbox"
+    id={id}
+    aria-invalid={error ? "true" : undefined}
+    aria-describedby={ids.describedBy}
+    {...rest}
+  />
+  <label class="ds-check__label" for={id}>{label}</label>
+  {ids.hintId && <FieldParts part="hint" id={ids.hintId}>{hint}</FieldParts>}
+  {ids.errorId && <FieldParts part="error" id={ids.errorId}>{error}</FieldParts>}
+</div>

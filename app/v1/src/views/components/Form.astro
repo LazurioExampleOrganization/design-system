@@ -1,0 +1,116 @@
+---
+import Button from "design-system/astro/Button.astro";
+import Checkbox from "design-system/astro/Checkbox.astro";
+import RadioGroup from "design-system/astro/RadioGroup.astro";
+import Select from "design-system/astro/Select.astro";
+import Switch from "design-system/astro/Switch.astro";
+import TextArea from "design-system/astro/TextArea.astro";
+import TextField from "design-system/astro/TextField.astro";
+import Demo from "../../components/Demo.astro";
+import States from "../../components/States.astro";
+import type { ViewProps } from "../types";
+import Layout from "./Layout.astro";
+
+type Props = ViewProps;
+const props = Astro.props;
+const { locale } = props;
+const t = {
+  cs: {
+    company: "Firma",
+    companyHint: "Jak se jmenuje ve smlouvě.",
+    email: "E-mail pro faktury",
+    emailError: "Doplňte e-mail ve tvaru jmeno@example.com.",
+    note: "Poznámka pro zákazníka",
+    currency: "Měna",
+    choose: "Vyberte měnu",
+    terms: "Souhlasím s obchodními podmínkami",
+    remind: "Připomínat splatnost",
+    payment: "Způsob platby",
+    transfer: "Převodem",
+    card: "Kartou",
+    cash: "Hotově",
+    send: "Uložit koncept",
+    states: ["Výchozí", "S nápovědou", "Nepovinné", "Chyba", "Zakázané", "Jen ke čtení", "Zaškrtnuto", "Přepínač zapnutý", "Výběr s výzvou"],
+  },
+  en: {
+    company: "Company",
+    companyHint: "As it is named in the contract.",
+    email: "E-mail for invoices",
+    emailError: "Enter an e-mail like name@example.com.",
+    note: "A note for the customer",
+    currency: "Currency",
+    choose: "Choose a currency",
+    terms: "I agree to the terms of business",
+    remind: "Remind of the due date",
+    payment: "Payment method",
+    transfer: "Bank transfer",
+    card: "Card",
+    cash: "Cash",
+    send: "Save the draft",
+    states: ["Default", "With a hint", "Optional", "Error", "Disabled", "Read-only", "Checked", "Switch on", "Select with a prompt"],
+  },
+}[locale];
+const currencies = [
+  { value: "czk", label: "CZK" },
+  { value: "eur", label: "EUR" },
+];
+const payments = [
+  { value: "transfer", label: t.transfer },
+  { value: "card", label: t.card },
+  { value: "cash", label: t.cash },
+];
+const code = {
+  astro: `
+---
+import TextField from "design-system/astro/TextField.astro";
+import Checkbox from "design-system/astro/Checkbox.astro";
+---
+<TextField id="company" name="company" label="${t.company}" hint="${t.companyHint}" required />
+<TextField id="email" name="email" type="email" autocomplete="email" label="${t.email}"
+  error="${t.emailError}" />
+<Checkbox id="terms" name="terms" label="${t.terms}" required />`,
+  react: `
+import { Checkbox, TextField } from "design-system/react";
+
+<TextField id="company" name="company" label="${t.company}" hint="${t.companyHint}" required />
+<TextField id="email" name="email" type="email" autoComplete="email" label="${t.email}"
+  error={errors.email} />
+<Checkbox id="terms" name="terms" label="${t.terms}" required />`,
+};
+---
+<Layout {...props} code={code}>
+  <Demo slot="example" locale={locale} layout="stack">
+    {
+      (theme: string) => (
+        <>
+          <TextField id={`company-${theme}`} label={t.company} hint={t.companyHint} value="Example s.r.o." locale={locale} />
+          <TextField id={`email-${theme}`} type="email" label={t.email} value="fakturace@example" error={t.emailError} locale={locale} />
+          <Select id={`currency-${theme}`} label={t.currency} options={currencies} value="czk" locale={locale} />
+          <TextArea id={`note-${theme}`} label={t.note} optional rows={3} locale={locale} />
+          <RadioGroup name={`payment-${theme}`} legend={t.payment} options={payments} value="transfer" />
+          <Switch id={`remind-${theme}`} label={t.remind} checked />
+          <Checkbox id={`terms-${theme}`} label={t.terms} />
+          <div class="stage__row">
+            <Button variant="primary">{t.send}</Button>
+          </div>
+        </>
+      )
+    }
+  </Demo>
+  <States slot="states" items={t.states} wide>
+    {
+      (index: number) =>
+        [
+          <TextField id="s-default" label={t.company} />,
+          <TextField id="s-hint" label={t.company} hint={t.companyHint} />,
+          <TextField id="s-optional" label={t.note} optional locale={locale} />,
+          <TextField id="s-error" type="email" label={t.email} value="fakturace@example" error={t.emailError} />,
+          <TextField id="s-disabled" label={t.company} value="Example s.r.o." disabled />,
+          <TextField id="s-readonly" label={t.company} value="Example s.r.o." readonly />,
+          <Checkbox id="s-checked" label={t.terms} checked />,
+          <Switch id="s-switch" label={t.remind} checked />,
+          <Select id="s-select" label={t.currency} options={currencies} placeholder={t.choose} />,
+        ][index]
+    }
+  </States>
+</Layout>

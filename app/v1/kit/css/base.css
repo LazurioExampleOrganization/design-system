@@ -1,0 +1,96 @@
+/* Base styles with zero specificity (:where), so an App's own rules always
+ * win. Values come only from tokens.css. */
+
+:where(html) {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(body) {
+  margin: 0;
+  background: var(--ds-color-bg);
+  color: var(--ds-color-ink);
+  font-family: var(--ds-type-body-font);
+  font-size: var(--ds-type-body-size);
+  font-weight: var(--ds-type-body-weight);
+  line-height: var(--ds-type-body-leading);
+  letter-spacing: var(--ds-type-body-tracking);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:where([data-theme]) {
+  color: var(--ds-color-ink);
+}
+
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+/* Focus is neutral ink with an offset, never a coloured glow. */
+:where(:focus-visible) {
+  outline: var(--ds-size-focus-width) solid var(--ds-color-focus);
+  outline-offset: var(--ds-size-focus-offset);
+}
+
+:where(a) {
+  color: inherit;
+  text-decoration-color: var(--ds-color-accent);
+  text-decoration-thickness: var(--ds-size-border);
+  text-underline-offset: 0.2em;
+}
+
+:where(code, kbd, samp, pre) {
+  font-family: var(--ds-type-mono-font);
+  font-size: var(--ds-type-mono-size);
+  letter-spacing: var(--ds-type-mono-tracking);
+}
+
+:where(h1, h2, h3, h4) {
+  text-wrap: balance;
+}
+
+:where(p, li) {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--ds-color-accent-soft);
+}
+
+:where(button, a, label, summary, [role="tab"], [role="switch"]) {
+  touch-action: manipulation;
+}
+
+.ds-visually-hidden {
+  position: absolute;
+  width: var(--ds-size-border);
+  height: var(--ds-size-border);
+  margin: calc(var(--ds-size-border) * -1);
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ds-skip-link {
+  position: absolute;
+  inset-block-start: var(--ds-space-8);
+  inset-inline-start: var(--ds-space-8);
+  z-index: var(--ds-z-toast);
+  padding: var(--ds-space-8) var(--ds-space-16);
+  border-radius: var(--ds-radius-pill);
+  background: var(--ds-color-action);
+  color: var(--ds-color-on-action);
+  font:
+    var(--ds-type-label-weight) var(--ds-type-label-size) / var(--ds-type-label-leading)
+    var(--ds-type-label-font);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.ds-skip-link:focus-visible {
+  transform: none;
+}

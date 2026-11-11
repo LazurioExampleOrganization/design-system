@@ -1,0 +1,14 @@
+---
+interface Props {
+  title?: string;
+  id?: string;
+}
+
+const { title, id: name } = Astro.props;
+// Prefixed, so it never meets an id Markdown gives a heading of the same name.
+const id = name ? `section-${name}` : undefined;
+---
+<section class="page__section" id={id} aria-labelledby={title && id ? `${id}-title` : undefined}>
+  {title && <h2 id={id ? `${id}-title` : undefined}>{title}</h2>}
+  <slot />
+</section>

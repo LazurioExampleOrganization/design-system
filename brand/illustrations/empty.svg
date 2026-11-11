@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="48" y="18" width="80" height="58" rx="10" stroke="currentColor" stroke-width="2" style="fill: var(--ds-color-surface, #ffffff)"/>
+  <rect x="32" y="34" width="96" height="68" rx="10" stroke="currentColor" stroke-width="2" style="fill: var(--ds-color-surface, #ffffff)"/>
+  <path d="M48 56h48M48 70h32" stroke="currentColor" stroke-width="2"/>
+  <circle cx="114" cy="88" r="13" stroke-width="2" style="stroke: var(--ds-color-accent, #0d12db); fill: var(--ds-color-surface, #ffffff)"/>
+  <path d="M114 82v12M108 88h12" stroke-width="2" style="stroke: var(--ds-color-accent, #0d12db)"/>
+</svg>

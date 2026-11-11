@@ -1,0 +1,100 @@
+/* A toast confirms what just happened and leaves by itself. It is the
+ * floating layer at the bottom of the screen, above the home indicator. */
+
+.ds-toast-region {
+  position: fixed;
+  inset-block-end: max(var(--ds-space-16), env(safe-area-inset-bottom));
+  inset-inline-end: max(var(--ds-space-16), env(safe-area-inset-right));
+  z-index: var(--ds-z-toast);
+  display: grid;
+  gap: var(--ds-space-8);
+  width: min(var(--ds-size-toast), calc(100vw - var(--ds-space-32)));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.ds-toast {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: var(--ds-space-12);
+  padding: var(--ds-space-12) var(--ds-space-12) var(--ds-space-12) var(--ds-space-16);
+  border: var(--ds-size-border) solid var(--ds-color-line);
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-color-surface-raised);
+  box-shadow: var(--ds-shadow-float);
+  color: var(--ds-color-ink);
+  pointer-events: auto;
+  transition:
+    opacity var(--ds-duration-base) var(--ds-ease-out),
+    transform var(--ds-duration-base) var(--ds-ease-out);
+}
+
+@starting-style {
+  .ds-toast {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @starting-style {
+    .ds-toast {
+      transform: translateY(var(--ds-space-8));
+    }
+  }
+}
+
+.ds-toast[data-leaving] {
+  opacity: 0;
+  transition-duration: var(--ds-duration-exit);
+}
+
+.ds-toast__icon {
+  margin-block-start: var(--ds-space-2);
+  color: var(--ds-color-ink-muted);
+}
+
+.ds-toast--success .ds-toast__icon {
+  color: var(--ds-color-success);
+}
+
+.ds-toast--warning .ds-toast__icon {
+  color: var(--ds-color-warning);
+}
+
+.ds-toast--danger .ds-toast__icon {
+  color: var(--ds-color-danger);
+}
+
+.ds-toast--info .ds-toast__icon {
+  color: var(--ds-color-info);
+}
+
+.ds-toast__content {
+  display: grid;
+  gap: var(--ds-space-2);
+  min-width: 0;
+  padding-block-start: var(--ds-space-2);
+}
+
+.ds-toast__title {
+  margin: 0;
+  font-size: var(--ds-type-body-sm-size);
+  font-weight: var(--ds-type-label-weight);
+  line-height: var(--ds-type-label-leading);
+  overflow-wrap: anywhere;
+}
+
+.ds-toast__body {
+  margin: 0;
+  color: var(--ds-color-ink-muted);
+  font-size: var(--ds-type-meta-size);
+  line-height: var(--ds-type-meta-leading);
+  overflow-wrap: anywhere;
+}
+
+.ds-toast__close {
+  margin: calc(var(--ds-space-4) * -1) calc(var(--ds-space-4) * -1) 0 0;
+}
