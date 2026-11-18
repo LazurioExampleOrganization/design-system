@@ -6,6 +6,8 @@ The dated entries below (`YYYYMMDD`) come from before the template.
 
 ## Unreleased
 
+## 2.1.0 — 2026-11-18
+
 On the stack profile `content@2026.12`, and ready as an Application of an
 Organization (Lazurio decision 0249, Module Standard `MS-19`): a read-only App
 whose content changes only in the Module.

@@ -243,7 +243,7 @@ vendored Impeccable skill), ignoring `files`.
 
 In the App's `package.json`, under `dependencies`:
 
-- a template of the Marketplace (public): `"design-system": "github:LazurioTemplates/design-system#v2.0.0"`;
+- a template of the Marketplace (public): `"design-system": "github:LazurioTemplates/design-system#v2.1.0"`;
 - a module of an Organization (its design system is private):
   `"design-system": "git+ssh://git@github.com/<Organization>/design-system.git#v<version>"`.
 

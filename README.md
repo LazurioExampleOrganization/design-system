@@ -21,7 +21,7 @@ creates a private module of that Organization and merges a release of this
 repository into it, so that later releases arrive as ordinary merges. Nothing
 is installed or published without the person's instruction.
 
-- Release **2.0.0** (proposed in [`CHANGELOG.md`](CHANGELOG.md)); releases are
+- Release **2.1.0** (see [`CHANGELOG.md`](CHANGELOG.md)); releases are
   annotated tags `v<semver>` with a GitHub Release.
 - App generation `app/v1`: no data of its own; the content is Markdown and
   JSON in Git.
@@ -57,7 +57,7 @@ repository. A website, a knowledge base, an App or presentations add it as a
 Git dependency on a released tag and import from it:
 
 ```json
-"design-system": "github:LazurioTemplates/design-system#v2.0.0"
+"design-system": "github:LazurioTemplates/design-system#v2.1.0"
 ```
 
 ```ts
