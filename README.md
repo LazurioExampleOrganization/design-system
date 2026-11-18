@@ -25,7 +25,7 @@ is installed or published without the person's instruction.
   annotated tags `v<semver>` with a GitHub Release.
 - App generation `app/v1`: no data of its own; the content is Markdown and
   JSON in Git.
-- Stack profile [`content@2026.11`](https://github.com/Lazurio/LazurioPlatform/blob/main/docs/stack-profiles.md#content):
+- Stack profile [`content@2026.12`](https://github.com/Lazurio/LazurioPlatform/blob/main/docs/stack-profiles.md#content):
   Bun 1.4.4, Astro 7.4.5, TypeScript 6.0.3, Biome 2.6.4, every version exact;
   React 19.3.1 at the pins of the `app` profile, only to check the React
   components.

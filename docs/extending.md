@@ -11,7 +11,7 @@ adoption and for modules that use the design system see
 
 The App is generation **`app/v1`**: the content is Markdown and JSON in Git,
 edited through pull requests, with no data of its own. The tools follow the
-stack profile **[`content@2026.11`](https://github.com/Lazurio/LazurioPlatform/blob/main/docs/stack-profiles.md#content)**:
+stack profile **[`content@2026.12`](https://github.com/Lazurio/LazurioPlatform/blob/main/docs/stack-profiles.md#content)**:
 
 | Tool | Version | Why |
 | --- | --- | --- |

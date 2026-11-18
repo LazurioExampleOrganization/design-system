@@ -4,6 +4,19 @@ From 1.0.0 a release is an annotated tag `v<semver>` with a GitHub Release,
 and the version is independent of the App generation (`docs/extending.md`).
 The dated entries below (`YYYYMMDD`) come from before the template.
 
+## Unreleased
+
+On the stack profile `content@2026.12`, and ready as an Application of an
+Organization (Lazurio decision 0249, Module Standard `MS-19`): a read-only App
+whose content changes only in the Module.
+
+### For whoever runs it
+
+- `@lazurio/module-kit` v0.4.0 (profile release `2026.12`); nothing else
+  changes. `lazurio module readiness` reports `ready-for-live` with the host
+  condition `static-app`: it becomes an Application once the application host
+  serves static Applications.
+
 ## 2.0.0 — 2026-11-09
 
 The design system becomes a full design system in the look of Lazurio, with

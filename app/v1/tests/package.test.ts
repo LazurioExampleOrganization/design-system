@@ -54,7 +54,7 @@ function write(dir: string, files: Record<string, string>) {
   }
 }
 
-// React Apps are built on the stack profile app@2026.11: TypeScript 7, Vite 8.
+// React Apps are built on the stack profile app@2026.12: TypeScript 7, Vite 8.
 const APP_PROFILE = { typescript: "7.0.2", vite: "8.3.5", "@vitejs/plugin-react": "6.2.1" };
 
 const pin = (
