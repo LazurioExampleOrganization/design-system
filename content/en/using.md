@@ -16,7 +16,7 @@ dont:
 The design system is the package `design-system`. A module adds it to its App's `package.json` as a dependency on a released tag, like every shared package in Lazurio. `bun.lock` records the tag's exact commit, so `bun install --frozen-lockfile` always installs the same.
 
 ```json
-"design-system": "github:LazurioTemplates/design-system#v2.0.0"
+"design-system": "github:LazurioTemplates/design-system#v2.1.0"
 ```
 
 An Organization's modules depend on its own design system, which carries its brand:

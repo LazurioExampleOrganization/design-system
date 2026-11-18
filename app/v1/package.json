@@ -1,7 +1,7 @@
 {
   "name": "design-system-app-v1",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "packageManager": "bun@1.4.4",
   "scripts": {
@@ -18,7 +18,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@lazurio/module-kit": "github:Lazurio/module-kit#v0.2.0",
+    "@lazurio/module-kit": "github:Lazurio/module-kit#v0.4.0",
     "astro": "7.4.5"
   },
   "devDependencies": {

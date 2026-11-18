@@ -16,7 +16,7 @@ dont:
 Design system je balíček `design-system`. Modul ho přidá do `package.json` své aplikace jako závislost na vydaném tagu, stejně jako každý sdílený balíček v Lazuriu. `bun.lock` zapíše přesný commit tagu, takže `bun install --frozen-lockfile` nainstaluje vždy totéž.
 
 ```json
-"design-system": "github:LazurioTemplates/design-system#v2.0.0"
+"design-system": "github:LazurioTemplates/design-system#v2.1.0"
 ```
 
 Moduly Organizace závisí na jejím vlastním design systému, který nese její značku:
